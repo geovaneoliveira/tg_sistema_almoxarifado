@@ -1,0 +1,37 @@
+Fazer uma vez apenas:
+
+1 git clone https://github.com/geovaneoliveira/tg_sistema_almoxarifado
+2 composer install
+3 copy .env.example .env (no windows)
+4 php artisan key:generate
+5 Abrir o .env e configurar o BD
+
+Fazer Sempre que for iniciar a implementar algo
+git pull
+
+
+Fazer sempre que terminar de implementar alguma funcionalidade
+git add .
+git commit -m "Acrescentado tela de movimentaçoes"
+git push
+
+
+
+
+
+Configurações dop Banco de Dados:
+
+DB_CONNECTION=oracle
+DB_HOST=dbwarehouse.cqw0otqiiq20.us-east-1.rds.amazonaws.com
+DB_PORT=1521
+DB_DATABASE=ORCL
+DB_USERNAME=dbawh
+DB_PASSWORD=dbwarehouse
+
+
+DB_CONNECTION=oracle
+DB_HOST=localhost
+DB_PORT=1521
+DB_DATABASE=xe
+DB_USERNAME=almoxarifado
+DB_PASSWORD=almoxarifado
