@@ -167,5 +167,14 @@ public function estocar(EstoqueRequest $request) {
 
 
 
+//JEAN
+public function consumoDiario(Resquest $request){
+    $id = Request::route('id');    
+    $material = Material::find($id);
+    //return $material->calcConsumoDiario();
+    return 65;
+}
+
+
 
 }

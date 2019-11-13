@@ -71,12 +71,47 @@
         <input type="number" min="0" class="form-control" id="lead_time" name="lead_time" value="{{ session('material')->lead_time }}">
       </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <div class="form-group">
         <label for="cons_dia">Consumo Diário:</label>
         <div class="input-group">
           <input type="number" min="0" class="form-control" id="cons_dia" name="cons_dia" value="{{ session('material')->cons_dia }}">
           <div class="input-group-append">
-            <button type="button" class="btn btn-sm btn-success" onclick="location.href='';"><i class="fas fa-calculator"></i></button>
+            <button type="button" class="btn btn-sm btn-success" onclick="btn_cons_dia(document.getElementById('cod_material').value );" ><i class="fas fa-calculator"></i></button>
           </div>
         </div>
       </div>
@@ -195,4 +230,56 @@
   </div>
 
 </form> <!-- fim do formulário-->
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src=" http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" </script>
+
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+
+<script > 
+
+
+function btn_cons_dia(id){
+
+            $.ajax({
+                url: "/material/consumodiario/" + id,
+                type: "GET",
+                
+                success: function(data){
+                    document.getElementById("cons_dia").value = data;
+                }
+
+            });
+
+          }
+
+
+
+
+
+  /*
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+
+      if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("cons_dia").value = this.responseText;
+      }
+
+  };
+
+  xmlhttp.open("GET", "/material/consumodiario/" + id, true);
+  xmlhttp.send();
+
+  */
+
+
+
+
+</script>
 @stop

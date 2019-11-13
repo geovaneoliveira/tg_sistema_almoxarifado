@@ -33,5 +33,27 @@ class Material extends Model
 	}
 
 
+
+	public function calcConsumoTotal(){
+		$consumoDiario = 0;
+
+		foreach ($this->estoques as $e) {
+
+			foreach ($e->movimentacoes as $m) {
+				if ($m->tipo_movimentacao == 'Requisição'){
+					$consumoDiario += $m->qtde_movimentada;
+				}				
+			}
+		}
+
+		return $consumoDiario;
+	}
+
+
+
+
+	
+
+
 }
 
