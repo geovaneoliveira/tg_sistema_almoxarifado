@@ -2,7 +2,7 @@
 @extends('layouts.lateral')
 @section('conteudo')
 
-<form action="/estoque/localiza" class="ml-4 mr-4" method="post"> <!-- início do formulario -->
+<form action="/movimentacoes/localiza" class="ml-4 mr-4" method="post"> <!-- início do formulario -->
 
 
   <div class="form">  
