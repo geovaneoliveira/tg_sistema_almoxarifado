@@ -222,6 +222,21 @@
       }
       
     </script>
+
+<script>
+function btn_estoq_min(){
+    var leadtime = document.getElementById("lead_time").value;
+    var cons_dia = document.getElementById("cons_dia_id").value;
+    var estoque_min = ( leadtime * cons_dia ) ;
+
+    document.getElementById("estoque_min").value = estoque_min;
+
+    var estoque_seg = estoque_min + (leadtime * cons_dia);
+
+    document.getElementById("estoque_seg").value = estoque_seg;
+}
+</script>
+
   @endpush
 
 @endsection
