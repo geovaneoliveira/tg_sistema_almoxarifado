@@ -3,11 +3,6 @@
 @section('conteudo')
 
 
-
-
-
-
-
 <form action="{{ session('material') ? '/material/atualiza' : '/material/adiciona'}}" class="ml-4 mr-4" method="post" > <!-- início do formulario -->
 
 
@@ -68,7 +63,7 @@
           <input type="number" min="0" class="form-control" id="estoque_min" name="estoque_min" value="{{ session('material')->estoque_min }}">
 
           <div class="input-group-append">
-            <button type="button" class="btn btn-sm btn-success" onclick="location.href='';"><i class="fas fa-calculator"></i></button>
+            <button type="button" class="btn btn-sm btn-success" onclick="btn_estoq_min()"><i class="fas fa-calculator"></i></button>
           </div>
 
         </div>
@@ -91,7 +86,7 @@
 
       <div class="form-group">
         <label for="estoque_seg">Estoque de Segurança:</label>
-        <input type="number" min="0" class="form-control" id="estoque_seg" name="estoque_seg" disabled>
+        <input type="number" min="0" class="form-control" id="estoque_seg" name="estoque_seg" value="" disabled>
       </div>
 
     </div>
@@ -143,7 +138,7 @@
         <label for="estoque_min">Quantidade de Estoque Mínimo:</label>
         <div class="input-group">
           <input type="number" min="0" class="form-control" id="estoque_min" name="estoque_min">
-          <button type="button" class="btn btn-sm btn-success" onclick="location.href='';"><i class="fas fa-calculator"></i></button>
+          <button type="button" class="btn btn-sm btn-success" onclick="btn_estoq_min()"><i class="fas fa-calculator"></i></button>
         </div>
       </div>
 
@@ -152,10 +147,10 @@
         <input type="number" min="0" class="form-control" id="lead_time" name="lead_time">
       </div>
 
-      <div class="form-group">
+      <div class="form-group" hidden>
         <label for="cons_dia">Consumo Diário:</label>
         <div class="input-group">
-          <input type="number" min="0" class="form-control" id="cons_dia" name="cons_dia">
+          <input type="number" min="0" value="0" class="form-control" id="cons_dia_id" name="cons_dia">
         </div>
       </div>
 
@@ -208,19 +203,20 @@
 
   @push('scripts')
     <script>
-      
       function btn_cons_dia() {
         var id = document.getElementById('cod_material').value;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             document.getElementById("cons_dia_id").value = this.responseText;
+
+            btn_estoq_min();
           }
         };
         xhttp.open("GET", "/material/consumodiario/" + id , true);
         xhttp.send();
       }
-      
+
     </script>
 
 <script>
@@ -236,6 +232,19 @@ function btn_estoq_min(){
     document.getElementById("estoque_seg").value = estoque_seg;
 }
 </script>
+
+@if(session('material'))
+<script type="text/javascript">
+    window.onload = function(){
+    var leadtime = document.getElementById("lead_time").value;
+    var cons_dia = document.getElementById("cons_dia_id").value;
+    var estoque_min = ( leadtime * cons_dia ) ;
+    var estoque_seg = estoque_min + (leadtime * cons_dia);
+
+    document.getElementById("estoque_seg").value = estoque_seg;
+    }
+    </script>
+@endif
 
   @endpush
 
