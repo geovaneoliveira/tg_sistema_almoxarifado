@@ -167,12 +167,11 @@ public function estocar(EstoqueRequest $request) {
 
 
 
-//JEAN
-public function consumoDiario(Resquest $request){
-    $id = Request::route('id');    
+//JEAN AQUI QUASE NÃO PRECISA ALTERAR! TALVEZ ALGUMAA VALIDAÇÃO...
+public function consumoDiario(){
+    $id = Request::route('id');
     $material = Material::find($id);
-    //return $material->calcConsumoDiario();
-    return 65;
+    return $material->calcConsumoDiario();
 }
 
 

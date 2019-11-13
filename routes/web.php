@@ -43,11 +43,8 @@ Route::post('/material/atualiza', 'MaterialController@atualiza');
 Route::post('/material/localiza', 'MaterialController@localiza');
 Route::get('/material/aloca/{id}', 'MaterialController@aloca');
 Route::post('/material/estocar', 'MaterialController@estocar');
-//mudar de lugar
+
 Route::get('/material/consumodiario/{id}', 'MaterialController@consumoDiario');
-
-
-
 
 Route::get('/user/gerenciar', 'UserController@gerenciar');
 Route::post('/user/localiza', 'UserController@localiza');

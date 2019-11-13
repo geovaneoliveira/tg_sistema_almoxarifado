@@ -111,6 +111,8 @@
 
 
 
+
+@push('scripts')
 <script type="text/javascript">
 
   var operacao = "{{ $view['operacao'] }}";
@@ -129,5 +131,6 @@
   }
 
 </script>
+@endpush
 
 @endsection
