@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Material extends Model
@@ -36,8 +37,9 @@ class Material extends Model
 
 	public function calcConsumoDiario()
 	{
-		$consumoDiario = 0;
-		$consumoTotal = 0;
+		$consumoDiario = 12;
+        $consumoTotal = 0;
+        $maiordata=Carbon::today()->addDays(-180)->toDateString();;
 
 		foreach ($this->estoques as $e)
 		{
@@ -45,7 +47,15 @@ class Material extends Model
 			{
 				if ($m->tipo_movimentacao == 'Requisição')
 				{
-					if (    /* fazer um if que só entra se a $m->data_mov estiver dentro de um periodo de no maximo 30 dias   */  1  )
+                    $hoje = Carbon::today()->toDateString();
+                    $antes = Carbon::today()->addDays(-30)->toDateString();
+
+                    if ($m->data_mov > $maiordata){
+                     $maiordata = $m->data_mov;
+                    }
+
+
+					if ($m->data_mov > $antes)
 					{
 						$consumoTotal -= $m->qtde_movimentada; //observação, estou subtraindo pq na tabela de movimentações, as requisições são negativas!
 						if (1)
@@ -58,19 +68,13 @@ class Material extends Model
 				}
 			}
 		}
-/*
-JEAN -> VOU FAZER A LÓGICA ASSIM:
-NO FOR DAS MOVIMENTACOES, VÊ SE O DIA DELA JÁ TA NO ARRAY, SE NAO TIVER, ADICIONA NO ARRAY
-VAI RODAR TODAS AS MOVIMENTACOES E IR BOTANDO TUDO NO ARRAY ( MAXIMO 30), NO FINAL VAI CONTAR QUANTOS DIAS DIFERENTES RODOU
-DAI É SÓ DIVIDIR PELO NÚMERO DE MESES Q TIVER NESSE ARRAY
-*/
+
+        $dias = $hoje - $maiordata;
 
 
-
-		$dias = 1; /* fazer logica para  encontar o numero de dias entre hoje e a data $m->data_mov mais antiga*/
+	//	$dias = 1; /* fazer logica para  encontar o numero de dias entre hoje e a data $m->data_mov mais antiga*/
 		$consumoDiario = $consumoTotal / $dias;
 		return $consumoDiario;
-
 	}
 
 

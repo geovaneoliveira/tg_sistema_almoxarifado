@@ -127,7 +127,7 @@ class MaterialController extends Controller
 
     public function aloca() {
     $id = Request::route('id');
-    
+
     $material = Material::find($id);
     $locais = Local::all();
     return view('material-alocacao')->with('view', $this->view)->with('locais', $locais)->with('material', $material);
