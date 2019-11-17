@@ -112,10 +112,16 @@
 
 
 
-@push('scripts')
-<script type="text/javascript">
 
-  var operacao = "{{ $view['operacao'] }}";
+
+
+@push('scripts')
+
+<script>
+
+  var operacao = "{{{ $view['operacao'] }}}" ;
+  console.log('operacao: ');
+  console.log(operacao);
 
   if (operacao=='edita' || operacao=='editado'){
     document.getElementById("lote").readOnly = false;
@@ -131,6 +137,7 @@
   }
 
 </script>
+
 @endpush
 
 @endsection

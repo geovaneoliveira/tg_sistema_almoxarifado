@@ -11,108 +11,46 @@
 			<div class="form-row d-flex align-items-end">
 
 			    <div class="col-sm-12 col-md-5 form-group">
-			      <label for="inputEmail4">Desc. Material</label>
-			      <input type="text" class="form-control" id="inputEmail4" placeholder="Parte da descrição de um material">
+			      <label for="nome_material">Desc. Material</label>
+			      <input type="text" class="form-control" id="nome_material" name="nome_material" placeholder="Parte da descrição de um material">
 			    </div>
 
 			   	<div class="col-sm-8 col-md-4 form-group">
-			      <label for="inputState">Tipo</label>
-			      <select id="inputState" class="form-control">
-			        <option selected>EPI</option>
-			        <option>Escritório</option>
-			      </select>
+			      	<label for="cod_tipo">Tipo</label>
+	                 	<select class="form-control" id="cod_tipo" name="cod_tipo">
+	                     	<option value=""></option>
+	                     	@foreach($tipos as $t)
+	                        <option value="{{$t->cod_tipo}}">{{$t->nome_tipo}}</option>
+	                     	@endforeach
+	                 	</select>
 			    </div>
 
 			    <div class="form-group col-sm-4 col-md-3">
-			    	<button type="submit" class="btn btn-success" style="width: 100%;"><i class="fas fa-search  mr-2"></i>Localizar</button>
+			    	<button type="button" class="btn btn-success" style="width: 100%;" onclick="localizarEstocados();"><i class="fas fa-search  mr-2"></i>Localizar</button>
 				</div>
+
 				<input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
+
 		 	</div>
 
-
 			<div class="form-row">
-				<div class="col-md-12" style="height: 160px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
+				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" >
 					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
-						<tr>
-							<th style="width: 50%;" >Material</th>
-							<th style="width: 20%;" >Tipo</th>
-							<th style="width: 15%;" >Disponivel</th>
-							<th style="width: 10%;" >Unid.</th>						
-							<th style="width: 5%;" > </th>
-						</tr>
-						<tr>
-							<td style="text-align: left;" > Camiseta Branca tam. M</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td  style="text-align: left;" > Calça Bege tam. 42</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 43</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 44</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 45</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 46</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 47</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 42</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 42</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;"  > Calça Bege tam. 42</td>
-							<td                            > EPI </td>
-							<td                            > 35 </td>
-							<td                            > pçs </td>
-							<td                            > <a href="/requisicao/edita/1"> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
+						<thead>
+							<tr>
+								<th style="width: 50%;" >Material</th>
+								<th style="width: 20%;" >Tipo</th>
+								<th style="width: 15%;" >Disponivel</th>
+								<th style="width: 10%;" >Unid.</th>						
+								<th style="width: 5%;" > </th>
+							</tr>		
+						</thead>						
+						<tbody id="listagemRequisitar">
+						</tbody>
 					</table>
-				</div><!--fim da listagem de locais-->
+				</div>
 			</div>
+
 		</fieldset>
 
 	</form>
@@ -122,33 +60,26 @@
 		<fieldset class="border shadow-sm p-3">
 		<legend>Requição: <strong>Nova</strong> </legend>
 			<div class="form-row">
-				<div class="col-md-12" style="height: 160px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
+				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
 					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
 						<thead>
-						<tr scope="row">
-							<th style="width: 50%;" >Material</th>
-							<th style="width: 20%;" >Tipo</th>
-							<th style="width: 15%;" >Qtde.</th>
-							<th style="width: 10%;" >Unid.</th>						
-							<th style="width: 5%;" > </th>
-						</tr>
+							<tr scope="row">
+								<th style="width: 50%;" >Material</th>
+								<th style="width: 20%;" >Tipo</th>
+								<th style="width: 15%;" >Qtde.</th>
+								<th style="width: 10%;" >Unid.</th>						
+								<th style="width: 5%;" > </th>
+							</tr>
 						</thead>
 
 	  					<tbody>
-						<tr scope="row">
-							<td style="text-align: left;" > Camiseta Branca tam. M</td>
-							<td > EPI </td>
-							<td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-							<td > pçs </td>
-							<td > <a href="/requisicao/edita/1"> <span class="fas fa-level-up-alt"> </span> </a> </td>
-						</tr>
-						<tr scope="row">
-							<td style="text-align: left;"> Calça Uniforme Eletricista tam. 44</td>
-							<td > EPI </td>
-							<td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-							<td > pçs </td>
-							<td > <a href="/requisicao/edita/1"> <span class="fas fa-level-up-alt"> </span> </a> </td>
-						</tr>
+							<tr scope="row">
+								<td >   </td>
+								<td >   </td>
+								<td > <input type="text" name="" value="" placeholder="digite qtde..." />  </td>
+								<td > pçs </td>
+								<td > <a href="/requisicao/edita/id"> <span class="fas fa-level-up-alt"> </span> </a> </td>
+							</tr>
 					</tbody>	
 					</table>
 				</div><!--fim da listagem de locais-->
@@ -207,5 +138,71 @@
 </div>
 
 
+
+
+
+@push('scripts')
+   	<script>
+
+      function localizarEstocados() {
+
+      	var meuObj = new Object();
+      	meuObj.nome_material = document.getElementById('nome_material').value;
+     	meuObj.cod_tipo = document.getElementById('cod_tipo').value;
+		var meuJSON = JSON.stringify(meuObj);
+
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+        	if (this.readyState == 4 && this.status == 200) {
+	          	var myObj = JSON.parse(this.responseText);
+	          	var listagemRequisitar = document.getElementById('listagemRequisitar');
+	          	listagemRequisitar.innerHTML = '';
+	          	console.log(myObj);
+	          	for (m in myObj ) {
+	          		console.log(myObj[m]);
+	          		var linha = listagemRequisitar.insertRow();
+	          		linha.insertCell(0).innerHTML = myObj[m].nome_material;
+	          		linha.insertCell(1).innerHTML = myObj[m].nome_tipo;
+	          		linha.insertCell(2).innerHTML = myObj[m].total;
+	          		linha.insertCell(3).innerHTML = myObj[m].descricao_unid_medida;
+	          		let btn = document.createElement('button');
+	          		btn.className = "btn btn-link";
+	          		btn.innerHTML = '<i class="fas fa-level-down-alt"> </i>';
+	          		btn.id = 'btn_material_id_' + m;
+	          		btn.type = "button";
+
+	          		btn.onclick = function() {
+	          			let id = this.id.replace('btn_material_id_', '');
+	          			add( myObj[id] );
+	          		}
+
+	          		linha.insertCell(4).append(btn);
+	          	};  
+
+          	}
+        };
+        xhttp.open("GET", "/requisicao/localizaEstocados/" + meuJSON , true);
+        xhttp.send();
+    }
+
+    var arrayMateriaisRequisicao = [];
+
+    
+
+
+    function add(objMaterialRec ){
+
+    	//antes de adicionar no array, verificar se o material já não está lá!
+    	arrayMateriaisRequisicao.push(objMaterialRec);
+    	console.log(arrayMateriaisRequisicao);
+
+    	//char uma função para carregar a tabela de acordo com o array
+
+    	//pensar se vai dar um submit no form ou se vai enviar um json para incluir. Neste ultimo caso, como fariamos a validação do sucesso?
+   	}
+
+	</script>
+@endpush
 
 @endsection

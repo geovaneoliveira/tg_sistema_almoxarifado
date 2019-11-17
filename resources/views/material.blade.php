@@ -147,7 +147,7 @@
         <input type="number" min="0" class="form-control" id="lead_time" name="lead_time">
       </div>
 
-      <div class="form-group" hidden>
+      <div class="form-group" >
         <label for="cons_dia">Consumo Diário:</label>
         <div class="input-group">
           <input type="number" min="0" value="0" class="form-control" id="cons_dia_id" name="cons_dia">

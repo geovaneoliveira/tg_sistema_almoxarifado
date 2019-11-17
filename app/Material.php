@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Material extends Model
 {
@@ -32,6 +33,42 @@ class Material extends Model
 		}
 		return $total;
 	}
+
+
+
+	public static function listarMateriaisOnde($nome_material='', $cod_tipo='') {
+
+		/*$listaMateriais = Material::where('nome_material', 'like', '%' . $nome_material . '%');
+		if ($cod_tipo) {
+			$listaMateriais = $listaMateriais->where('cod_tipo', $cod_tipo);
+		}
+		return $listaMateriais->get();*/
+
+		$stmt = DB::table('Material')
+						->join('tipo_material', 'Material.cod_tipo', '=', 'tipo_material.cod_tipo')
+						->join('unidade_medida', 'Material.cod_unid_medida', '=', 'unidade_medida.cod_unid_medida')
+           				->join('estoque', 'Material.cod_material', '=', 'Estoque.cod_material');
+           				
+
+        if ($nome_material) {
+			$stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
+		}            
+
+		if ($cod_tipo) {
+			$stmt->where('Material.cod_tipo', $cod_tipo);
+		}
+		
+		$stmt->select('Material.cod_material', 'Material.nome_material', 'tipo_material.nome_tipo', 'unidade_medida.descricao_unid_medida', DB::raw('SUM(estoque.quantidade) as total') );
+
+		$stmt->groupBy('Material.cod_material', 'Material.nome_material', 'tipo_material.nome_tipo', 'unidade_medida.descricao_unid_medida');
+
+		$materiais = $stmt->get();
+		
+        return $materiais;
+		
+	}
+
+
 
 
 

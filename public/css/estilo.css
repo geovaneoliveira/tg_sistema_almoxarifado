@@ -1,5 +1,7 @@
 
 
+
+
 body {
 	/*font-family: Trebuchet MS, Helvetica, sans-serif;*/
 	font-family: Tahoma, Geneva, sans-serif
@@ -7,17 +9,7 @@ body {
 	background: #E6E6FA;
 }
 
-td {
-	border: 2px solid;
 
-}
-table tr {
-	background-color: white;
-}
-
-table th {
-	background-color: #d9d9d9;
-}
 
 .thmaster {
 
@@ -147,4 +139,30 @@ a.nav-link {
 
 #input-materiais input{
 	width: 8em;
+}
+
+
+input {
+	width: 100%;
+}
+
+#listagemRequisitar tr td{
+	vertical-align: middle;
+	text-align: middle;
+	margin: 0px;
+	padding: 0px;
+}
+
+td {
+	border: 2px solid;
+	vertical-align: middle;
+	text-align: middle;	
+}
+
+table tr {
+	background-color: white;
+}
+
+table th {
+	background-color: #d9d9d9;
 }
