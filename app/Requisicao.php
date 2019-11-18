@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -42,4 +43,7 @@ class Requisicao extends Model
 		}		
 	}
 
+	public static function listarRequisicoesOnde($cod_requisicao ) {
+
+	}
 }

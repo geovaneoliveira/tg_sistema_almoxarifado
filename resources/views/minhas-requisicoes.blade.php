@@ -8,13 +8,13 @@
 
         <div class="col-sm-6 col-md-6 form-group">
           <label for="">Núm. Requisição</label>
-          <input type="text" class="form-control" id="" placeholder="código">
+          <input type="text" class="form-control" id="" name="cod_requisicao" placeholder="código">
         </div>
 
         <div class="col-sm-6 col-md-6 form-group">
-          <label for="cod_tipo">Situação</label>
+          <label for="id_situacao">Situação</label>
           <div class="input-group">
-            <select class="form-control" id="cod_tipo" name="cod_tipo">
+            <select class="form-control" id="id_situacao" name="situacao">
               <option value=""> Todas </option>
               <option value="Aberta"> Aberta </option>
               <option value="Finalizada"> Finalizada </option>
@@ -26,16 +26,16 @@
         <div class="col-sm-12 col-md-6 form-group">     
           <label for="idDataReqInicio">Data de Requisição</label>       
           <div class="input-group">
-            <input type="date" class="form-control" id="idDataReqInicio"> 
-            <input type="date" class="form-control" id="idDataReqFinal">            
+            <input type="date" class="form-control" id="idDataReqInicio" name="data_req_inicial"> 
+            <input type="date" class="form-control" id="idDataReqFinal" name="data_req_final">            
           </div>             
         </div>  
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="idDataFinalizacaoInicio"> Data de Finalização</label>
           <div class="input-group">              
-            <input type="date" class="form-control" id="idDataFinalizacaoInicio">  
-            <input type="date" class="form-control" id="idDataFinalizacaoFinal">            
+            <input type="date" class="form-control" id="idDataFinalizacaoInicio" name="data_atend_inicial">  
+            <input type="date" class="form-control" id="idDataFinalizacaoFinal" name="data_atend_final">            
           </div>       
         </div>                       
 
@@ -58,17 +58,19 @@
             </tr>
           </thead>
           <tbody>
-          @foreach ($requisicoes as $r)
-            <tr>
-              <td                            > {{$r->cod_requisicao}} </td>
-              <td                            > {{$r->get_data_req_formatada() }} </td>
-              <td                            > {{$r->get_data_atend_formatada() }} </td>
-              <td                            > {{$r->situacao }} </td>
-              <td style="text-align: center;"> @if( $r->data_atend  == null) <a href="/minhas-requisicoes/edita/{{$r->cod_requisicao}}"> <span class="fas fa-pencil-alt">   </span> </a> @endif </td>
-              <td style="text-align: center;"> @if( $r->data_atend  == null) <a href="/minhas-requisicoes/remove/{{$r->cod_requisicao}}"> <span class="fas fa-trash text-danger"></span> </a> @endif </td>
-              <td style="text-align: center;"> <a href="/minhas-requisicoes/exibeDetalhes/{{$r->cod_requisicao}}"> <span class="fas fa-eye"></span> </a> </td>
-            </tr>
-          @endforeach
+          @isset($requisicoes)
+            @foreach ($requisicoes as $r)
+              <tr>
+                <td                            > {{$r->cod_requisicao}} </td>
+                <td                            > {{$r->get_data_req_formatada() }} </td>
+                <td                            > {{$r->get_data_atend_formatada() }} </td>
+                <td                            > {{$r->situacao }} </td>
+                <td style="text-align: center;"> @if( $r->situacao == 'Aberta' ) <a href="/minhas-requisicoes/edita/{{$r->cod_requisicao}}"> <span class="fas fa-pencil-alt"></span> </a> @endif </td>
+                <td style="text-align: center;"> @if( $r->situacao == 'Aberta' ) <a href="/minhas-requisicoes/remove/{{$r->cod_requisicao}}"> <span class="fas fa-trash text-danger"></span> </a> @endif </td>
+                <td style="text-align: center;"> <a href="/minhas-requisicoes/exibeDetalhes/{{$r->cod_requisicao}}"> <span class="fas fa-eye"></span> </a> </td>
+              </tr>
+            @endforeach
+          @endisset
           </tbody>
 
 
