@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Request;
-use App\Tipo;
+use App\Requisicao;
 
 class MinhasRequisicoesController extends Controller
 {
@@ -16,7 +16,11 @@ class MinhasRequisicoesController extends Controller
     }
 
     public function abreForm() {
-		return view('minhas-requisicoes')->with('view', $this->view);
+		$requisicoes = Requisicao::all();
+
+        return view('minhas-requisicoes')
+                ->with('view', $this->view)
+                ->with('requisicoes', $requisicoes);
 	}
 
     public function exibeDetalhes() {
@@ -29,5 +33,34 @@ class MinhasRequisicoesController extends Controller
 
     public function remove() {
     }
+
+
+    public function localiza() {
+/*
+        $cod_requisicao = Request::input('cod_requisicao');
+        $cod_usuario =  \Auth::user()->id;
+        $situacao = Request::input('situacao');
+        $data_req_inicial = Request::input('data_req_inicial');
+        $data_req_final = Request::input('data_req_final');
+        $data_atend_inicial = Request::input('data_atend_inicial');
+        $data_atend_final = Request::input('data_atend_final');
+
+        $requisicoes = requisicao::listarRequisicoesOnde( $cod_requisicao,
+                                                          $cod_usuario, 
+                                                          $situacao, 
+                                                          $data_req_inicial,
+                                                          $data_req_final,
+                                                          $data_atend_inicial,
+                                                          $data_atend_final
+                                                        );
+                                                        */
+        $requisicoes = Requisicao::all();
+
+        return view('minhas-requisicoes')
+                ->with('view', $this->view)
+                ->with('requisicoes', $requisicoes);
+
+    }
+
 
 }

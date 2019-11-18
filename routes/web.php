@@ -72,6 +72,7 @@ Route::get('/minhas-requisicoes', 'MinhasRequisicoesController@abreForm');
 Route::get('/minhas-requisicoes/edita/{id}', 'MinhasRequisicoesController@edita');
 Route::get('/minhas-requisicoes/remove/{id}', 'MinhasRequisicoesController@remove');
 Route::get('/minhas-requisicoes/exibeDetalhes/{id}', 'MinhasRequisicoesController@exibeDetalhes');
+Route::post('/minhas-requisicoes/localiza', 'MinhasRequisicoesController@localiza');
 
 Route::get('/saida', 'SaidaController@abreForm');
 Route::get('/saida/exibeDetalhes/{id}', 'SaidaController@exibeDetalhes');

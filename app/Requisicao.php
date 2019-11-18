@@ -26,4 +26,20 @@ class Requisicao extends Model
 		return $this->hasMany('App\materiaisRequisitados', 'cod_requisicao');
 	}
 
+	public function get_data_req_formatada() {
+		if($this->data_req != null){
+			return date('d/m/Y', strtotime($this->data_req));
+		}else{
+			return "";
+		}		
+	}
+
+	public function get_data_atend_formatada() {
+		if($this->data_atend != null){
+			return date('d/m/Y', strtotime($this->data_atend));
+		}else{
+			return "";
+		}		
+	}
+
 }

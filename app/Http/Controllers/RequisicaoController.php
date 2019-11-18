@@ -57,6 +57,8 @@ class RequisicaoController extends Controller
 
         }
 
+        return 'ERRO ao tentar salvar Requisição.';
+
     }
 
     
