@@ -65,8 +65,8 @@ Route::get('/estoque/edita/{id}', 'EstoqueController@edita');
 Route::get('/estoque/remove/{id}', 'EstoqueController@remove');
 
 Route::get('/requisicao', 'RequisicaoController@abreForm');
-Route::get('/requisicao/localizaEstocados/{jSon}', 'RequisicaoController@localizaEstocados');
-
+Route::get('/requisicao/localizaEstocados/{json}', 'RequisicaoController@localizaEstocados');
+Route::get('/requisicao/requisita/{json}', 'RequisicaoController@requisita');
 
 Route::get('/minhas-requisicoes', 'MinhasRequisicoesController@abreForm');
 Route::get('/minhas-requisicoes/edita/{id}', 'MinhasRequisicoesController@edita');

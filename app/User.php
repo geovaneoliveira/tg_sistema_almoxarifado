@@ -39,9 +39,11 @@ class User extends Authenticatable
 
 
     public function movimentacoes(){
-        return $this->hasMany('App\Movimentacao');
+        return $this->hasMany('App\Movimentacao', 'cod_usuario');
     }
 
-
+    public function requisicoes(){
+        return $this->hasMany('App\Requisicao', 'cod_usuario');
+    }
 
 }

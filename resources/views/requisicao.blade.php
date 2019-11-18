@@ -45,7 +45,7 @@
 								<th style="width: 5%;" > </th>
 							</tr>		
 						</thead>						
-						<tbody id="listagemRequisitar">
+						<tbody id="listagemEstoque">
 						</tbody>
 					</table>
 				</div>
@@ -60,29 +60,21 @@
 		<fieldset class="border shadow-sm p-3">
 		<legend>Requição: <strong>Nova</strong> </legend>
 			<div class="form-row">
-				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
+				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" >
 					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
 						<thead>
 							<tr scope="row">
 								<th style="width: 50%;" >Material</th>
-								<th style="width: 20%;" >Tipo</th>
-								<th style="width: 15%;" >Qtde.</th>
+								<th style="width: 20%;" >Tipo </th>
+								<th style="width: 15%;" >Qtde </th>
 								<th style="width: 10%;" >Unid.</th>						
-								<th style="width: 5%;" > </th>
+								<th style="width: 5%;"  >     </th>
 							</tr>
 						</thead>
-
-	  					<tbody>
-							<tr scope="row">
-								<td >   </td>
-								<td >   </td>
-								<td > <input type="text" name="" value="" placeholder="digite qtde..." />  </td>
-								<td > pçs </td>
-								<td > <a href="/requisicao/edita/id"> <span class="fas fa-level-up-alt"> </span> </a> </td>
-							</tr>
-					</tbody>	
+						<tbody id="listagemRequisicao">
+						</tbody>
 					</table>
-				</div><!--fim da listagem de locais-->
+				</div>
 			</div>
 
 
@@ -96,7 +88,7 @@
 					@endif
 
 					@if($operacao=='abreForm')
-	    				<button type="button" class="btn btn-lg btn-success" data-toggle="modal" data-target="#protocoloModal" ><i class="fas fa-check  mr-2"></i>Requisitar</button>
+	    				<button id="btn_requisitar" type="button" class="btn btn-lg btn-success" onclick="requisitar();" disabled><i class="fas fa-check  mr-2"></i>Requisitar</button>
 					@endif
 				@endisset
 				<button type="button" class="btn btn-lg btn-success" onclick="window.location.href='/requisicao';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
@@ -108,12 +100,6 @@
 </div>
 
 
-<!-- Button trigger modal
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#protocoloModal">
-  Launch demo modal
-</button>
- -->
-
 <!-- Modal do protocolo-->
 <div class="modal fade" id="protocoloModal" tabindex="-1" role="dialog" aria-labelledby="protocoloModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -124,14 +110,14 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id='id_Modal_msg'>
         <h6> Sua requisição foi realizada com sucesso.
-        Ao retirar seus materiais poderá ser necessário informar o número da sua requisição: </h6> 
-        <h4>Número: 387 </h4>
+        	<br>Ao retirar seus materiais poderá ser necessário informar o número da sua requisição. Anote: </h6> 
+        <h4>Número: <span id='id_codRequisicaoModal'>ERRO</span></h4>
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' onclick="window.location.href='/requisicao';">Close</button>
       </div>
     </div>
   </div>
@@ -144,63 +130,146 @@
 @push('scripts')
    	<script>
 
-      function localizarEstocados() {
+   		var arrayMateriaisRequisicao = [];
 
-      	var meuObj = new Object();
-      	meuObj.nome_material = document.getElementById('nome_material').value;
-     	meuObj.cod_tipo = document.getElementById('cod_tipo').value;
-		var meuJSON = JSON.stringify(meuObj);
-
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function() {
-        	if (this.readyState == 4 && this.status == 200) {
-	          	var myObj = JSON.parse(this.responseText);
-	          	var listagemRequisitar = document.getElementById('listagemRequisitar');
-	          	listagemRequisitar.innerHTML = '';
-	          	console.log(myObj);
-	          	for (m in myObj ) {
-	          		console.log(myObj[m]);
-	          		var linha = listagemRequisitar.insertRow();
-	          		linha.insertCell(0).innerHTML = myObj[m].nome_material;
-	          		linha.insertCell(1).innerHTML = myObj[m].nome_tipo;
-	          		linha.insertCell(2).innerHTML = myObj[m].total;
-	          		linha.insertCell(3).innerHTML = myObj[m].descricao_unid_medida;
-	          		let btn = document.createElement('button');
-	          		btn.className = "btn btn-link";
-	          		btn.innerHTML = '<i class="fas fa-level-down-alt"> </i>';
-	          		btn.id = 'btn_material_id_' + m;
-	          		btn.type = "button";
-
-	          		btn.onclick = function() {
-	          			let id = this.id.replace('btn_material_id_', '');
-	          			add( myObj[id] );
-	          		}
-
-	          		linha.insertCell(4).append(btn);
-	          	};  
-
-          	}
-        };
-        xhttp.open("GET", "/requisicao/localizaEstocados/" + meuJSON , true);
-        xhttp.send();
-    }
-
-    var arrayMateriaisRequisicao = [];
+    	function localizarEstocados() {
+	      	var meuObj = new Object();
+	      	meuObj.nome_material = document.getElementById('nome_material').value;
+	     	meuObj.cod_tipo = document.getElementById('cod_tipo').value;
+			var meuJSON = JSON.stringify(meuObj);
+	        var xhttp = new XMLHttpRequest();
+	        xhttp.onreadystatechange = function() {
+	        	if (this.readyState == 4 && this.status == 200) {
+		          	var myObj = JSON.parse(this.responseText);
+		          	var listagemRequisitar = document.getElementById('listagemEstoque');
+		          	listagemRequisitar.innerHTML = '';
+		          	for (m in myObj ) {
+		          		var linha = listagemRequisitar.insertRow();
+		          		linha.insertCell(0).innerHTML = myObj[m].nome_material;
+		          		linha.insertCell(1).innerHTML = myObj[m].nome_tipo;
+		          		linha.insertCell(2).innerHTML = myObj[m].total;
+		          		linha.insertCell(3).innerHTML = myObj[m].descricao_unid_medida;
+		          		let btnAdd = document.createElement('button');
+		          		btnAdd.className = "btn btn-link";
+		          		btnAdd.innerHTML = '<i class="fas fa-level-down-alt"> </i>';
+		          		btnAdd.id = 'btn_material_add_id_' + m;
+		          		btnAdd.type = "button";
+		          		btnAdd.onclick = function() {
+		          			let id = this.id.replace('btn_material_add_id_', '');
+		          			add( myObj[id] );
+		          			atualizaLista();
+		          		};
+		          		linha.insertCell(4).append(btnAdd);
+		          	};  
+	          	}
+	        };
+	        xhttp.open("GET", "/requisicao/localizaEstocados/" + meuJSON , true);
+	        xhttp.send();
+	    }   
 
     
+	    function add( objMaterialRec ) {
+	    	const objMaterial = Object.assign({}, objMaterialRec);
+	    	delete objMaterial.total;
+	    	
+	    	//antes de adicionar no array, verificar se o material já não está lá!
+	    	var matRepetido = false;
+
+	    	arrayMateriaisRequisicao.forEach( function(mat) {
+	    		if(mat.cod_material == objMaterial.cod_material ){
+	    			matRepetido = true;
+	    		}
+
+	    	});
+
+	    	if (matRepetido == false) {
+	    		objMaterial.quantidade = 1;
+	    		arrayMateriaisRequisicao.push(objMaterial);
+	    	}
+	   	}
 
 
-    function add(objMaterialRec ){
 
-    	//antes de adicionar no array, verificar se o material já não está lá!
-    	arrayMateriaisRequisicao.push(objMaterialRec);
-    	console.log(arrayMateriaisRequisicao);
 
-    	//char uma função para carregar a tabela de acordo com o array
+	   	function atualizaLista() {
+	   		var listagemRequisitar = document.getElementById('listagemRequisicao');
+	      	listagemRequisitar.innerHTML = '';
+	      	for (m in arrayMateriaisRequisicao ) {
+	      		var linha = listagemRequisitar.insertRow();
+	      		linha.insertCell(0).innerHTML = arrayMateriaisRequisicao[m].nome_material;
+	      		linha.insertCell(1).innerHTML = arrayMateriaisRequisicao[m].nome_tipo;
+	      		let input = document.createElement('input');
+	      		input.type = 'text';
+	      		input.value = arrayMateriaisRequisicao[m].quantidade;
+	      		input.id = 'input_quantidade_id_' + m;
+	      		input.placeholder = 'digite qtde...';
+	      		input.onkeyup = function() {
+	      			let id = this.id.replace('input_quantidade_id_', '');
+	      			if( ! isNaN(input.value) ) {
+	      				arrayMateriaisRequisicao[id].quantidade = input.value;
+	      				input.className = '';
+	      			}else{
+	      				input.className = 'bg-danger';
+	      			}   			
+	      		};
+		      	linha.insertCell(2).append(input);
+	      		linha.insertCell(3).innerHTML = arrayMateriaisRequisicao[m].descricao_unid_medida;
+	      		let btnRemove = document.createElement('button');
+	      		btnRemove.className = "btn btn-link";
+	      		btnRemove.innerHTML = '<i class="fas fa-times text-danger"> </i>';
+	      		btnRemove.id = 'btn_material_remove_id_' + m;
+	      		btnRemove.type = "button";
+	      		btnRemove.onclick = function() {
+	      			let id = this.id.replace('btn_material_remove_id_', '');
+	      			remove(arrayMateriaisRequisicao[id]);
+	      			atualizaLista();
+	      		};
+	      		linha.insertCell(4).append(btnRemove);
+	   		}
 
-    	//pensar se vai dar um submit no form ou se vai enviar um json para incluir. Neste ultimo caso, como fariamos a validação do sucesso?
-   	}
+	   		if (arrayMateriaisRequisicao.length > 0) {
+	   			document.getElementById('btn_requisitar').disabled = false;
+	   		}
+	   		else{
+	   			document.getElementById('btn_requisitar').disabled = true;
+	   		}
+	   	}
+
+
+	    function remove( objMaterialRec ) {
+
+	    	arrayMateriaisRequisicao = arrayMateriaisRequisicao.filter(function(material){
+		       return material.cod_material != objMaterialRec.cod_material;
+		   	});
+	   	}
+
+
+
+	   	function requisitar() {
+	   		var requisicaoJSON = JSON.stringify(arrayMateriaisRequisicao);
+
+	   		var xhttp = new XMLHttpRequest();
+
+	        xhttp.onreadystatechange = function() {
+	        	if (this.readyState == 4 && this.status == 200) {
+	        		document.getElementById('id_codRequisicaoModal').innerHTML = this.responseText;
+	        		$('#protocoloModal').modal('show');	
+		        } else if (this.readyState == 4 && this.status != 200) {
+		        	document.getElementById('id_Modal_msg').innerHTML = '<h6>Erro ao tentar salvar uma requisição. Tente novamente mais tarde.<h6>' ;
+		        	document.getElementById('protocoloModalLabel').innerHTML = 'Erro ao Requisitar';
+		        	document.getElementById('protocoloModalLabel').className = 'text-danger';
+		        	document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-danger';
+	        		$('#protocoloModal').modal('show');
+
+	          	}
+	        };
+
+	        xhttp.open("GET", "/requisicao/requisita/" + requisicaoJSON , true);
+	        xhttp.send();
+
+	   	}
+
+
 
 	</script>
 @endpush

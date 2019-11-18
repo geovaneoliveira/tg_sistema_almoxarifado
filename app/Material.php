@@ -25,6 +25,10 @@ class Material extends Model
 		return $this->hasMany('App\Estoque', 'cod_material');
 	}
 
+	public function materiaisRequisitados() {
+		return $this->hasMany('App\materiaisRequisitados', 'cod_material');
+	}
+
 
 	public function calcQtdeTotal(){
 		$total=0;

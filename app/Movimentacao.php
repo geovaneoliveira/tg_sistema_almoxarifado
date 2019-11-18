@@ -13,14 +13,19 @@ class Movimentacao extends Model
 
     const CREATED_AT = 'data_mov';
     const UPDATED_AT = null;
+    
 
-     public function estoque(){
+    public function estoque(){
 		return $this->belongsTo('App\Estoque', 'estoque_id');
 	}
 
 	public function user(){
 		return $this->belongsTo('App\User', 'cod_usuario');
 	}
+
+    public function requisicao(){
+        return $this->belongsTo('App\Requisicao', 'cod_requisicao');
+    }
 
     public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov='', $qtde_movimentada='', $cod_usuario='') {
         $stmt = DB::table('Movimentacao')
@@ -65,9 +70,5 @@ class Movimentacao extends Model
         return $listaEstocados;
 
     }
-
-//	public function requisicao(){
-//		return $this->belongsTo('App\Requisicao', 'cod_requisicao');
-//	}
 }
 

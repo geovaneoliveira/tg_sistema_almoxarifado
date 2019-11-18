@@ -12,6 +12,6 @@ class Unidade extends Model
 	protected $primaryKey = 'cod_unid_medida';
 
 	public function materiais(){
-		$this->hasMany('App\Material');
+		return $this->hasMany('App\Material', 'cod_unid_medida');
 	}
 }

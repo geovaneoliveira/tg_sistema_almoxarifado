@@ -12,6 +12,6 @@ class Tipo extends Model
 	protected $primaryKey = 'cod_tipo';
 
 	public function materiais(){
-		return $this->hasMany('App\Material');
+		return $this->hasMany('App\Material', 'cod_tipo');
 	}
 }

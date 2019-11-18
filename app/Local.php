@@ -11,12 +11,8 @@ class Local extends Model
 	protected $fillable = array('nome_local');
 	protected $primaryKey = 'cod_local';
 
-	public function materiais(){
-		$this->hasMany('App\Material');
-	}
-
 	public function estoques(){
-		$this->hasMany('App\Estoque');
+		return $this->hasMany('App\Estoque', 'cod_local');
 	}
 
 }

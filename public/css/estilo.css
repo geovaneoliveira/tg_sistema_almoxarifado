@@ -146,11 +146,27 @@ input {
 	width: 100%;
 }
 
-#listagemRequisitar tr td{
+#listagemEstoque tr td{
 	vertical-align: middle;
 	text-align: middle;
 	margin: 0px;
-	padding: 0px;
+	padding: 1px;
+}
+
+#listagemRequisicao tr td{
+	vertical-align: middle;
+	text-align: middle;
+	margin: 0px;
+	padding: 1px;
+}
+
+#listagemRequisicao tr td input{
+	vertical-align: middle;
+	text-align: middle;
+	margin: 0px;
+	padding: 0px 0px 0px 5px ;
+	height: 100%;
+	width: 100%;
 }
 
 td {

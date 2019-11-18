@@ -11,7 +11,6 @@ class Estoque extends Model
     public $timestamps = false;
     protected $fillable = array('cod_material', 'cod_local', 'lote', 'quantidade','data_validade');
     protected $primaryKey = 'id';
-    protected $dateFormat = 'd-m-Y H:i:s';
 
      public function local(){
 		return $this->belongsTo('App\Local', 'cod_local');
@@ -22,7 +21,7 @@ class Estoque extends Model
 	}
 
 	public function movimentacoes(){
-		return $this->hasMany('App\Movimentacao');
+		return $this->hasMany('App\Movimentacao',  'cod_material' );
 	}
 
 
