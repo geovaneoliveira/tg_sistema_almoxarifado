@@ -35,9 +35,9 @@ class Movimentacao extends Model
             ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
             ->join('Users', 'Movimentacao.cod_usuario', '=', 'Users.id')
             ->leftJoin('Requisicao', 'Movimentacao.cod_requisicao', '=', 'Requisicao.cod_requisicao');
-/*
+
         if ($nome_material) {
-            $stmt->where('Estoque.nome_material', 'like', '%' . $nome_material . '%');
+            $stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
         }            
 
         if ($lote) {
@@ -67,7 +67,6 @@ class Movimentacao extends Model
         
         $listaEstocados = $stmt->select('Movimentacao.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Users.name')->get();
         
-*/
         
         $listaEstocados = $stmt->get();
         return $listaEstocados;

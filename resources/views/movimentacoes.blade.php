@@ -109,7 +109,7 @@
   </div> <!--fim da primeira linha-->
 
 
-    <div class="row" style="max-height: 300px; overflow-y: auto;" ><!--inicio da listagem de locais-->
+    <div class="row" style="max-height: 300px; overflow-y: auto;" ><!--inicio da listagem de movimentacoes-->
       <div class="col">
         <table class="table table-sm table-bordered table-hover ">
         <tr>
@@ -122,81 +122,23 @@
           <th>Responsável</th>
           <th>Requ.</th>
         </tr>
+        @foreach ($movimentados as $m)
         <tr>
-          <td > Uniforme Camiseta Branca tam GG</td>
-          <td > G345 </td>
-          <td > 6754 </td>
-          <td > 13/04/2018 </td>
-          <td > Aquisição </td>
-          <td > +80 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
+          <td                            > {{$m->nome_material}} </td>
+          <td                            > {{$m->nome_local }} </td>
+          <td                            > {{$m->lote }} </td>
+          <td                            > {{$m->data }} </td>
+          <td                            > {{$m->tipo_movimentacao}} </td>
+          <td                            > {{$m->qtde_movimentada }} </td>
+          <td                            > {{$m->users }} </td>
+          <td                            > {{$m->cod_requisicao }} </td>
         </tr>
-        <tr>
-          <td > Uniforme Camiseta Branca tam GG</td>
-          <td > G345 </td>
-          <td > 6754 </td>
-          <td > 13/04/2019 12:35</td>
-          <td > Inventário </td>
-          <td > -8 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td > Parafuso Allen s/ Cabeça M12x30</td>
-          <td > G345 </td>
-          <td > 4739 </td>
-          <td > 31/07/2019 11:43 </td>
-          <td > Aquisição </td>
-          <td > +25 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td > Parafuso Allen s/ Cabeça M12x30</td>
-          <td > G345 </td>
-          <td > 4739 </td>
-          <td > 05/08/2019 18:43 </td>
-          <td > Requisição </td>
-          <td > -8 </td>
-          <td>Geovane Viana</td>
-          <td> 34556 </td>
-        </tr>
-        <tr>
-          <td > Parafuso Allen s/ Cabeça M12x30</td>
-          <td > G345 </td>
-          <td > 4939 </td>
-          <td > 10/08/2019 19:33 </td>
-          <td > Ajuste </td>
-          <td > -1 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td > Parafuso Allen s/Cabeça M12x30</td>
-          <td > G345 </td>
-          <td > 4739 </td>
-          <td > 11/08/2019 07:02 </td>
-          <td > Ajuste </td>
-          <td > +3 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td > Parafuso Allen s/ Cabeça M12x30</td>
-          <td > G345 </td>
-          <td > 4739 </td>
-          <td > 12/08/2019 09:30</td>
-          <td > Inventário </td>
-          <td > +3 </td>
-          <td>Geovane Viana</td>
-          <td> </td>
-        </tr>
-
-      </table>
+        @endforeach
         
-      </div>
-      
+
+       </table>
+        
+      </div> 
     </div><!--fim da listagem de locais-->
 
   <div class="row">
