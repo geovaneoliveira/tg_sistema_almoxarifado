@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -33,8 +34,8 @@ class Movimentacao extends Model
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
             ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
             ->join('Users', 'Movimentacao.cod_usuario', '=', 'Users.id')
-            ->join('Requisicao', 'Movimentacao.cod_requisicao', '=', 'Requisicao.cod_requisicao');
-
+            ->leftJoin('Requisicao', 'Movimentacao.cod_requisicao', '=', 'Requisicao.cod_requisicao');
+/*
         if ($nome_material) {
             $stmt->where('Estoque.nome_material', 'like', '%' . $nome_material . '%');
         }            
@@ -63,10 +64,12 @@ class Movimentacao extends Model
             $stmt->where('Users.id', $cod_usuario);
         }
 
-
         
         $listaEstocados = $stmt->select('Movimentacao.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Users.name')->get();
         
+*/
+        
+        $listaEstocados = $stmt->get();
         return $listaEstocados;
 
     }
