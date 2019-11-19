@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use App\Estoque;
 
 class Material extends Model
 {
@@ -51,7 +52,8 @@ class Material extends Model
 		$stmt = DB::table('Material')
 						->join('tipo_material', 'Material.cod_tipo', '=', 'tipo_material.cod_tipo')
 						->join('unidade_medida', 'Material.cod_unid_medida', '=', 'unidade_medida.cod_unid_medida')
-           				->join('estoque', 'Material.cod_material', '=', 'Estoque.cod_material');
+                        ->join('estoque', 'Material.cod_material', '=', 'Estoque.cod_material');
+
 
 
         if ($nome_material) {
@@ -82,33 +84,36 @@ class Material extends Model
         $consumoTotal = 0;
         $maiordata=Carbon::today()->addDays(-1)->toDateString();;
 
-	//	foreach ($this->estoques as $e)
-	//	{
-	//		foreach ($e->movimentacoes as $m)
-	//		{
-	//			if ($m->tipo_movimentacao == 'Requisição')
-//				{
-    //                $hoje = Carbon::today()->toDateString();
-  //                  $antes = Carbon::today()->addDays(-30)->toDateString();
-//
-	//				if ($m->data_mov > $antes)
-//					{
-  //                      if ($m->data_mov < $maiordata){
-                         //   $maiordata = $m->data_mov;
- //                          }
-////						$consumoTotal -= $m->qtde_movimentada;
-//					}
-//				}
-	//		}
-	//	}
 
-       // $dias = $hoje - $maiordata;
+		foreach ($this->estoques() as $e)
+		{
+
+			foreach ($e->movimentacoes() as $m)
+			{
+
+				if ($m->tipo_movimentacao == 'Requisição')
+				{
+                    $hoje = Carbon::today()->toDateString();
+                    $antes = Carbon::today()->addDays(-30)->toDateString();
+
+					if ($m->data_mov > $antes)
+					{
+                        if ($m->data_mov < $maiordata){
+                            $maiordata = $m->data_mov;
+                           }
+
+						$consumoTotal -= $m->qtde_movimentada;
+					}
+				}
+			}
+		}
+
+       $dias = Carbon::now()->diffInDays($maiordata, true);
 
 
-	//	$dias = 1; /* fazer logica para  encontar o numero de dias entre hoje e a data $m->data_mov mais antiga*/
-//		$consumoDiario = $consumoTotal / $dias;
-    //	return $consumoDiario;
-    return rand(0, 12);
+		$consumoDiario = $consumoTotal / $dias;
+	    return $consumoDiario;
+    //  return rand(0, 12);
 	}
 
 

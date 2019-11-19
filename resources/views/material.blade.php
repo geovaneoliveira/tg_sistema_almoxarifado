@@ -210,7 +210,6 @@
           if (this.readyState == 4 && this.status == 200) {
             document.getElementById("cons_dia_id").value = this.responseText;
 
-            btn_estoq_min();
           }
         };
         xhttp.open("GET", "/material/consumodiario/" + id , true);
