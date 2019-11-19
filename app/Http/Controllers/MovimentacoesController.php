@@ -27,12 +27,15 @@ class MovimentacoesController extends Controller
 
 
     public function localiza(){
-        //gustavo trabalhar aqui!!
-        //isso é soh um teste para ver se esta retornando
-        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov, $qtde_movimentada, $cod_usuario);
-        return Movimentacao::listarMovimentacao();
-
+        $this->view["active"] = "movimentacoes";
+        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov, $qtde_movimentada, $cod_usuario, $cod_requisicao);
+        return view('movimentacoes')
+                ->with('view', $this->view)
+                ->with('tipos', Tipo::all())
+                ->with('locais', Local::all())
+                ->with('movimentados', $movimentados);
     }
+    
 
 
 }
