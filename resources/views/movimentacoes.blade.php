@@ -134,7 +134,6 @@
           <td                            > {{$m->cod_requisicao }} </td>
         </tr>
         @endforeach
-        
 
        </table>
         
