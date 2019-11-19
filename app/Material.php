@@ -52,24 +52,24 @@ class Material extends Model
 						->join('tipo_material', 'Material.cod_tipo', '=', 'tipo_material.cod_tipo')
 						->join('unidade_medida', 'Material.cod_unid_medida', '=', 'unidade_medida.cod_unid_medida')
            				->join('estoque', 'Material.cod_material', '=', 'Estoque.cod_material');
-           				
+
 
         if ($nome_material) {
 			$stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
-		}            
+		}
 
 		if ($cod_tipo) {
 			$stmt->where('Material.cod_tipo', $cod_tipo);
 		}
-		
+
 		$stmt->select('Material.cod_material', 'Material.nome_material', 'tipo_material.nome_tipo', 'unidade_medida.descricao_unid_medida', DB::raw('SUM(estoque.quantidade) as total') );
 
 		$stmt->groupBy('Material.cod_material', 'Material.nome_material', 'tipo_material.nome_tipo', 'unidade_medida.descricao_unid_medida');
 
 		$materiais = $stmt->get();
-		
+
         return $materiais;
-		
+
 	}
 
 
@@ -80,42 +80,35 @@ class Material extends Model
 	{
 		$consumoDiario = 12;
         $consumoTotal = 0;
-        $maiordata=Carbon::today()->addDays(-180)->toDateString();;
+        $maiordata=Carbon::today()->addDays(-1)->toDateString();;
 
-		foreach ($this->estoques as $e)
-		{
-			foreach ($e->movimentacoes as $m)
-			{
-				if ($m->tipo_movimentacao == 'Requisição')
-				{
-                    $hoje = Carbon::today()->toDateString();
-                    $antes = Carbon::today()->addDays(-30)->toDateString();
+	//	foreach ($this->estoques as $e)
+	//	{
+	//		foreach ($e->movimentacoes as $m)
+	//		{
+	//			if ($m->tipo_movimentacao == 'Requisição')
+//				{
+    //                $hoje = Carbon::today()->toDateString();
+  //                  $antes = Carbon::today()->addDays(-30)->toDateString();
+//
+	//				if ($m->data_mov > $antes)
+//					{
+  //                      if ($m->data_mov < $maiordata){
+                         //   $maiordata = $m->data_mov;
+ //                          }
+////						$consumoTotal -= $m->qtde_movimentada;
+//					}
+//				}
+	//		}
+	//	}
 
-                    if ($m->data_mov > $maiordata){
-                     $maiordata = $m->data_mov;
-                    }
-
-
-					if ($m->data_mov > $antes)
-					{
-						$consumoTotal -= $m->qtde_movimentada; //observação, estou subtraindo pq na tabela de movimentações, as requisições são negativas!
-						if (1)
-						{
-							/* fazer lógica para pegar a $m->data_mov mais dentro do periodo de 90 dias).
-							isso visa garantir que a média não vai ficar estranha se o produto for cadastrado ontem por exemplo
-							*/
-						}
-					}
-				}
-			}
-		}
-
-        $dias = $hoje - $maiordata;
+       // $dias = $hoje - $maiordata;
 
 
 	//	$dias = 1; /* fazer logica para  encontar o numero de dias entre hoje e a data $m->data_mov mais antiga*/
-		$consumoDiario = $consumoTotal / $dias;
-		return $consumoDiario;
+//		$consumoDiario = $consumoTotal / $dias;
+    //	return $consumoDiario;
+    return rand(0, 12);
 	}
 
 

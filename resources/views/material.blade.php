@@ -230,6 +230,7 @@ function btn_estoq_min(){
     var estoque_seg = estoque_min + (leadtime * cons_dia);
 
     document.getElementById("estoque_seg").value = estoque_seg;
+
 }
 </script>
 
