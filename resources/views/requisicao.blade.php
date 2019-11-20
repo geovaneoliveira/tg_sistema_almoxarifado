@@ -117,7 +117,7 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' onclick="window.location.href='/requisicao';">Close</button>
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' onclick="window.location.href='/requisicao';">Fechar</button>
       </div>
     </div>
   </div>

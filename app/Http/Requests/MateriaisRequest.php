@@ -27,9 +27,10 @@ class MateriaisRequest extends FormRequest
             'nome_material' => 'required|max:100',
             'cod_tipo'      => 'required',
             'cod_unid_medida' => 'required',
-            'estoque_min' => 'required|numeric',
             'lead_time' => 'required|numeric',
-            'cons_dia' => 'required|numeric'
+            'cons_dia' => 'required|numeric',
+            'margem_seg' => 'required|numeric',
+            'percentual_seg' => 'required|numeric',
         ];
     }
 

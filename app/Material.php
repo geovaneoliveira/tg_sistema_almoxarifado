@@ -11,7 +11,7 @@ class Material extends Model
 {
     protected $table = 'Material';
     public $timestamps = false;
-    protected $fillable = array('nome_material', 'cod_unid_medida', 'estoque_min', 'lead_time', 'cons_dia', 'cod_tipo');
+    protected $fillable = array('nome_material', 'cod_unid_medida', 'lead_time', 'cons_dia', 'cod_tipo', 'percentual_seg', 'margem_seg');
     protected $primaryKey = 'cod_material';
 
     public function tipo(){

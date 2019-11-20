@@ -79,9 +79,10 @@ class MaterialController extends Controller
         $material->nome_material = $request->input('nome_material');
         $material->cod_tipo = $request->input('cod_tipo');
         $material->cod_unid_medida = $request->input('cod_unid_medida');
-        $material->estoque_min = $request->input('estoque_min');
         $material->lead_time = $request->input('lead_time');
         $material->cons_dia = $request->input('cons_dia');
+        $material->percentual_seg = $request->input('percentual_seg');
+        $material->margem_seg = $request->input('margem_seg');
 
 		$material->save();
 		return redirect()->action('MaterialController@novo')

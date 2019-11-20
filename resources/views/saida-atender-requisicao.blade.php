@@ -33,59 +33,84 @@
 
 <div class="row">
 	<form class="col-md-12">
-		<fieldset class="border shadow-sm p-3">
-			<legend>Requisicao:</legend>
 			<div class="form-row">
-				<div class="col-md-12" style="height: 200px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
-					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
-						<tr >
-							<th class="thmaster" colspan="4" >Requisitado</th>
-							<th class="thmaster" colspan="3" >Local de Origem</th>
-						</tr>
+				<div class="col-md-12" style="height: 500px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
+					<table class="table table-sm table-bordered table-hover " style="text-align: center; border-color: green;" >
+
 						<tr>
-							<th style="" >Material</th>
-							<th style="" >Tipo</th>
-							<th style="" >Qtde Req.</th>
-							<th style="" >Unid.</th>
-							<th style="" >Local / Disp.</th>
-							<th style="width: 10%;" >Qtde</th>													
-							<th style="" > </th>
+							<th class="thmaster" colspan="6" > Parafuso Allen sem Cabeça M12x25 - 44 pçs</th>
 						</tr>
-						<tr>
-							<td style="text-align: left;" > Parafuso Allen sem Cabeça M12x25</td>
-							<td> Insumos </td>
-							<td> 44 </td>
-							<td> pçs </td>
-							<td class="input-group">
-								<select  id="cod_tipo" name="cod_tipo"  style="width: 100%; height: 100%; ">
-					              <option value="1"> A345 / 45 </option>
-					              <option value="2"> J764 / 345 </option>
-					              <option value="3"> K987 / 478 </option>
-					            </select>
-							</td>
-							<td > <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>
-							<td> <a href=""> <span class="fas fa-level-down-alt"> </span> </a> </td>
+							<th style="width: 15%;" >Local </th>
+							<th style="width: 15%;" >Disp</th>
+							<th style="width: 15%;" >Lote</th>
+							<th style="width: 15%;" >Validade</th>
+							<th style="width: 15%;" >Qtde</th>	
+							<th style="width: 5%;"  > </th>													
 						</tr>
-						<tr>
-							<td style="text-align: left;" > Porca Sext. DIN 916 M12x25</td>
-							<td> Insumos </td>
-							<td> 50 </td>
-							<td> pçs </td>
-							<td class="input-group">
-								<select class="" id="cod_tipo" name="cod_tipo" style="width: 100%; height: 100%;">
-					              <option value="1"> A345 / 45 </option>
-					              <option value="2"> J764 / 345 </option>
-					              <option value="3"> K987 / 478 </option>
-					            </select>
-							</td>
-							<td > <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>
-							<td> <a href=""> <span class="fas fa-level-down-alt"> </span> </a> </td>
-						</tr>
+							<tr>
+								<td> A345 </td>
+								<td> 100 </td>
+								<td> 4837 </td>
+								<td> 25/11/2019 </td>
+								<td> <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>	
+								<td style="text-align: center;"> <a href="/essdfdsftoque/ajusta/66666"> <span class="fas fa-times text-danger"></span> </a> </td>						
+							</tr >
+							<tr>
+								<td> U345 </td>
+								<td> 130 </td>
+								<td> 968547 </td>
+								<td> 30/12/2019 </td>
+								<td > <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>	
+								<td style="text-align: center;"> <a href="/sidsfdsf/ajusta/6666"> <span class="fas fa-times text-danger" > </span> </a> </td>		
+							</tr>			
 					</table>
+
+
+
+
+
+					<table class="table table-sm table-bordered table-hover " style="text-align: center; border-color: green;" >
+
+						<tr>
+							<th class="thmaster" colspan="6" > Macacão Eletricista tamanho GG - 2 pçs</th>
+						</tr>
+							<th style="width: 15%;" >Local </th>
+							<th style="width: 15%;" >Disp</th>
+							<th style="width: 15%;" >Lote</th>
+							<th style="width: 15%;" >Validade</th>
+							<th style="width: 15%;" >Qtde</th>	
+							<th style="width: 5%;"  > </th>													
+						</tr>
+							<tr>
+								<td> A345 </td>
+								<td> 44 </td>
+								<td> 09674 </td>
+								<td>   </td>
+								<td> <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>	
+								<td style="text-align: center;"> <a href="/essdfdsftoque/ajusta/66666"> <span class="fas fa-times text-danger"></span> </a> </td>						
+							</tr >
+							<tr>
+								<td> U345 </td>
+								<td> 68 </td>
+								<td> 099837 </td>
+								<td>  </td>
+								<td > <input type="text" name="" value="" class="p-0 m-0" style="width: 100%;" />  </td>	
+								<td style="text-align: center;"> <a href="/sidsfdsf/ajusta/6666"> <span class="fas fa-times text-danger" > </span> </a> </td>		
+							</tr>			
+					</table>
+
+
+
+
 				</div><!--fim da listagem de locais-->
 			</div>
-		</fieldset>
 
+			<div class="form-row mt-2">
+				<div class="col-12 d-flex justify-content-around" id="">
+	    			<button type="button" class="btn btn-lg btn-success" ><i class="fas fa-check  mr-2"></i>Finalizar</button>
+					<button type="button" class="btn btn-lg btn-success" onclick="window.location.href='/saida';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
+				</div>
+			</div>
 	</form>
 
 <!---
@@ -122,74 +147,6 @@
 -->
 
 </div>
-
-
-
-
-	<form class="mt-2">
-		<fieldset class="border shadow-sm p-3">
-		<legend>Saída:</legend>
-			<div class="form-row">
-				<div class="col-md-12" style="height: 200px; overflow-y: scroll;" ><!--inicio da listagem de materiais-->
-
-					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
-						<tr >
-							<th class="thmaster" colspan="4" >Requisitado</th>
-							<th class="thmaster" colspan="3" >Local de Origem</th>
-						</tr>
-						<tr>
-							<th style="" >Material</th>
-							<th style="" >Tipo</th>
-							<th style="" >Qtde Req.</th>
-							<th style="" >Unid.</th>
-							<th style="" >Local / Disp.</th>
-							<th style="width: 10%;" >Qtde</th>													
-							<th style="" > </th>
-						</tr>
-						<tr>
-							<td style="text-align: left;" > Parafuso Allen sem Cabeça M12x25</td>
-							<td> Insumos </td>
-							<td> 44 </td>
-							<td> pçs </td>
-							<td> A345 / 45 </td>
-							<td> 44 </td>
-							<td> <a href=""> <span class="fas fa-level-up-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;" > Porca Sext. DIN 916 M12x25</td>
-							<td> Insumos </td>
-							<td> 50 </td>
-							<td> pçs </td>
-							<td> A345 / 45 </td>
-							<td > 30 </td>
-							<td> <a href=""> <span class="fas fa-level-up-alt"> </span> </a> </td>
-						</tr>
-						<tr>
-							<td style="text-align: left;" > Porca Sext. DIN 916 M12x25</td>
-							<td> Insumos </td>
-							<td> 50 </td>
-							<td> pçs </td>
-							<td> A345 / 45 </td>
-							<td > 20 </td>
-							<td> <a href=""> <span class="fas fa-level-up-alt"> </span> </a> </td>
-						</tr>
-					</table>
-
-				</div><!--fim da listagem de locais-->
-			</div>
-
-
-
-
-			<div class="form-row mt-2">
-				<div class="col-12 d-flex justify-content-around" id="">
-	    			<button type="button" class="btn btn-lg btn-success" ><i class="fas fa-check  mr-2"></i>Finalizar</button>
-					<button type="button" class="btn btn-lg btn-success" onclick="window.location.href='/saida';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
-				</div>
-			</div>
-		</fieldset>
-	</form>
-
 
 
 	
