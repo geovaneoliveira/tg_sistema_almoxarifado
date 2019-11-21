@@ -13,16 +13,16 @@
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
-          <label for="">Reponsável</label>
+          <label for="">Responsável</label>
           <input type="text" class="form-control" id="" value="Geovane Viana" readonly />
         </div>
 
         <div class="col-sm-12 col-md-3 form-group">
             <label for=""> Data de Início</label>
             <div class="input-group">
-              <input type="date" class="form-control" id="" value="2019-11-09" readonly />   
-            </div>            
-        </div>  
+              <input type="date" class="form-control" id="" value="2019-11-09" readonly />
+            </div>
+        </div>
 
           <div class="col-sm-6 col-md-3  form-group">
             <label for="cod_tipo">Local</label>
@@ -59,11 +59,11 @@
             <input type="text" class="form-control" id="" placeholder="parte núm. lote">
           </div>
 
-   
 
 
 
-              
+
+
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
 
@@ -78,11 +78,11 @@
           <tr>
             <th>Material </th>
             <th>Lote </th>
-            <th>Local</th>  
+            <th>Local</th>
             <th>Qtde</th>
             <th>Unid </th>
             <th>Contador</th>
-            <th>Qtde</th>     
+            <th>Qtde</th>
           </tr>
 
           <tr>
@@ -129,14 +129,14 @@
 
     <div class="row mt-4">
       <div class="col-12 d-flex justify-content-around" id="">
-        
+
         <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
         <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
       </div>
     </div>
 
 
-  
+
 </div>
 
 
