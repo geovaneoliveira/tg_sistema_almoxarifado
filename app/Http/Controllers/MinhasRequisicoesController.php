@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use Request;
 use App\Requisicao;
+use App\Tipo;
+use App\MaterialRequisitado;
 
 class MinhasRequisicoesController extends Controller
 {
@@ -21,14 +23,43 @@ class MinhasRequisicoesController extends Controller
 	}
 
     public function exibeDetalhes() {
-        return view('requisicao-detalhes')->with('view', $this->view);
+        $cod_requisicao = Request::route('cod_requisicao');
+        $requisicao = Requisicao::find($cod_requisicao);
+        return view('requisicao-detalhes')
+                        ->with('view', $this->view)
+                        ->with('requisicao', $requisicao);
     }
 
     public function edita() {
-        return view('requisicao')->with('view', $this->view)->with('operacao', 'edita');
+        $cod_requisicao = Request::route('cod_requisicao');
+        $requisicao = Requisicao::find($cod_requisicao);
+        return view('requisicao')
+                                ->with('view', $this->view)
+                                ->with('tipos', Tipo::all())
+                                ->with('requisicao', $requisicao)
+                                ->with('operacao', 'edita');
     }
 
     public function remove() {
+        $cod_requisicao = Request::route('cod_requisicao');
+        $status = '';
+        try {            
+            $requisicao = Requisicao::find($cod_requisicao);
+            if ($requisicao->situacao == 'Aberta') {
+                foreach ($requisicao->materiaisRequisitados as $mt) {
+                    $mt->delete();
+                }
+                $requisicao->delete();
+                $status = 'excluido';
+            }
+        } catch (\Exception $e) {
+            $status = 'naoExcluido';
+            
+        }
+            return view('minhas-requisicoes')
+                    ->with('view', $this->view)
+                    ->with('status', $status);
+
     }
 
 
@@ -54,7 +85,7 @@ class MinhasRequisicoesController extends Controller
         }
 
         if ($data_req_final) {
-            $requisicoes->whereDate('data_req', '<=', $data_req_inicial);
+            $requisicoes->whereDate('data_req', '<=', $data_req_final);
         }
 
         if ($data_atend_inicial) {
@@ -72,6 +103,18 @@ class MinhasRequisicoesController extends Controller
                 ->with('requisicoes', $requisicoes);
 
     }
+
+
+
+
+    public function localizaMateriaisRequisitados () {
+        $cod_requisicao = Request::route('cod_requisicao');
+        $materiaisRequisitados = MaterialRequisitado::listarMateriaisRequisitadosOnde($cod_requisicao);
+        return response()->json( $materiaisRequisitados );        
+    }
+
+
+
 
 
 }

@@ -24,7 +24,7 @@ class Requisicao extends Model
 	}
 
 	public function materiaisRequisitados() {
-		return $this->hasMany('App\materiaisRequisitados', 'cod_requisicao');
+		return $this->hasMany('App\MaterialRequisitado', 'cod_requisicao');
 	}
 
 	public function get_data_req_formatada() {
@@ -41,9 +41,5 @@ class Requisicao extends Model
 		}else{
 			return "";
 		}		
-	}
-
-	public static function listarRequisicoesOnde($cod_requisicao ) {
-
 	}
 }

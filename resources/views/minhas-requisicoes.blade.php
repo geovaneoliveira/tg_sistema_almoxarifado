@@ -78,12 +78,28 @@
       </div><!--fim da listagem de locais-->
     </div>
 
+      <div>       
+        @isset($status)
+            @if($status=='excluido')
+              <div class="alert alert-success" role="alert">
+                Exclusão realizada com sucesso.
+            </div>
+          @else if($status=='naoExcluido')
+              <div class="alert alert-danger" role="alert">
+                Exclusão não pode ser realizada.
+            </div>
+          @endif
+        @endisset
+      </div>
+
+
+
 
   <div class="form-row">
     <div class="col d-flex justify-content-around mt-3" id="secao-botoes">
-        <button type="button" class="btn btn-lg btn-success" onclick="window.location.href='/requisicao';" > <i class="fas fa-plus ml-1"></i>Nova</button>
-        <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-search"></i>Localizar</button>
-        <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>
+        <button type="button" class="btn btn-lg btn-success col-3" onclick="window.location.href='/requisicao';" > <i class="fas fa-plus ml-1"></i>Nova</button>
+        <button type="submit" class="btn btn-lg btn-success col-3"><i class="fas fa-search"></i>Localizar</button>
+        <button type="reset" class="btn btn-lg btn-success col-3"><i class="fas fa-broom"></i>Limpar</button>
     </div>
   </div>
 

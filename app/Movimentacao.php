@@ -9,7 +9,7 @@ class Movimentacao extends Model
 {
     protected $table = 'Movimentacao';
     public $timestamps = true;
-    protected $fillable = array('cod_material', 'qtde_movimentada', 'tipo_movimentacao','estoque_id', 'cod_usuario');
+    protected $fillable = array('cod_material', 'qtde_movimentada', 'tipo_movimentacao','estoque_id', 'cod_usuario', 'cod_requisicao');
     protected $primaryKey = 'cod_movimentacao';
 
     const CREATED_AT = 'data_mov';

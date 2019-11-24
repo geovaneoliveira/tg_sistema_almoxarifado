@@ -66,18 +66,20 @@ Route::get('/estoque/remove/{id}', 'EstoqueController@remove');
 
 Route::get('/requisicao', 'RequisicaoController@abreForm');
 Route::get('/requisicao/localizaEstocados/{json}', 'RequisicaoController@localizaEstocados');
-Route::get('/requisicao/requisita/{json}', 'RequisicaoController@requisita');
+Route::get('/requisicao/requisita/{cod_requisicao}/{jsonMateriais}', 'RequisicaoController@requisita');
 
 Route::get('/minhas-requisicoes', 'MinhasRequisicoesController@abreForm');
-Route::get('/minhas-requisicoes/edita/{id}', 'MinhasRequisicoesController@edita');
-Route::get('/minhas-requisicoes/remove/{id}', 'MinhasRequisicoesController@remove');
-Route::get('/minhas-requisicoes/exibeDetalhes/{id}', 'MinhasRequisicoesController@exibeDetalhes');
+Route::get('/minhas-requisicoes/edita/{cod_requisicao}', 'MinhasRequisicoesController@edita');
+Route::get('/minhas-requisicoes/remove/{cod_requisicao}', 'MinhasRequisicoesController@remove');
+Route::get('/minhas-requisicoes/exibeDetalhes/{cod_requisicao}', 'MinhasRequisicoesController@exibeDetalhes');
 Route::post('/minhas-requisicoes/localiza', 'MinhasRequisicoesController@localiza');
+Route::get('/minhas-requisicoes/localizaMateriaisRequisitados/{cod_requisicao}', 'MinhasRequisicoesController@localizaMateriaisRequisitados');
 
 Route::get('/saida', 'SaidaController@abreForm');
-Route::get('/saida/exibeDetalhes/{id}', 'SaidaController@exibeDetalhes');
-Route::get('/saida/nega/{id}', 'SaidaController@nega');
-Route::get('/saida/atende/{id}', 'SaidaController@atende');
+Route::post('/saida/localiza', 'SaidaController@localiza');
+Route::get('/saida/exibeDetalhes/{cod_requisicao}', 'SaidaController@exibeDetalhes');
+Route::get('/saida/nega/{cod_requisicao}', 'SaidaController@nega');
+Route::get('/saida/atende/{cod_requisicao}', 'SaidaController@atende');
 
 Route::get('/adm-inventarios', 'AdmInventariosController@abreForm');
 Route::get('/adm-inventarios/analisa', 'AdmInventariosController@abreFormAnalisa');

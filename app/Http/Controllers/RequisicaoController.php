@@ -36,20 +36,30 @@ class RequisicaoController extends Controller
 
 
     public function requisita() {
-        $myJson = Request::route('json');
-        $materiaisRequisitados = json_decode($myJson);
+        $cod_requisicao = Request::route('cod_requisicao');
+        if ($cod_requisicao > 0) {
+            $requisicao = Requisicao::find($cod_requisicao);
+            foreach ($requisicao->materiaisRequisitados as $mr) {
+                $mr->delete();
+            }
 
-        if( count($materiaisRequisitados) > 0 ) {
+        } else {
             $requisicao = new Requisicao();
             $requisicao->cod_usuario = \Auth::user()->id;
             $requisicao->situacao = "Aberta";
             $requisicao->save();
+        }
 
+
+        $jsonMateriais = Request::route('jsonMateriais');
+        $materiaisRequisitados = json_decode($jsonMateriais);
+
+        if( count($materiaisRequisitados) > 0 ) {
             foreach ($materiaisRequisitados as $m) {
                 $materialRequisitado = new MaterialRequisitado();
                 $materialRequisitado->cod_requisicao = $requisicao->cod_requisicao;
                 $materialRequisitado->cod_material = $m->cod_material;
-                $materialRequisitado->quantidade_req = $m->quantidade;
+                $materialRequisitado->quantidade_req = $m->quantidade_req;
                 $materialRequisitado->save();
             }
 
@@ -57,11 +67,16 @@ class RequisicaoController extends Controller
 
         }
 
-        return 'ERRO ao tentar salvar Requisição.';
 
+
+
+        return 'ERRO ao tentar salvar Requisição.';
     }
 
-    
+
+
+
+  
 
 
 }

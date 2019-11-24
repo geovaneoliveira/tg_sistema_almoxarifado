@@ -58,7 +58,7 @@
 
 	<form class="mt-4">
 		<fieldset class="border shadow-sm p-3">
-		<legend>Requição: <strong>Nova</strong> </legend>
+		<legend>Requição: <strong id="legend_num_req_id">Nova</strong> </legend>
 			<div class="form-row">
 				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" >
 					<table class="table table-sm table-bordered table-hover " style="text-align: center;">
@@ -78,20 +78,18 @@
 			</div>
 
 
-
-
 			<div class="form-row">
 				<div class="col-12 d-flex justify-content-around" id="">
 				@isset($operacao)
 	    			@if($operacao=='edita')
-	    				<button type="button" class="btn btn-lg btn-success" ><i class="far fa-save mr-2"></i>Salvar</button>
+	    				<button type="button" class="btn btn-lg btn-success col-3"  onclick="requisitar();"  ><i class="far fa-save mr-2"></i>Salvar</button>
 					@endif
 
 					@if($operacao=='abreForm')
-	    				<button id="btn_requisitar" type="button" class="btn btn-lg btn-success" onclick="requisitar();" disabled><i class="fas fa-check  mr-2"></i>Requisitar</button>
+	    				<button id="btn_requisitar" type="button" class="btn btn-lg btn-success col-3" onclick="requisitar();" disabled><i class="fas fa-check  mr-2"></i>Requisitar</button>
 					@endif
 				@endisset
-				<button type="button" class="btn btn-lg btn-success" onclick="window.location.href='/requisicao';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
+				<button type="button" class="btn btn-lg btn-success col-3" onclick="window.location.href='/requisicao';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
 				</div>
 			</div>
 		</fieldset>
@@ -111,26 +109,50 @@
         </button>
       </div>
       <div class="modal-body" id='id_Modal_msg'>
-        <h6> Sua requisição foi realizada com sucesso.
-        	<br>Ao retirar seus materiais poderá ser necessário informar o número da sua requisição. Anote: </h6> 
-        <h4>Número: <span id='id_codRequisicaoModal'>ERRO</span></h4>
-
+      	@isset($operacao) @if($operacao=='edita')
+	        <h6> Sua requisição foi salva com sucesso.     
+        @else
+        	<h6> Sua requisição foi realizada com sucesso.
+        @endif @endisset 
+        	<br>Ao retirar seus materiais poderá ser necessário informar o número da sua requisição. Anote: </h6>
+         	<h4>Número: <span id='id_codRequisicaoModal'>ERRO</span></h4>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' onclick="window.location.href='/requisicao';">Fechar</button>
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' onclick='window.location.reload();'>Fechar</button>
       </div>
     </div>
   </div>
 </div>
 
 
-
-
-
 @push('scripts')
    	<script>
-
    		var arrayMateriaisRequisicao = [];
+   		var cod_requisicao = 0;
+
+   		@isset($operacao) @if($operacao=='edita')
+		   		cod_requisicao = "{{$requisicao->cod_requisicao}}";
+		   		document.getElementById('legend_num_req_id').innerHTML = "{{$requisicao->cod_requisicao}}";
+		   		//document.getElementById('id_btn_close_modal').onclick = "window.location.href='/minhas-requisicoes';";
+
+		        var xhttp = new XMLHttpRequest();
+		        xhttp.onreadystatechange = function() {
+		        	if (this.readyState == 4 && this.status == 200) {
+			          	var materiaisRequisitados = JSON.parse(this.responseText);
+			          	for (m in materiaisRequisitados ) {
+			          		arrayMateriaisRequisicao.push(materiaisRequisitados[m]);
+		        			atualizaLista();
+			          	};  
+			          	
+		          	}
+		        };
+		        xhttp.open("GET", "/minhas-requisicoes/localizaMateriaisRequisitados/" + cod_requisicao , true);
+		        xhttp.send();
+	   	@endif @endisset   
+
+
+
+
 
     	function localizarEstocados() {
 	      	var meuObj = new Object();
@@ -170,7 +192,7 @@
     
 	    function add( objMaterialRec ) {
 	    	const objMaterial = Object.assign({}, objMaterialRec);
-	    	delete objMaterial.total;
+	    	//delete objMaterial.total; 
 	    	
 	    	//antes de adicionar no array, verificar se o material já não está lá!
 	    	var matRepetido = false;
@@ -183,7 +205,7 @@
 	    	});
 
 	    	if (matRepetido == false) {
-	    		objMaterial.quantidade = 1;
+	    		objMaterial.quantidade_req = 1;
 	    		arrayMateriaisRequisicao.push(objMaterial);
 	    	}
 	   	}
@@ -200,13 +222,13 @@
 	      		linha.insertCell(1).innerHTML = arrayMateriaisRequisicao[m].nome_tipo;
 	      		let input = document.createElement('input');
 	      		input.type = 'text';
-	      		input.value = arrayMateriaisRequisicao[m].quantidade;
+	      		input.value = arrayMateriaisRequisicao[m].quantidade_req;
 	      		input.id = 'input_quantidade_id_' + m;
 	      		input.placeholder = 'digite qtde...';
 	      		input.onkeyup = function() {
 	      			let id = this.id.replace('input_quantidade_id_', '');
 	      			if( ! isNaN(input.value) ) {
-	      				arrayMateriaisRequisicao[id].quantidade = input.value;
+	      				arrayMateriaisRequisicao[id].quantidade_req = input.value;
 	      				input.className = '';
 	      			}else{
 	      				input.className = 'bg-danger';
@@ -227,12 +249,16 @@
 	      		linha.insertCell(4).append(btnRemove);
 	   		}
 
-	   		if (arrayMateriaisRequisicao.length > 0) {
-	   			document.getElementById('btn_requisitar').disabled = false;
+	   		if(document.getElementById('btn_requisitar')){
+	   			if (arrayMateriaisRequisicao.length > 0) {
+	   				document.getElementById('btn_requisitar').disabled = false;
+		   		}
+		   		else{
+		   			document.getElementById('btn_requisitar').disabled = true;
+		   		}
+
 	   		}
-	   		else{
-	   			document.getElementById('btn_requisitar').disabled = true;
-	   		}
+	   		
 	   	}
 
 
@@ -246,7 +272,7 @@
 
 
 	   	function requisitar() {
-	   		var requisicaoJSON = JSON.stringify(arrayMateriaisRequisicao);
+	   		var jsonMateriais = JSON.stringify(arrayMateriaisRequisicao);
 
 	   		var xhttp = new XMLHttpRequest();
 
@@ -264,11 +290,10 @@
 	          	}
 	        };
 
-	        xhttp.open("GET", "/requisicao/requisita/" + requisicaoJSON , true);
+	        xhttp.open("GET", "/requisicao/requisita/" + cod_requisicao + "/" + jsonMateriais , true);
 	        xhttp.send();
 
 	   	}
-
 
 
 	</script>

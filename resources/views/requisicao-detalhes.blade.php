@@ -10,30 +10,30 @@
 
 		<div class="col-md-4 form-group">
           <label for="">Número Requição </label>
-          <input type="text" value="859847" class="form-control" id="" readonly />
+          <input type="text" value="{{ $requisicao->cod_requisicao }}" class="form-control" readonly />
         </div>
 
 		<div class="col-md-8 form-group">
           <label for="">Nome do Requisitante</label>
-          <input type="text" value="Girafales Valdez" class="form-control" id="" readonly />
+          <input type="text" value="{{ $requisicao->user->name }}" class="form-control" readonly />
         </div>
 
         <div class="col-md-4 form-group">
           <label for="">Situacão</label>
-          <input type="text" value="Finalizada" class="form-control" id="" readonly />
+          <input type="text" value="{{ $requisicao->situacao }}" class="form-control" readonly />
         </div>
 
         <div class="col-md-4 form-group" readonly>
             <label for="">Data de Requisição</label>
             <div class="input-group" readonly>
-              <input type="date" value="2019-10-25" class="form-control" id="" readonly> 
+              <input type="text" value="{{ $requisicao->get_data_req_formatada() }}" class="form-control" readonly> 
             </div>            
         </div>  
 
         <div class="col-md-4 form-group">
             <label for="">Data de Finalização</label>
             <div class="input-group">           
-              <input type="date" value="2019-10-25" class="form-control" id=""readonly >
+              <input type="text" value="{{ $requisicao->get_data_atend_formatada() }}"class="form-control" readonly >
             </div>            
         </div>                       
 
@@ -55,20 +55,15 @@
 					</thead>
 
   					<tbody>
-					<tr scope="row">
-						<td style="text-align: left;" > Camiseta Branca tam. M</td>
-						<td > EPI </td>
-						<td > 2 </td>
-						<td > 2 </td>
-						<td > pçs </td>
-					</tr>
-					<tr scope="row">
-						<td style="text-align: left;"> Calça Uniforme Eletricista tam. 44</td>
-						<td > EPI </td>
-						<td > 2  </td>
-						<td > 2  </td>
-						<td > pçs </td>
-					</tr>
+  						@foreach ($requisicao->materiaisRequisitados as $mr)
+  							<tr scope="row">
+								<td style="text-align: left;" > {{$mr->material->nome_material}}</td>
+								<td                           > {{$mr->material->tipo->nome_tipo}}</td>
+								<td                           > {{$mr->quantidade_req}} </td>
+								<td                           > {{$mr->calcQtdeAtend()}} </td>
+								<td                           > {{$mr->material->unidade->descricao_unid_medida}}  </td>
+							</tr>
+  						@endforeach
 				</tbody>	
 				</table>
 			</div><!--fim da listagem de locais-->
