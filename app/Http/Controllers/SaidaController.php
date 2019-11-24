@@ -5,6 +5,7 @@ use Request;
 use App\Tipo;
 use App\Requisicao;
 use App\User;
+use App\Estoque;
 
 class SaidaController extends Controller
 {
@@ -12,10 +13,12 @@ class SaidaController extends Controller
         "active" => "saida"
     ];
 
+
 	public function __construct()
     {
         $this->middleware('autorizacao');
     }
+
 
     public function abreForm() {
 		return view('saida-consulta-de-requisicoes')->with('view', $this->view);
@@ -24,11 +27,7 @@ class SaidaController extends Controller
 
     public function localiza() {
         $nome_requisitante = Request::input('nome_requisitante');
-        
-       // return $requisitantes;
-
-        $cod_requisicao = Request::input('cod_requisicao');
-        
+        $cod_requisicao = Request::input('cod_requisicao');        
         $situacao = Request::input('situacao');
         $data_req_inicial = Request::input('data_req_inicial');
         $data_req_final = Request::input('data_req_final');
@@ -72,7 +71,13 @@ class SaidaController extends Controller
 
 
     public function atende() {
-        return view('saida-atender-requisicao')->with('view', $this->view);
+        $cod_requisicao = Request::route('cod_requisicao');
+        $requisicao = Requisicao::find($cod_requisicao);
+
+        return view('saida-atender-requisicao')
+                    ->with('view', $this->view)
+                    ->with('requisicao', $requisicao)
+                    ;
     }
 
 
@@ -95,7 +100,6 @@ class SaidaController extends Controller
     }
 
 
-
     public function exibeDetalhes() {
         $cod_requisicao = Request::route('cod_requisicao');
         $requisicao = Requisicao::find($cod_requisicao);
@@ -103,13 +107,5 @@ class SaidaController extends Controller
                         ->with('view', $this->view)
                         ->with('requisicao', $requisicao);
     }
-
-
-
-
-
-
-
-
 
 }

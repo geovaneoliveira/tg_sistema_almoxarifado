@@ -54,8 +54,17 @@ class Estoque extends Model
 	}
 
 
+	public function get_data_atend_formatada() { //usa no formulario de saida de material, linhas de tabele e inputs text
+		if($this->data_validade != null){
+			return date('d/m/Y', strtotime($this->data_validade));
+		}else{
+			return "";
+		}		
+	}
 
-	public function getDataValidadeForm(){
+
+
+	public function getDataValidadeForm(){ //usa no formulario de estoque, input date
 		if($this->data_validade != null){
 			return date('Y-m-d', strtotime($this->data_validade));
 		}else{
