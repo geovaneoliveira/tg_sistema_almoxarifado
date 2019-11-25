@@ -60,7 +60,7 @@
                 <label class="form-check-label" for="defaultCheck1">
                   Não avaliados
                 </label>
-              </div>            
+              </div>
             </fieldset>
           </div>
 
@@ -74,15 +74,15 @@
             <input type="text" class="form-control" id="" placeholder="parte núm. lote">
           </div>
 
-   
+
           <div class="form-group col-sm-6 col-md-4 " >
                   <button type="submit" class="btn btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
           </div>
-        
 
 
 
-              
+
+
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
 
@@ -94,12 +94,12 @@
             <th>Est.</th>
             <th>Material </th>
             <th>Lote </th>
-            <th>Local</th>  
+            <th>Local</th>
             <th>Qtde </th>
             <th>Unid </th>
             <th>Contador </th>
             <th>Qtde </th>
-            <th > <i class="fas fa-check-double " > </th>       
+            <th > <i class="fas fa-check-double " > </th>
           </tr>
 
 
@@ -116,17 +116,17 @@
           <tr>
               <td> Gustavo da Silva </td>
               <td> 131 </td>
-              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
           <tr>
             <td> Mariana Teixeira </td>
              <td> 132 </td>
-            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
           <tr>
             <td> Leticia Gonçaves</td>
             <td> 132 </td>
-            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
 
 
@@ -143,12 +143,12 @@
           <tr>
               <td> Gustavo da Silva </td>
               <td> 157 </td>
-              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
           <tr>
             <td> Mariana Teixeira </td>
              <td> 156 </td>
-            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
 
 
@@ -165,12 +165,12 @@
           <tr>
               <td> Girafales Veldez </td>
               <td> 167 </td>
-              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+              <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
           <tr>
             <td> Chespirito de Oliveira </td>
              <td> 168 </td>
-            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
           </tr>
 
 
@@ -196,7 +196,7 @@
     </div>
 
 
-  
+
 </div>
 
 

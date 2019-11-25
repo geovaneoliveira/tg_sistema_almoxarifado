@@ -9,18 +9,18 @@
 
        <div class="col-sm-12 col-md-2 form-group">
           <label for="">Inventário Ativo</label>
-          <input type="text" class="form-control" id="" value="234" readonly />
+          <input type="text" class="form-control" id="" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-5 form-group">
-          <label for="">Reponsável</label>
-          <input type="text" class="form-control" id="" value="Geovane Viana" readonly />
+          <label for="">Responsável</label>
+          <input type="text" class="form-control" id="" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-5 form-group">
           <label for="">Contador</label>
-          <input type="text" class="form-control" id="" value="Denilce Montovani" readonly />
-        </div> 
+          <input type="text" class="form-control" id="" value="" readonly />
+        </div>
 
           <div class="col-sm-6 col-md-3  form-group">
             <label for="cod_tipo">Local</label>
@@ -71,11 +71,11 @@
           <tr>
             <th>Material </th>
             <th>Lote </th>
-            <th>Local</th>  
+            <th>Local</th>
             <th>Qtde</th>
             <th>Unid </th>
-            <th style="width: 12%;">Qtde</th>  
-            <th> </th>   
+            <th style="width: 12%;">Qtde</th>
+            <th> </th>
           </tr>
 
           <tr>
@@ -85,7 +85,7 @@
             <td > 132 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-             <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+             <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
           <tr>
@@ -95,7 +95,7 @@
             <td > 157 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
           <tr>
@@ -105,7 +105,7 @@
             <td > 168 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
                     <tr>
@@ -115,7 +115,7 @@
             <td > 168 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
 
@@ -127,7 +127,7 @@
             <td > 168 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
 
@@ -138,7 +138,7 @@
             <td > 32 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
           <tr>
@@ -148,7 +148,7 @@
             <td > 65 </td>
             <td > pçs </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td> 
+            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
           </tr>
 
         </table>
@@ -165,14 +165,14 @@
 
     <div class="row mt-4">
       <div class="col-12 d-flex justify-content-around" id="">
-        
+
         <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
         <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
       </div>
     </div>
 
 
-  
+
 </div>
 
 
