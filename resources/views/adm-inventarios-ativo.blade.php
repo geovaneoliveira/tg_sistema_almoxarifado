@@ -11,18 +11,18 @@
 
         <div class="col-sm-12 col-md-3 form-group">
           <label for="">Cód.</label>
-          <input type="text" class="form-control" id="" value="234" readonly />
+          <input type="text" class="form-control" id="" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="">Responsável</label>
-          <input type="text" class="form-control" id="" value="Geovane Viana" readonly />
+          <input type="text" class="form-control" id="" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-3 form-group">
             <label for=""> Data de Início</label>
             <div class="input-group">
-              <input type="date" class="form-control" id="" value="2019-11-09" readonly />
+              <input type="date" class="form-control" id="" value="" readonly />
             </div>
         </div>
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />

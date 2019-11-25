@@ -49,6 +49,7 @@
           <div class="col-sm-6 col-md-4 form-group ">
             <fieldset class="border p-2">
               <legend class=" m-0 p-0" style="font-size: 1em;">Situação</legend>
+
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                 <label class="form-check-label" for="defaultCheck1">
@@ -56,7 +57,7 @@
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
                 <label class="form-check-label" for="defaultCheck1">
                   Não avaliados
                 </label>
