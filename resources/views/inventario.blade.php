@@ -27,9 +27,9 @@
             <div class="input-group">
               <select class="form-control" id="" name="">
                 <option value=""> Todos </option>
-                <option value="1"> D284 </option>
-                <option value="2"> U896 </option>
-                <option value="3"> P593 </option>
+            @foreach($locais as $l)
+            <option value="{{$l->cod_local}}">{{$l->nome_local}}</option>
+            @endforeach
               </select>
             </div>
           </div>
@@ -40,9 +40,9 @@
             <div class="input-group">
               <select class="form-control" id="" name="">
                 <option value=""> Todas </option>
-                <option value="1"> Lubrificantes </option>
-                <option value="2"> EPIs </option>
-                <option value="3"> Escritório </option>
+                @foreach($tipos as $c)
+                <option value="{{$c->cod_tipo}}">{{$c->nome_tipo}}</option>
+                @endforeach
               </select>
             </div>
           </div>
@@ -77,79 +77,22 @@
             <th style="width: 12%;">Qtde</th>
             <th> </th>
           </tr>
-
+          @foreach ($estocados as $e)
           <tr>
-            <td > Porca Sextavada M8 DIN 934 </td>
-            <td > 256762 </td>
-            <td > A673 </td>
-            <td > 132 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-             <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
-
-          <tr>
-            <td > Parafuso Allen Cabeça baixa M8 DIN 912 </td>
-            <td > 789762 </td>
-            <td > A673 </td>
-            <td > 157 </td>
-            <td > pçs </td>
+            <td                            > {{$e->nome_material}} </td>
+            <td                            > {{$e->lote }} </td>
+            <td                            > {{$e->nome_local }} </td>
+            <td                            > {{$e->quantidade }} </td>
+            <td                            > {{$e->quantidade }} </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
             <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
+        </tr>
 
-          <tr>
-            <td > Parafuso Allen M10 DIN 912 </td>
-            <td > 565762 </td>
-            <td > A673 </td>
-            <td > 168 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
 
-                    <tr>
-            <td > Parafuso Allen M12 DIN 912 </td>
-            <td > 78976087 </td>
-            <td > A673 </td>
-            <td > 168 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
+          @endforeach
 
 
 
-          <tr>
-            <td > Camiseta Branca Uniforme tam GG </td>
-            <td > 54795 </td>
-            <td > A765 </td>
-            <td > 168 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
-
-
-          <tr>
-            <td > Porta Ferramenta AWS para Torno CNC </td>
-            <td > 867236 </td>
-            <td > A673 </td>
-            <td > 32 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
-
-          <tr>
-            <td > Óleo Mineral 15W50 </td>
-            <td > 678854 </td>
-            <td > A673 </td>
-            <td > 65 </td>
-            <td > pçs </td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
-          </tr>
 
         </table>
       </div><!--fim da listagem de locais-->
