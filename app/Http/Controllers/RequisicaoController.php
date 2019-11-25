@@ -50,7 +50,6 @@ class RequisicaoController extends Controller
             $requisicao->save();
         }
 
-
         $jsonMateriais = Request::route('jsonMateriais');
         $materiaisRequisitados = json_decode($jsonMateriais);
 
@@ -62,20 +61,11 @@ class RequisicaoController extends Controller
                 $materialRequisitado->quantidade_req = $m->quantidade_req;
                 $materialRequisitado->save();
             }
-
             return $requisicao->cod_requisicao;
-
         }
-
-
-
 
         return 'ERRO ao tentar salvar Requisição.';
     }
-
-
-
-
   
 
 

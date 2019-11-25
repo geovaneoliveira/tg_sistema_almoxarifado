@@ -108,4 +108,20 @@ class SaidaController extends Controller
                         ->with('requisicao', $requisicao);
     }
 
+
+    public function localizaMateriaisRequisitadosComEstoques() {
+        $cod_requisicao = Request::route('cod_requisicao');
+        $requisicao = Requisicao::find($cod_requisicao);
+
+        foreach ($requisicao->materiaisRequisitados as $m) {
+            $m->material->unidade;
+            foreach ($m->material->estoques as $e) {
+                $e->local;
+                $e->get_data_atend_formatada = $e->get_data_atend_formatada();
+            }
+        }
+  
+        return response()->json($requisicao->materiaisRequisitados);
+    }
+
 }

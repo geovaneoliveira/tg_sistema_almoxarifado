@@ -80,6 +80,7 @@ Route::post('/saida/localiza', 'SaidaController@localiza');
 Route::get('/saida/exibeDetalhes/{cod_requisicao}', 'SaidaController@exibeDetalhes');
 Route::get('/saida/nega/{cod_requisicao}', 'SaidaController@nega');
 Route::get('/saida/atende/{cod_requisicao}', 'SaidaController@atende');
+Route::get('/saida/localizaMateriaisRequisitadosComEstoques/{cod_requisicao}', 'SaidaController@localizaMateriaisRequisitadosComEstoques');
 
 Route::get('/adm-inventarios', 'AdmInventariosController@abreForm');
 Route::get('/adm-inventarios/analisa', 'AdmInventariosController@abreFormAnalisa');

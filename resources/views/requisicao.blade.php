@@ -133,7 +133,6 @@
    		@isset($operacao) @if($operacao=='edita')
 		   		cod_requisicao = "{{$requisicao->cod_requisicao}}";
 		   		document.getElementById('legend_num_req_id').innerHTML = "{{$requisicao->cod_requisicao}}";
-		   		//document.getElementById('id_btn_close_modal').onclick = "window.location.href='/minhas-requisicoes';";
 
 		        var xhttp = new XMLHttpRequest();
 		        xhttp.onreadystatechange = function() {

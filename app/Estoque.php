@@ -2,6 +2,7 @@
 
 namespace App;
 use App\Material;
+use App\Local;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +13,7 @@ class Estoque extends Model
     protected $fillable = array('cod_material', 'cod_local', 'lote', 'quantidade','data_validade');
     protected $primaryKey = 'id';
 
-     public function local(){
+     public function local() {
 		return $this->belongsTo('App\Local', 'cod_local');
 	}
 
