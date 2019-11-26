@@ -22,20 +22,38 @@ class MovimentacoesController extends Controller
 
 
     public function abreForm() {
-        return view('movimentacoes')->with('view', $this->view)->with('tipos', Tipo::all())->with('locais', Local::all());
+
+        $movimentados = Movimentacao::listarMovimentacao();
+
+        return view('movimentacoes')
+               ->with('view', $this->view)
+                ->with('tipos', Tipo::all())
+                ->with('locais', Local::all())
+                 ->with('movimentados', $movimentados);
     }
 
 
     public function localiza(){
         $this->view["active"] = "movimentacoes";
-        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov, $qtde_movimentada, $cod_usuario, $cod_requisicao);
+
+        $nome_material = Request::input('nome_material');
+        $lote = Request::input('lote');
+        $tipo_movimentacao = Request::input('tipo_movimentacao');
+        $cod_local = Request::input('cod_local');
+        $data_mov = Request::input('data_mov');
+        $qtde_movimentada = Request::input('qtde_movimentada');
+        $cod_usuario  = Request::input('cod_usuario');
+        $cod_requisicao = Request::input('cod_requisicao');
+
+      $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov, $qtde_movimentada, $cod_usuario, $cod_requisicao);
+
         return view('movimentacoes')
                 ->with('view', $this->view)
                 ->with('tipos', Tipo::all())
                 ->with('locais', Local::all())
                 ->with('movimentados', $movimentados);
     }
-    
+
 
 
 }

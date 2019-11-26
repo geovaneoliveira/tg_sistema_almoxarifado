@@ -58,10 +58,10 @@
 
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                <label class="form-check-label" for="defaultCheck1">
-                  Não avaliados
-                </label>
+                <label class="form-check-label" for="defaultCheck2">
+                  Não Avaliados
               </div>
+
             </fieldset>
           </div>
 

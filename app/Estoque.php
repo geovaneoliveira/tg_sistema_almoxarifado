@@ -30,11 +30,12 @@ class Estoque extends Model
 	public static function listarEstocadosOnde($nome_material='', $cod_tipo='', $lote='', $cod_local='') {
 		$stmt = DB::table('Estoque')
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
-            ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local');
+			->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
+			->join('Unidade_medida', 'Material.cod_unid_medida', '=', 'Unidade_medida.cod_unid_medida');
 
         if ($nome_material) {
 			$stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
-		}            
+		}
 
         if ($lote) {
 			$stmt->where('Estoque.lote', 'like', '%' . $lote . '%');
@@ -46,10 +47,11 @@ class Estoque extends Model
 
 		if ($cod_local) {
 			$stmt->where('Estoque.cod_local', $cod_local);
-		}
-		
-		$listaEstocados = $stmt->select('Estoque.*', 'Material.nome_material', 'Locais.nome_local')->get();
-		
+        }
+
+
+		$listaEstocados = $stmt->select('Estoque.*', 'Material.nome_material', 'Locais.nome_local', 'Unidade_medida.descricao_unid_medida')->get();
+
         return $listaEstocados;
 
 	}
@@ -60,7 +62,7 @@ class Estoque extends Model
 			return date('d/m/Y', strtotime($this->data_validade));
 		}else{
 			return "";
-		}		
+		}
 	}
 
 
@@ -71,7 +73,7 @@ class Estoque extends Model
 		}else{
 			return "";
 		}
-		
+
 	}
 
 }

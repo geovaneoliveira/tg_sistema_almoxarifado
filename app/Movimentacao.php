@@ -14,7 +14,7 @@ class Movimentacao extends Model
 
     const CREATED_AT = 'data_mov';
     const UPDATED_AT = null;
-    
+
 
     public function estoque(){
 		return $this->belongsTo('App\Estoque', 'estoque_id');
@@ -38,14 +38,14 @@ class Movimentacao extends Model
 
         if ($nome_material) {
             $stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
-        }            
+        }
 
         if ($lote) {
             $stmt->where('Estoque.lote', 'like', '%' . $lote . '%');
         }
 
         if ($tipo_movimentacao) {
-            $stmt->where('Movimentacao.tipo_movimentacao', $tipo_movimentacao);
+            $stmt->wherein('Movimentacao.tipo_movimentacao', $tipo_movimentacao);
         }
 
         if ($cod_local) {
@@ -64,10 +64,10 @@ class Movimentacao extends Model
             $stmt->where('Users.id', $cod_usuario);
         }
 
-        
+
         $listaEstocados = $stmt->select('Movimentacao.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Users.name')->get();
-        
-        
+
+
         $listaEstocados = $stmt->get();
         return $listaEstocados;
 
