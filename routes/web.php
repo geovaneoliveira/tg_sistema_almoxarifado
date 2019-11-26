@@ -90,6 +90,7 @@ Route::get('/adm-inventarios/localiza', 'AdmInventariosController@abreFormLocali
 Route::get('/adm-inventarios/exibeDetalhes/{id}', 'AdmInventariosController@exibeDetalhes');
 
 Route::get('/inventario', 'InventarioController@abreForm');
+Route::get('/inventario/localiza', 'InventarioController@localizaMateriais');
 
 Route::get('/movimentacoes', 'MovimentacoesController@abreForm');
 Route::post ('/movimentacoes/localiza', 'MovimentacoesController@localiza');

@@ -3,7 +3,7 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="">
+  <form action="/inventario/localiza" class="" method="get">
 
     <div class="form-row d-flex align-items-end">
 
@@ -25,7 +25,7 @@
           <div class="col-sm-6 col-md-3  form-group">
             <label for="cod_tipo">Local</label>
             <div class="input-group">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="cod_local" name="cod_local">
                 <option value=""> Todos </option>
             @foreach($locais as $l)
             <option value="{{$l->cod_local}}">{{$l->nome_local}}</option>
@@ -38,7 +38,7 @@
           <div class="col-sm-6 col-md-3 form-group">
             <label for="cod_tipo">Tipo</label>
             <div class="input-group">
-              <select class="form-control" id="" name="">
+              <select class="form-control" id="cod_tipo" name="cod_tipo">
                 <option value=""> Todas </option>
                 @foreach($tipos as $c)
                 <option value="{{$c->cod_tipo}}">{{$c->nome_tipo}}</option>
@@ -48,13 +48,13 @@
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
-            <label for="">Material</label>
-            <input type="text" class="form-control" id="" placeholder="parte do nome do material">
+            <label for="nome_material">Material</label>
+            <input type="text" class="form-control" id="nome_material" name="nome_material" placeholder="parte do nome do material">
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
-            <label for="">Lote</label>
-            <input type="text" class="form-control" id="" placeholder="parte núm. lote">
+            <label for="lote">Lote</label>
+            <input type="text" class="form-control" id="lote" name ="lote" placeholder="parte núm. lote">
           </div>
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -85,21 +85,16 @@
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }} </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td> <a href="/home"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
-
-
           @endforeach
-
-
-
 
         </table>
       </div><!--fim da listagem de locais-->
     </div>
 
 
-</form> <!-- fim do formulário-->
+
 
 
 
@@ -109,12 +104,12 @@
     <div class="row mt-4">
       <div class="col-12 d-flex justify-content-around" id="">
 
-        <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
+        <button type="submit" class="btn btn-lg col-md-4 btn-success" onclick=""style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
         <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
       </div>
     </div>
 
-
+</form> <!-- fim do formulário-->
 
 </div>
 

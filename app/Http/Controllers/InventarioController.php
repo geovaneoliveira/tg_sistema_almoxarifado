@@ -24,12 +24,27 @@ class InventarioController extends Controller
 
         $estocados = Estoque::listarEstocadosOnde();
 
-
-
         return view('inventario')->with('view', $this->view)
         ->with('tipos', Tipo::all())
         ->with('locais', Local::all())
         ->with('estocados', $estocados);
+    }
+
+    public function localizaMateriais(){
+
+        $nome_material = Request::input('nome_material');
+        $cod_tipo = Request::input('cod_tipo');
+        $lote = Request::input('lote');
+        $cod_local = Request::input('cod_local');
+
+        $estocados = Estoque::listarEstocadosOnde($nome_material, $cod_tipo, $lote, $cod_local);
+
+	    return view('inventario')
+		    	->with('view', $this->view)
+		      	->with('tipos', Tipo::all())
+		      	->with('locais', Local::all())
+		      	->with('estocados', $estocados);
+
     }
 
 }
