@@ -45,7 +45,7 @@ class Movimentacao extends Model
         }
 
         if ($tipo_movimentacao) {
-            $stmt->where('Movimentacao.tipo_movimentacao', $tipo_movimentacao);
+            $stmt->wherein('Movimentacao.tipo_movimentacao', $tipo_movimentacao);
         }
 
         if ($cod_local) {

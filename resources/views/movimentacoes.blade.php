@@ -24,27 +24,27 @@
               <legend class=" m-0 p-0" style="font-size: 1em;">Tipo de Movimentação</legend>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Aquisição" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <input class="form-check-input" type="checkbox" value="Aquisição" id="tipo_movimentacao" name="tipo_movimentacao[]">
                   <label class="form-check-label" for="tipo_movimentacao">
                     Aquisição
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Requisição" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <input class="form-check-input" type="checkbox" value="Requisição" id="tipo_movimentacao" name="tipo_movimentacao[]">
                   <label class="form-check-label" for="tipo_movimentacao">
                     Requisição
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Ajuste" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <input class="form-check-input" type="checkbox" value="Ajuste" id="tipo_movimentacao" name="tipo_movimentacao[]">
                   <label class="form-check-label" for="tipo_movimentacao">
                     Ajuste
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="Inventário" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <input class="form-check-input" type="checkbox" value="Inventário" id="tipo_movimentacao" name="tipo_movimentacao[]">
                   <label class="form-check-label" for="tipo_movimentacao">
                     Inventário
                   </label>
@@ -126,7 +126,7 @@
             <td                            > {{$m->data_mov }} </td>
             <td                            > {{$m->tipo_movimentacao}} </td>
             <td                            > {{$m->qtde_movimentada }} </td>
-            <td                            > {{$m->cod_usuario }} </td>
+            <td                            > {{$m->name }} </td>
             <td                            > {{$m->cod_requisicao }} </td>
         </tr>
         @endforeach
