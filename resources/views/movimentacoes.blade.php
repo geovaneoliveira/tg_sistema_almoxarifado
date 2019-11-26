@@ -124,14 +124,14 @@
         </tr>
         @foreach ($movimentados as $m)
         <tr>
-          <td                            > {{$m->nome_material}} </td>
-          <td                            > {{$m->nome_local }} </td>
-          <td                            > {{$m->lote }} </td>
-          <td                            > {{$m->data }} </td>
-          <td                            > {{$m->tipo_movimentacao}} </td>
-          <td                            > {{$m->qtde_movimentada }} </td>
-          <td                            > {{$m->name }} </td>
-          <td                            > {{$m->cod_requisicao }} </td>
+            <td                            > {{$m->nome_material}} </td>
+            <td                            > {{$m->nome_local }} </td>
+            <td                            > {{$m->lote }} </td>
+            <td                            > {{$m->data_mov }} </td>
+            <td                            > {{$m->tipo_movimentacao}} </td>
+            <td                            > {{$m->qtde_movimentada }} </td>
+            <td                            > {{$m->cod_usuario }} </td>
+            <td                            > {{$m->cod_requisicao }} </td>
         </tr>
         @endforeach
 
