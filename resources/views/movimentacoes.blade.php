@@ -24,28 +24,28 @@
               <legend class=" m-0 p-0" style="font-size: 1em;">Tipo de Movimentação</legend>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
+                  <input class="form-check-input" type="checkbox" value="Aquisição" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <label class="form-check-label" for="tipo_movimentacao">
                     Aquisição
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
+                  <input class="form-check-input" type="checkbox" value="Requisição" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <label class="form-check-label" for="tipo_movimentacao">
                     Requisição
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
+                  <input class="form-check-input" type="checkbox" value="Ajuste" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <label class="form-check-label" for="tipo_movimentacao">
                     Ajuste
                   </label>
                 </div>
 
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
+                  <input class="form-check-input" type="checkbox" value="Inventário" id="tipo_movimentacao" name="tipo_movimentacao">
+                  <label class="form-check-label" for="tipo_movimentacao">
                     Inventário
                   </label>
                 </div>
@@ -82,25 +82,21 @@
       </div>
 
         <div class="col-sm-12 col-md-6 form-group">
-            <label for=""> Período </label>
+            <label for="data_mov"> Período </label>
             <div class="input-group">
-              <input type="date" class="form-control" id="">
-              <input type="date" class="form-control" id="">
+              <input type="date" class="form-control" id="data_mov" name="data_mov">
+              <input type="date" class="form-control" id="data_mov" name="data_mov">
             </div>
         </div>
 
                 <div class="col-sm-12 col-md-6 form-group">
-            <label for=""> Responsável </label>
+            <label for="cod_usuario"> Responsável </label>
             <div class="input-group">
               <input type="text" class="form-control" name="cod_usuario" id="cod_usuario" placeholder="parte do nome do Responsável">
             </div>
         </div>
 
       </div>
-
-
-
-
 
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
