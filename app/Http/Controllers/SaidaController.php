@@ -6,6 +6,10 @@ use App\Tipo;
 use App\Requisicao;
 use App\User;
 use App\Estoque;
+use App\sMovimentacao;
+use Carbon\Carbon;
+
+
 
 class SaidaController extends Controller
 {
@@ -120,8 +124,55 @@ class SaidaController extends Controller
                 $e->get_data_atend_formatada = $e->get_data_atend_formatada();
             }
         }
-  
-        return response()->json($requisicao->materiaisRequisitados);
+        return response()->json($requisicao);
     }
+
+
+
+
+
+    public function finaliza() {
+        $jsonRequisicaoAtendidaRec = Request::getContent();
+        $requisicaoAtendidaRec = json_decode($jsonRequisicaoAtendidaRec);
+
+        //instanciar requisição, mudar situacao para finalizada, adicionar data de atendimento. Deixar para salvar soh no fim
+        $requisicaoAtendida = Requisicao::find($requisicaoAtendidaRec->cod_requisicao);
+        $requisicaoAtendida->situacao = "Finalizada";
+        $requisicaoAtendida->data_atend = Carbon::today();
+        $requisicaoAtendida->save();
+
+        //movimentações
+        foreach ($requisicaoAtendidaRec->materiaisRequisitados as $mr) {
+            foreach ($mr->material->estoques as $e) {
+                if ($e->qtdeSaida > 0) {
+                    $movimentacao = new Movimentacao();
+                    $movimentacao->qtde_movimentada = $e->qtdeSaida * (-1);
+                    $movimentacao->tipo_movimentacao = "Requisição" ;
+                    $movimentacao->estoque_id = $e->id;
+                    $movimentacao->cod_usuario = \Auth::user()->id;
+                    $movimentacao->cod_requisicao = $requisicaoAtendidaRec->cod_requisicao;
+                    $movimentacao->save();
+                }
+            }
+        }
+
+        
+
+
+        return response()->json($requisicaoAtendidaRec);
+
+ 
+    }
+
+
+
+
+
+
+            
+
+
+
+
 
 }

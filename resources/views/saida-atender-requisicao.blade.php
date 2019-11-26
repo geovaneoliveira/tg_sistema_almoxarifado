@@ -59,8 +59,8 @@
 @push('scripts')
    	<script>
 
-   		var arrayMateriaisRequisicaoOriginal = [];
-   		var arrayMateriaisRequisicao = [];
+   		var requisicaoOriginal = [];
+   		var requisicao = [];
    		var cod_requisicao = 0;
 
    		cod_requisicao = "{{$requisicao->cod_requisicao}}";
@@ -68,11 +68,14 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         	if (this.readyState == 4 && this.status == 200) {
-	          	arrayMateriaisRequisicaoOriginal = JSON.parse(this.responseText);
-	          	arrayMateriaisRequisicao = JSON.parse(this.responseText);
-	          	arrayMateriaisRequisicao.forEach(function(m){
+
+	          	requisicaoOriginal = JSON.parse(this.responseText);
+	          	console.log(requisicaoOriginal);
+	          	requisicao = JSON.parse(this.responseText);
+	          	requisicao['materiais_requisitados'].forEach(function(m){
 	          		m['material']['estoques'].forEach(function(e){
 	          				e.qtdeSaida = 0;
+	          				console.log(e);
 	          		});
 
 	          	});
@@ -85,7 +88,7 @@
 		function atualizaLista() {
 	   		var listagem = document.getElementById('lista_materias_com_estoques_id');
 	      	listagem.innerHTML = '';
-	      	for (m in arrayMateriaisRequisicao ) {
+	      	for (m in requisicao['materiais_requisitados'] ) {
 	      		var table = document.createElement("table");
 			    table.className ="table table-sm table-bordered table-hover";
 			    table.style = "text-align: center;";
@@ -97,7 +100,7 @@
 				    var th1=document.createElement("th");
 				    th1.className = 'thmaster bg-success';
 				    th1.colSpan = '4';
-				    var tituloTabela1 = document.createTextNode(arrayMateriaisRequisicao[m]['material'].nome_material );
+				    var tituloTabela1 = document.createTextNode(requisicao['materiais_requisitados'][m]['material'].nome_material );
 
 				    th1.appendChild(tituloTabela1);
 				    headRow1.appendChild(th1);  
@@ -105,8 +108,8 @@
 				   	var th2=document.createElement("th");
 				    th2.className = 'thmaster bg-success';
 				    th2.colSpan = '2';
-				    var tituloTabela2 = document.createTextNode('Requ. ' +arrayMateriaisRequisicao[m].quantidade_req  + ' '
-				    										+ arrayMateriaisRequisicao[m]['material']['unidade'].descricao_unid_medida);
+				    var tituloTabela2 = document.createTextNode('Requ. ' +requisicao['materiais_requisitados'][m].quantidade_req  + ' '
+				    										+ requisicao['materiais_requisitados'][m]['material']['unidade'].descricao_unid_medida);
 
 				    th2.appendChild(tituloTabela2);
 				    headRow1.appendChild(th2);
@@ -133,15 +136,15 @@
 	          			let id = this.id.replace('btnReset_material_id_', '');
 	      				//limpando os estocados para reiniciar
 						do
-						   arrayMateriaisRequisicao[id]['material']['estoques'].pop();
-						while (arrayMateriaisRequisicao[id]['material']['estoques'].length > 0);
+						   requisicao['materiais_requisitados'][id]['material']['estoques'].pop();
+						while (requisicao['materiais_requisitados'][id]['material']['estoques'].length > 0);
 
 						//recarregando os estocados	          			
-						arrayMateriaisRequisicaoOriginal[id]['material']['estoques'].forEach(function(e){
+						requisicaoOriginal['materiais_requisitados'][id]['material']['estoques'].forEach(function(e){
 							const estocado = Object.assign({}, e);	
 							estocado.qtdeSaida = 0;					
-							if(arrayMateriaisRequisicaoOriginal[id]['material'].cod_material == arrayMateriaisRequisicao[id]['material'].cod_material) {
-								arrayMateriaisRequisicao[id]['material']['estoques'].push(estocado);
+							if(requisicaoOriginal['materiais_requisitados'][id]['material'].cod_material == requisicao['materiais_requisitados'][id]['material'].cod_material) {
+								requisicao['materiais_requisitados'][id]['material']['estoques'].push(estocado);
 							}
 					
 			    		});
@@ -156,24 +159,24 @@
 			    thead.appendChild(headRow2);
 			    table.appendChild(thead); 
 
-				for (e in arrayMateriaisRequisicao[m]['material']['estoques']) {		
+				for (e in requisicao['materiais_requisitados'][m]['material']['estoques']) {		
 					var linha = document.createElement("tr");
-	          		linha.insertCell(0).innerHTML = arrayMateriaisRequisicao[m]['material']['estoques'][e]['local'].nome_local;
-	          		linha.insertCell(1).innerHTML = arrayMateriaisRequisicao[m]['material']['estoques'][e].lote;
-	          		linha.insertCell(2).innerHTML = arrayMateriaisRequisicao[m]['material']['estoques'][e].get_data_atend_formatada;
-	          		linha.insertCell(3).innerHTML = arrayMateriaisRequisicao[m]['material']['estoques'][e].quantidade;
+	          		linha.insertCell(0).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e]['local'].nome_local;
+	          		linha.insertCell(1).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].lote;
+	          		linha.insertCell(2).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].get_data_atend_formatada;
+	          		linha.insertCell(3).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].quantidade;
 	          		let input = document.createElement('input');
 		      		input.type = 'text';
-		      		input.value = arrayMateriaisRequisicao[m]['material']['estoques'][e].qtdeSaida;;
-		      		input.id = 'input_quantidade_id_' + arrayMateriaisRequisicao[m]['material']['estoques'][e].id;;
+		      		input.value = requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida;;
+		      		input.id = 'input_quantidade_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;;
 		      		input.placeholder = 'digite qtde...';
 		      		input.onkeyup = function() {
 		      			let id_estoque = this.id.replace('input_quantidade_id_', '');
 		      			if( ! isNaN(input.value) ) {
-		      				for (m in arrayMateriaisRequisicao ) {
-		      					for (e in arrayMateriaisRequisicao[m]['material']['estoques'] ) {
-		      						if(arrayMateriaisRequisicao[m]['material']['estoques'][e].id == id_estoque){
-		      							arrayMateriaisRequisicao[m]['material']['estoques'][e].qtdeSaida = input.value;
+		      				for (m in requisicao['materiais_requisitados'] ) {
+		      					for (e in requisicao['materiais_requisitados'][m]['material']['estoques'] ) {
+		      						if(requisicao['materiais_requisitados'][m]['material']['estoques'][e].id == id_estoque){
+		      							requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida = input.value;
 		      							input.className = '';
 		      						}
 		      					}
@@ -186,7 +189,7 @@
 	          		let btn = document.createElement('button');
 	          		btn.className = "btn btn-link";
 	          		btn.innerHTML = '<i class="fas fa-times text-danger"> </i>';
-	          		btn.id = 'btn_material_id_' + arrayMateriaisRequisicao[m]['material']['estoques'][e].id;
+	          		btn.id = 'btn_material_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;
 	          		btn.type = "button";
 	          		btn.onclick = function() {
 	          			let estoque_id = this.id.replace('btn_material_id_', '');
@@ -203,8 +206,8 @@
 	   	}
 
 	   	function remove( estoque_id ) {
-	   		for (m in arrayMateriaisRequisicao ) {
-		   		arrayMateriaisRequisicao[m]['material']['estoques'] = arrayMateriaisRequisicao[m]['material']['estoques'].filter(function(estoque){
+	   		for (m in requisicao['materiais_requisitados'] ) {
+		   		requisicao['materiais_requisitados'][m]['material']['estoques'] = requisicao['materiais_requisitados'][m]['material']['estoques'].filter(function(estoque){
 			       	return estoque.id != estoque_id;
 			   	});	
 	   		}
@@ -212,33 +215,56 @@
 
 
 	   	function finalizar () {
-	   		console.log(arrayMateriaisRequisicao);
-	   		var jsonSaida = JSON.stringify(arrayMateriaisRequisicao);
-
+	   		
+	   		var jsonRequisicaoAtendida = JSON.stringify(requisicao);
 	   		var xhttp = new XMLHttpRequest();
-
 	        xhttp.onreadystatechange = function() {
 	        	if (this.readyState == 4 && this.status == 200) {
 	        		console.log('bem sucedido');
-	        		console.log(this.responseText);
-	        		// document.getElementById('id_codRequisicaoModal').innerHTML = this.responseText;
-	        		// $('#protocoloModal').modal('show');	
+	        		console.log(JSON.parse(this.responseText));
 		        } else if (this.readyState == 4 && this.status != 200) {
 		        	console.log('erro');
-		        	// document.getElementById('id_Modal_msg').innerHTML = '<h6>Erro ao tentar salvar uma requisição. Tente novamente mais tarde.<h6>' ;
-		        	// document.getElementById('protocoloModalLabel').innerHTML = 'Erro ao Requisitar';
-		        	// document.getElementById('protocoloModalLabel').className = 'text-danger';
-		        	// document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-danger';
-	        		// $('#protocoloModal').modal('show');
-
 	          	}
 	        };
-
-	        xhttp.open("GET", "/saida/requisita/" + cod_requisicao + "/" + jsonSaida , true);
-	        xhttp.send();
-
+	        xhttp.open("POST",  "/saida/finaliza" , true);
+			xhttp.setRequestHeader("Content-Type", "application/json");
+			token = document.querySelector('meta[name="csrf-token"]').content;
+			xhttp.setRequestHeader('X-CSRF-TOKEN', token);						
+			xhttp.send(jsonRequisicaoAtendida);
 	   	}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			// var success = function(response) {
+			// 	console.log(response);
+   //  		}
+
+			// $.ajaxSetup({
+			//     headers: {
+			//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			//     }
+			// });
+
+
+			// $.ajax({
+			//   type: "POST",
+			//   url: "/saida/finaliza",
+			//   data: jsonSaida,
+			//   success: success,
+			//   dataType: 'JSON'
+			// });
 	</script>
 @endpush
 

@@ -81,6 +81,8 @@ Route::get('/saida/exibeDetalhes/{cod_requisicao}', 'SaidaController@exibeDetalh
 Route::get('/saida/nega/{cod_requisicao}', 'SaidaController@nega');
 Route::get('/saida/atende/{cod_requisicao}', 'SaidaController@atende');
 Route::get('/saida/localizaMateriaisRequisitadosComEstoques/{cod_requisicao}', 'SaidaController@localizaMateriaisRequisitadosComEstoques');
+Route::post('/saida/finaliza', 'SaidaController@finaliza');
+
 
 Route::get('/adm-inventarios', 'AdmInventariosController@abreForm');
 Route::get('/adm-inventarios/analisa', 'AdmInventariosController@abreFormAnalisa');
