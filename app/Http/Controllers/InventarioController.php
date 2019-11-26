@@ -24,9 +24,6 @@ class InventarioController extends Controller
 
         $estocados = Estoque::listarEstocadosOnde();
 
-        foreach($estocados->Estoque.cod_material as $m){
-            $material = Material::find($m->cod_material);
-        }
 
 
         return view('inventario')->with('view', $this->view)

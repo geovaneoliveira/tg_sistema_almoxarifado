@@ -83,7 +83,7 @@
             <td                            > {{$e->lote }} </td>
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
-            <td                            > {{$e->quantidade }} </td>
+            <td                            > {{$e->descricao_unid_medida }} </td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
             <td> <a href="#"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
