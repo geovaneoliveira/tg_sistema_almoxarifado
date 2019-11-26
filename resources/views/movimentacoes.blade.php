@@ -126,7 +126,7 @@
             <td                            > {{$m->data_mov }} </td>
             <td                            > {{$m->tipo_movimentacao}} </td>
             <td                            > {{$m->qtde_movimentada }} </td>
-            <td                            > {{$m->name }} </td>
+            <td                            > {{$m->cod_usuario }} - {{$m->name }} </td>
             <td                            > {{$m->cod_requisicao }} </td>
         </tr>
         @endforeach
