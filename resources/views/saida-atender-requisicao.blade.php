@@ -68,14 +68,11 @@
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
         	if (this.readyState == 4 && this.status == 200) {
-
 	          	requisicaoOriginal = JSON.parse(this.responseText);
-	          	console.log(requisicaoOriginal);
 	          	requisicao = JSON.parse(this.responseText);
 	          	requisicao['materiais_requisitados'].forEach(function(m){
 	          		m['material']['estoques'].forEach(function(e){
 	          				e.qtdeSaida = 0;
-	          				console.log(e);
 	          		});
 
 	          	});
@@ -220,10 +217,11 @@
 	   		var xhttp = new XMLHttpRequest();
 	        xhttp.onreadystatechange = function() {
 	        	if (this.readyState == 4 && this.status == 200) {
-	        		console.log('bem sucedido');
-	        		console.log(JSON.parse(this.responseText));
+	        		var resp = JSON.parse(this.responseText);
+	        		alert(resp['msg']);
 		        } else if (this.readyState == 4 && this.status != 200) {
-		        	console.log('erro');
+		        	var resp = JSON.parse(this.responseText);
+	        		alert(resp['msg']);
 	          	}
 	        };
 	        xhttp.open("POST",  "/saida/finaliza" , true);
@@ -232,39 +230,6 @@
 			xhttp.setRequestHeader('X-CSRF-TOKEN', token);						
 			xhttp.send(jsonRequisicaoAtendida);
 	   	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// var success = function(response) {
-			// 	console.log(response);
-   //  		}
-
-			// $.ajaxSetup({
-			//     headers: {
-			//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-			//     }
-			// });
-
-
-			// $.ajax({
-			//   type: "POST",
-			//   url: "/saida/finaliza",
-			//   data: jsonSaida,
-			//   success: success,
-			//   dataType: 'JSON'
-			// });
 	</script>
 @endpush
 

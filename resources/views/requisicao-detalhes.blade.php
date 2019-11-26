@@ -55,7 +55,7 @@
 					</thead>
 
   					<tbody>
-  						@foreach ($requisicao->materiaisRequisitados as $mr)
+  						@foreach ($requisicao->materiais_requisitados as $mr)
   							<tr scope="row">
 								<td style="text-align: left;" > {{$mr->material->nome_material}}</td>
 								<td                           > {{$mr->material->tipo->nome_tipo}}</td>

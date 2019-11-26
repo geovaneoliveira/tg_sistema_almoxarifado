@@ -23,7 +23,7 @@ class Requisicao extends Model
 		return $this->hasMany('App\Movimentacao', 'cod_requisicao');
 	}
 
-	public function materiaisRequisitados() {
+	public function materiais_requisitados() {
 		return $this->hasMany('App\MaterialRequisitado', 'cod_requisicao');
 	}
 

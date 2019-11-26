@@ -32,10 +32,6 @@ class EstoqueController extends Controller
 	}
 
 
-
-
-
-
 	public function gerenciar() {
        	$this->view["active"] =  "gerenciarEstoque";
 
@@ -151,8 +147,6 @@ class EstoqueController extends Controller
 		      	->with('locais', Local::all())
 		      	->with('estocados', Estoque::listarEstocadosOnde())
 		      	->with('estocado', $estocado);
-
-		      	
 	}
 
 

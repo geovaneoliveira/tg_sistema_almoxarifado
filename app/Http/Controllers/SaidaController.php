@@ -6,7 +6,7 @@ use App\Tipo;
 use App\Requisicao;
 use App\User;
 use App\Estoque;
-use App\sMovimentacao;
+use App\Movimentacao;
 use Carbon\Carbon;
 
 
@@ -117,7 +117,7 @@ class SaidaController extends Controller
         $cod_requisicao = Request::route('cod_requisicao');
         $requisicao = Requisicao::find($cod_requisicao);
 
-        foreach ($requisicao->materiaisRequisitados as $m) {
+        foreach ($requisicao->materiais_requisitados as $m) {
             $m->material->unidade;
             foreach ($m->material->estoques as $e) {
                 $e->local;
@@ -127,41 +127,84 @@ class SaidaController extends Controller
         return response()->json($requisicao);
     }
 
-
-
-
-
     public function finaliza() {
         $jsonRequisicaoAtendidaRec = Request::getContent();
         $requisicaoAtendidaRec = json_decode($jsonRequisicaoAtendidaRec);
 
-        //instanciar requisição, mudar situacao para finalizada, adicionar data de atendimento. Deixar para salvar soh no fim
-        $requisicaoAtendida = Requisicao::find($requisicaoAtendidaRec->cod_requisicao);
-        $requisicaoAtendida->situacao = "Finalizada";
-        $requisicaoAtendida->data_atend = Carbon::today();
-        $requisicaoAtendida->save();
+        $retorno = [
+            "status"    =>  "erro",
+            "msg"       =>  "Aconteceu um erro inesperado ao processar a saída da requisição!"
+        ];
 
-        //movimentações
-        foreach ($requisicaoAtendidaRec->materiaisRequisitados as $mr) {
+
+        //validações
+        $requisicaoValida = true;
+        $requisicaoZerada = true;
+        foreach ($requisicaoAtendidaRec->materiais_requisitados as $mr) {
+            $qtdeSaidaTotal = 0;
             foreach ($mr->material->estoques as $e) {
-                if ($e->qtdeSaida > 0) {
-                    $movimentacao = new Movimentacao();
-                    $movimentacao->qtde_movimentada = $e->qtdeSaida * (-1);
-                    $movimentacao->tipo_movimentacao = "Requisição" ;
-                    $movimentacao->estoque_id = $e->id;
-                    $movimentacao->cod_usuario = \Auth::user()->id;
-                    $movimentacao->cod_requisicao = $requisicaoAtendidaRec->cod_requisicao;
-                    $movimentacao->save();
+                $estoque = Estoque::find($e->id);
+                //verificando se não está tentando antender uma requisição que já tem movimentações, ou seja, já foi atendida.
+                foreach ($estoque->movimentacoes as $mov) {
+                    if($mov->cod_requisicao == $requisicaoAtendidaRec->cod_requisicao ){
+                        $requisicaoValida = false;
+                        $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada por já ter sido previamente processada"];
+                    }
                 }
+                //verificando se é um valor numerico válido, se a quantidade em estoque é suficiente
+                if ( !(is_numeric($e->qtdeSaida)) || $e->qtdeSaida > $estoque->quantidade || $e->qtdeSaida < 0) {
+                    $requisicaoValida = false;
+                    $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada devido a quantidades inválidas"];
+                }
+                if($e->qtdeSaida  > 0) {
+                    $requisicaoZerada = false;
+                } 
+
+                $qtdeSaidaTotal += $e->qtdeSaida;
+            }
+            //tentando dar saida em uma quantidade maior do que a requisitada
+            if($qtdeSaidaTotal > $mr->quantidade_req){
+                $requisicaoValida = false;
+                $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada pois as quantidades de saida excedem a requisitada!"];
             }
         }
 
+        if($requisicaoZerada == true) {
+            $requisicaoValida = false;
+            $retorno = [ "status" => "erro", "msg" => "A requisição não possui nenhum material para ser processado!" ];
+        }
+
+        //se valida, modifica-la e movimentaar material
+
+        if($requisicaoValida == true){
+            try {
+                //instanciar requisição, mudar situacao para finalizada, adicionar data de atendimento. Deixar para salvar soh no fim
+                $requisicaoAtendida = Requisicao::find($requisicaoAtendidaRec->cod_requisicao);
+                $requisicaoAtendida->situacao = "Finalizada";
+                $requisicaoAtendida->data_atend = Carbon::today();
+                $requisicaoAtendida->save();
+
+                //movimentações
+                foreach ($requisicaoAtendidaRec->materiais_requisitados as $mr) {
+                    foreach ($mr->material->estoques as $e) {
+                        if( $e->qtdeSaida > 0 ){
+                            $movimentacao = new Movimentacao();
+                            $movimentacao->qtde_movimentada = $e->qtdeSaida * (-1);
+                            $movimentacao->tipo_movimentacao = "Requisição" ;
+                            $movimentacao->estoque_id = $e->id;
+                            $movimentacao->cod_usuario = \Auth::user()->id;
+                            $movimentacao->cod_requisicao = $requisicaoAtendidaRec->cod_requisicao;
+                            $movimentacao->save();
+                        }                       
+                    }
+                } 
+            $retorno = ["status" => "sucesso", "msg" => "Requisição finalizada com sucesso"];          
+            } catch (Exception $e) {
+                $retorno = ["status" => "erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];              
+            }
+        }
         
-
-
-        return response()->json($requisicaoAtendidaRec);
-
- 
+        return $retorno;        
     }
 
 

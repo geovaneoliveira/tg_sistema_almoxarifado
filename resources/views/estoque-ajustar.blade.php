@@ -40,8 +40,8 @@
             <label for="lote">Lote</label>
           <input type="text" class="form-control mb-3" id="lote" name="lote" value="{{$estocado->lote}}" />
 
-            <label for="quantidade">Quantidade</label>
-            <input type="number" class="form-control mb-3" id="quantidade" name="quantidade" value="{{$estocado->quantidade}}"/>
+            <label for="quantidade_id">Quantidade</label>
+            <input type="text" class="form-control mb-3" id="quantidade_id" name="quantidade" onkeyup="verifica();" value="{{$estocado->quantidade}}"/>
 
             <div class="form-group">
               <label for="data_validade">Data Validade</label>
@@ -118,6 +118,25 @@
 @push('scripts')
 
 <script>
+  qtdeInicial = document.getElementById("quantidade_id").value;
+
+  function verifica(){
+    
+
+      if( ! isNaN(document.getElementById("quantidade_id").value) ) {
+          document.getElementById("quantidade_id").className = 'form-control mb-3';
+          if(document.getElementById("quantidade_id").value != qtdeInicial) {
+              document.getElementById("btnEstoqueSubmit").disabled = false;
+          }else{
+            document.getElementById("btnEstoqueSubmit").disabled = true;
+
+          }
+      }else{
+          document.getElementById("btnEstoqueSubmit").disabled = true;
+          document.getElementById("quantidade_id").className = 'form-control mb-3 bg-danger';
+      } 
+    
+  }
 
   var operacao = "{{{ $view['operacao'] }}}" ;
   console.log('operacao: ');
@@ -126,14 +145,16 @@
   if (operacao=='edita' || operacao=='editado'){
     document.getElementById("lote").readOnly = false;
     document.getElementById("data_validade").readOnly = false;
-    document.getElementById("quantidade").readOnly = true;
+    document.getElementById("quantidade_id").readOnly = true;
     document.getElementById("btnEstoqueSubmit").insertAdjacentHTML("beforeend","Salvar");
   }
   if (operacao=='ajusta' || operacao=='ajustado'){
     document.getElementById("lote").readOnly = true;
     document.getElementById("data_validade").readOnly = true;
-    document.getElementById("quantidade").readOnly = false;
+    document.getElementById("quantidade_id").readOnly = false;
     document.getElementById("btnEstoqueSubmit").insertAdjacentHTML("beforeend","Ajustar");
+    document.getElementById("btnEstoqueSubmit").disabled = true;
+
   }
 
 </script>

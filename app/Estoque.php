@@ -22,7 +22,7 @@ class Estoque extends Model
 	}
 
 	public function movimentacoes(){
-		return $this->hasMany('App\Movimentacao',  'cod_material' );
+		return $this->hasMany('App\Movimentacao');
 	}
 
 
