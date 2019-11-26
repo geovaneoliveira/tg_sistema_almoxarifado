@@ -2,6 +2,42 @@
 @extends('layouts.lateral')
 @section('conteudo')
 
+     <div class="col-sm-5 col-md-4 form-group" style="width: 100%;">
+            <fieldset class="border p-2">
+              <legend class=" m-0 p-0" style="font-size: 1em;">Tipo de Movimentação</legend>
+                
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Aquisição
+                </div>
+
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Requisição
+                  </label>
+                </div> 
+
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Ajuste 
+                  </label>
+                </div>  
+              
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Inventário
+                  </label>
+                </div>        
+
+            </fieldset>
+          </div>
+
+          
+
 <form action="/movimentacoes/localiza" class="ml-4 mr-4" method="post"> <!-- início do formulario -->
 
 
