@@ -23,21 +23,21 @@
           </div>
         </div>
 
-        <div class="col-sm-12 col-md-6 form-group">     
-          <label for="idDataReqInicio">Data de Requisição</label>       
+        <div class="col-sm-12 col-md-6 form-group">
+          <label for="idDataReqInicio">Data de Requisição</label>
           <div class="input-group">
-            <input type="date" class="form-control" id="idDataReqInicio" name="data_req_inicial"> 
-            <input type="date" class="form-control" id="idDataReqFinal" name="data_req_final">            
-          </div>             
-        </div>  
+            <input type="date" class="form-control" id="idDataReqInicio" name="data_req_inicial">
+            <input type="date" class="form-control" id="idDataReqFinal" name="data_req_final">
+          </div>
+        </div>
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="idDataFinalizacaoInicio"> Data de Finalização</label>
-          <div class="input-group">              
-            <input type="date" class="form-control" id="idDataFinalizacaoInicio" name="data_atend_inicial">  
-            <input type="date" class="form-control" id="idDataFinalizacaoFinal" name="data_atend_final">            
-          </div>       
-        </div>                       
+          <div class="input-group">
+            <input type="date" class="form-control" id="idDataFinalizacaoInicio" name="data_atend_inicial">
+            <input type="date" class="form-control" id="idDataFinalizacaoFinal" name="data_atend_final">
+          </div>
+        </div>
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
@@ -50,11 +50,11 @@
             <tr>
               <th>Número</th>
               <th>Data Requ. </th>
-              <th>Data Atend.</th>  
-              <th >Situação</th> 
-              <th style="width: 5%;" ></th>          
-              <th style="width: 5%;" ></th>          
-              <th style="width: 5%;" ></th>         
+              <th>Data Atend.</th>
+              <th >Situação</th>
+              <th style="width: 5%;" ></th>
+              <th style="width: 5%;" ></th>
+              <th style="width: 5%;" ></th>
             </tr>
           </thead>
           <tbody>
@@ -78,7 +78,7 @@
       </div><!--fim da listagem de locais-->
     </div>
 
-      <div>       
+      <div>
         @isset($status)
             @if($status=='excluido')
               <div class="alert alert-success" role="alert">
@@ -104,7 +104,7 @@
   </div>
 
 </form> <!-- fim do formulário-->
-  
+
 </div>
 
 

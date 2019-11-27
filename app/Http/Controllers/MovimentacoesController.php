@@ -42,7 +42,7 @@ class MovimentacoesController extends Controller
         $cod_local = Request::input('cod_local');
         $data_mov = Request::input('data_mov');
         $qtde_movimentada = Request::input('qtde_movimentada');
-        $cod_usuario  = Request::input('cod_usuario');
+        $cod_usuario  = Request::input('name');
         $cod_requisicao = Request::input('cod_requisicao');
 
       $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov, $qtde_movimentada, $cod_usuario, $cod_requisicao);
@@ -53,6 +53,11 @@ class MovimentacoesController extends Controller
                 ->with('locais', Local::all())
                 ->with('movimentados', $movimentados);
     }
+
+    public static function format_data($data) {
+return 3;
+     //   return date('d/m/Y', strtotime($data));
+}
 
 
 

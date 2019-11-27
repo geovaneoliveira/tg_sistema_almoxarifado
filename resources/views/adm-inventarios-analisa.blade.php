@@ -53,13 +53,13 @@
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                 <label class="form-check-label" for="defaultCheck1">
-                  Avaliados
+                Avaliados
               </div>
 
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
                 <label class="form-check-label" for="defaultCheck2">
-                  Não Avaliados
+                Não Avaliados
               </div>
 
             </fieldset>

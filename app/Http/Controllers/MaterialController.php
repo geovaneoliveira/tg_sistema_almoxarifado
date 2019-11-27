@@ -168,7 +168,6 @@ public function estocar(EstoqueRequest $request) {
 
 
 
-//JEAN AQUI QUASE NÃO PRECISA ALTERAR! TALVEZ ALGUMAA VALIDAÇÃO...
 public function consumoDiario(){
     $id = Request::route('id');
     $material = Material::find($id);

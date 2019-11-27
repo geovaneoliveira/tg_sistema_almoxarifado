@@ -2,7 +2,7 @@
 @extends('layouts.lateral')
 @section('conteudo')
 
-        
+
 
 <form action="/movimentacoes/localiza" class="ml-4 mr-4" method="post"> <!-- início do formulario -->
 
@@ -92,9 +92,9 @@
         </div>
 
                 <div class="col-sm-12 col-md-6 form-group">
-            <label for="cod_usuario"> Responsável </label>
+            <label for="name"> Responsável </label>
             <div class="input-group">
-              <input type="text" class="form-control" name="cod_usuario" id="cod_usuario" placeholder="parte do nome do Responsável">
+              <input type="text" class="form-control" name="name" id="name" placeholder="parte do nome do Responsável">
             </div>
         </div>
 
@@ -128,11 +128,10 @@
             <td                            > {{$m->data_mov }} </td>
             <td                            > {{$m->tipo_movimentacao}} </td>
             <td                            > {{$m->qtde_movimentada }} </td>
-            <td                            > {{$m->cod_usuario }} - {{$m->name }} </td>
+            <td                            > {{$m->name }} </td>
             <td                            > {{$m->cod_requisicao }} </td>
         </tr>
         @endforeach
-
        </table>
 
       </div>
@@ -146,10 +145,6 @@
   </div>
 
 </form> <!-- fim do formulário-->
-
-
-
-
 
 
 @endsection

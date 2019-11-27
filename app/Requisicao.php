@@ -32,7 +32,7 @@ class Requisicao extends Model
 			return date('d/m/Y', strtotime($this->data_req));
 		}else{
 			return "";
-		}		
+		}
 	}
 
 	public function get_data_atend_formatada() {
@@ -40,6 +40,6 @@ class Requisicao extends Model
 			return date('d/m/Y', strtotime($this->data_atend));
 		}else{
 			return "";
-		}		
+		}
 	}
 }
