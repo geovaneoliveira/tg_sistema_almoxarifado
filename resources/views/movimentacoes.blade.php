@@ -86,8 +86,8 @@
         <div class="col-sm-12 col-md-6 form-group">
             <label for="data_mov"> Período </label>
             <div class="input-group">
-              <input type="date" class="form-control" id="data_mov" name="data_mov">
-              <input type="date" class="form-control" id="data_mov" name="data_mov">
+              <input type="date" class="form-control" id="data_mov_ini" name="data_mov_ini">
+              <input type="date" class="form-control" id="data_mov_fim" name="data_mov_fim">
             </div>
         </div>
 

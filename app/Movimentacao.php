@@ -34,7 +34,7 @@ class Movimentacao extends Model
     }
 
 
-    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov='', $qtde_movimentada='', $cod_usuario='') {
+    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov_ini='', $data_mov_fim='', $qtde_movimentada='', $cod_usuario='') {
         $stmt = DB::table('Movimentacao')
             ->join('Estoque', 'Movimentacao.estoque_id', '=', 'Estoque.id')
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
@@ -58,9 +58,14 @@ class Movimentacao extends Model
             $stmt->where('Estoque.cod_local', $cod_local);
         }
 
-        if ($data_mov) {
-            $stmt->where('Movimentacao.data_mov', $data_mov);
+        if ($data_mov_ini) {
+            $stmt->whereDate('Movimentacao.data_mov', '>=', $data_mov_ini);
         }
+
+        if ($data_mov_fim) {
+            $stmt->whereDate('Movimentacao.data_mov', '<=', $data_mov_fim);
+        }
+
 
         if ($qtde_movimentada) {
             $stmt->where('Movimentacao.qtde_movimentada', $qtde_movimentada);
