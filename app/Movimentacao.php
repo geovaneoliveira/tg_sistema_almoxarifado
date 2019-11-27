@@ -86,7 +86,7 @@ class Movimentacao extends Model
 
              $LE->data_mov = $dt;
 
-             $LE->data_mov = date_format($LE->data_mov,"d/m/Y");
+             $LE->data_mov = date_format($LE->data_mov,"d/m/Y h:m");
 
         }
 

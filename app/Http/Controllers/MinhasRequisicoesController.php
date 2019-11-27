@@ -41,12 +41,13 @@ class MinhasRequisicoesController extends Controller
     }
 
     public function remove() {
+
         $cod_requisicao = Request::route('cod_requisicao');
         $status = '';
-        try {            
+        try {       
             $requisicao = Requisicao::find($cod_requisicao);
             if ($requisicao->situacao == 'Aberta') {
-                foreach ($requisicao->materiaisRequisitados as $mt) {
+                foreach ($requisicao->materiais_requisitados as $mt) {
                     $mt->delete();
                 }
                 $requisicao->delete();

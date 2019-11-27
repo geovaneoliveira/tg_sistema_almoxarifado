@@ -9,7 +9,7 @@
 	<div class="form-row d-flex align-items-end">
 
 		<div class="col-md-3 form-group">
-          <label >Número Requição </label>
+          <label >Número Requisição</label>
           <input type="text" value="{{$requisicao->cod_requisicao}}" class="form-control" readonly />
         </div>
 
@@ -42,7 +42,7 @@
 
 			<div class="form-row mt-2">
 				<div class="col-12 d-flex justify-content-around" id="">
-	    			<button type="button" class="btn btn-lg btn-success col-3" onclick="finalizar();"><i class="fas fa-check  mr-2"></i>Finalizar</button>
+	    			<button type="button" class="btn btn-lg btn-success col-3" onclick="finalizar();" id="btn_finalizar" disabled><i class="fas fa-check  mr-2"  ></i>Finalizar</button>
 					<button type="button" class="btn btn-lg btn-success col-3" onclick="window.location.href='/saida';" > <i class="fas fa-ban mr-2"></i>Cancelar</button>
 				</div>
 			</div>
@@ -108,6 +108,40 @@
         };
         xhttp.open("GET", "/saida/localizaMateriaisRequisitadosComEstoques/" + cod_requisicao , true);
         xhttp.send();
+
+
+        function valida () {
+   			var valido = true;
+
+   			var total = 0;
+   			var totalMaterial = 0;
+
+   			requisicao.materiais_requisitados.forEach(function(m){
+   				totalMaterial = 0;
+          		m.material.estoques.forEach(function(e) {
+          			//if(e.qtdeSaida){ //se existe a propriedade
+          				if(isNaN(e.qtdeSaida) || e.qtdeSaida < 0 ) {
+							valido = false;
+						}else{
+							totalMaterial = Number(totalMaterial) + Number(e.qtdeSaida);
+          					total = Number(total) + Number(e.qtdeSaida);
+						}	          			
+          		//	}          			
+          		});
+          		//dando saida em um qtde maior do que a requisitada para  mterial?
+	   			if(totalMaterial > m.quantidade_req){
+	   				valido = false;
+	   			}
+	         });
+
+   			//não vai dar saida em nada?
+   			if(total <= 0 ){
+   				valido = false;
+   			}
+
+   			return valido;	
+   		}
+
 
 		function atualizaLista() {
 	   		var listagem = document.getElementById('lista_materias_com_estoques_id');
@@ -183,50 +217,87 @@
 			    thead.appendChild(headRow2);
 			    table.appendChild(thead); 
 
-				for (e in requisicao['materiais_requisitados'][m]['material']['estoques']) {		
-					var linha = document.createElement("tr");
-	          		linha.insertCell(0).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e]['local'].nome_local;
-	          		linha.insertCell(1).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].lote;
-	          		linha.insertCell(2).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].get_data_atend_formatada;
-	          		linha.insertCell(3).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].quantidade;
-	          		let input = document.createElement('input');
-		      		input.type = 'text';
-		      		input.value = requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida;;
-		      		input.id = 'input_quantidade_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;;
-		      		input.placeholder = 'digite qtde...';
-		      		input.onkeyup = function() {
-		      			let id_estoque = this.id.replace('input_quantidade_id_', '');
-		      			if( ! isNaN(input.value) ) {
-		      				for (m in requisicao['materiais_requisitados'] ) {
-		      					for (e in requisicao['materiais_requisitados'][m]['material']['estoques'] ) {
-		      						if(requisicao['materiais_requisitados'][m]['material']['estoques'][e].id == id_estoque){
-		      							requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida = input.value;
-		      							input.className = '';
-		      						}
-		      					}
-		      				}		      				
-		      			}else{
-		      				input.className = 'bg-danger';
-		      			} 		
-		      		};
-			      	linha.insertCell(4).append(input);
-	          		let btn = document.createElement('button');
-	          		btn.className = "btn btn-link";
-	          		btn.innerHTML = '<i class="fas fa-times text-danger"> </i>';
-	          		btn.id = 'btn_material_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;
-	          		btn.type = "button";
-	          		btn.onclick = function() {
-	          			let estoque_id = this.id.replace('btn_material_id_', '');
-	          			remove(estoque_id);
-	      				atualizaLista();
-	          		};
-	          		linha.insertCell(5).append(btn);
-					tbody.appendChild(linha);
-				}
+
+
+
+			    if(requisicao['materiais_requisitados'][m]['material']['calcQtdeTotal'] <= 0){
+			    	var linha=document.createElement("tr");
+			    	var col=document.createElement("td");
+				    col.className = 'text-danger';
+				    col.colSpan = '6';
+				    var conteudo = document.createTextNode("Material Indisponível");
+				    col.appendChild(conteudo);
+				    linha.appendChild(col);
+				    tbody.appendChild(linha);
+
+			    } else {
+			    	for (e in requisicao['materiais_requisitados'][m]['material']['estoques']) {
+						if(requisicao['materiais_requisitados'][m]['material']['estoques'][e].quantidade > 0) {
+							var linha = document.createElement("tr");
+			          		linha.insertCell(0).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e]['local'].nome_local;
+			          		linha.insertCell(1).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].lote;
+			          		linha.insertCell(2).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].get_data_atend_formatada;
+			          		linha.insertCell(3).innerHTML = requisicao['materiais_requisitados'][m]['material']['estoques'][e].quantidade;
+			          		let input = document.createElement('input');
+				      		input.type = 'text';
+				      		input.value = requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida;;
+				      		input.id = 'input_quantidade_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;;
+				      		input.placeholder = 'digite qtde...';
+				      		input.onkeyup = function() {
+				      			let id_estoque = this.id.replace('input_quantidade_id_', '');
+				      			
+				      				for (m in requisicao['materiais_requisitados'] ) {
+				      					for (e in requisicao['materiais_requisitados'][m]['material']['estoques'] ) {
+				      						if(requisicao['materiais_requisitados'][m]['material']['estoques'][e].id == id_estoque){
+				      							if(input.value == ''){
+				      								requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida = 0;			      				
+								      			} else {
+				      								requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida = input.value;
+								      		
+					      							if( ! isNaN(input.value) ) {
+					      								input.className = '';
+					      							}else{
+									      				input.className = 'bg-danger';
+									      				//requisicao['materiais_requisitados'][m]['material']['estoques'][e].qtdeSaida = 0;
+								      				}
+								      			}
+							      				
+				      						}
+				      					}
+				      				}		      				
+				      			 
+
+					      		if(valida() == true ){
+				   					document.getElementById('btn_finalizar').disabled = false;
+				   				} else {
+				   					document.getElementById('btn_finalizar').disabled = true;
+				   				}
+
+
+				      		};
+					      	linha.insertCell(4).append(input);
+			          		let btn = document.createElement('button');
+			          		btn.className = "btn btn-link";
+			          		btn.innerHTML = '<i class="fas fa-times text-danger"> </i>';
+			          		btn.id = 'btn_material_id_' + requisicao['materiais_requisitados'][m]['material']['estoques'][e].id;
+			          		btn.type = "button";
+			          		btn.onclick = function() {
+			          			let estoque_id = this.id.replace('btn_material_id_', '');
+			          			remove(estoque_id);
+			      				atualizaLista();
+			          		};
+			          		linha.insertCell(5).append(btn);
+							tbody.appendChild(linha);
+						}
+
+					}		
+
+			    }
 
 				table.appendChild(tbody);
 				listagem.appendChild(table);
 	   		}
+
 	   	}
 
 	   	function remove( estoque_id ) {
@@ -264,7 +335,6 @@
 	        xhttp.onreadystatechange = function() {
 	        	if (this.readyState == 4 && this.status == 200) {
 	        		var resp = JSON.parse(this.responseText);
-	        		console.log(resp);
 	        		exibeModal(resp);
 		        } else if (this.readyState == 4 && this.status != 200) {
 		        	var resp = {status : 'Erro', msg :'Erro inesperado relacionado ao servidor!' };

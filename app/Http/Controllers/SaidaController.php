@@ -119,6 +119,7 @@ class SaidaController extends Controller
 
         foreach ($requisicao->materiais_requisitados as $m) {
             $m->material->unidade;
+            $m->material->calcQtdeTotal = $m->material->calcQtdeTotal();
             foreach ($m->material->estoques as $e) {
                 $e->local;
                 $e->get_data_atend_formatada = $e->get_data_atend_formatada();
@@ -126,6 +127,9 @@ class SaidaController extends Controller
         }
         return response()->json($requisicao);
     }
+
+
+
 
     public function finaliza() {
         $jsonRequisicaoAtendidaRec = Request::getContent();
@@ -154,7 +158,7 @@ class SaidaController extends Controller
                 //verificando se é um valor numerico válido, se a quantidade em estoque é suficiente
                 if ( !(is_numeric($e->qtdeSaida)) || $e->qtdeSaida > $estoque->quantidade || $e->qtdeSaida < 0) {
                     $requisicaoValida = false;
-                    $retorno = ["status" => "Erro", "msg" => "A requisição não pode ser processada devido a quantidades inválidas"];
+                    $retorno = ["status" => "Erro", "msg" => "A requisição não pode ser processada devido a quantidades inválidas ou não há estoque suficiente"];
                 }
                 if($e->qtdeSaida  > 0) {
                     $requisicaoZerada = false;
@@ -187,6 +191,9 @@ class SaidaController extends Controller
                 //movimentações
                 foreach ($requisicaoAtendidaRec->materiais_requisitados as $mr) {
                     foreach ($mr->material->estoques as $e) {
+                        $estoque = Estoque::find($e->id);
+                        $estoque->quantidade -= $e->qtdeSaida;
+                        $estoque->save();
                         if( $e->qtdeSaida > 0 ){
                             $movimentacao = new Movimentacao();
                             $movimentacao->qtde_movimentada = $e->qtdeSaida * (-1);
@@ -195,7 +202,7 @@ class SaidaController extends Controller
                             $movimentacao->cod_usuario = \Auth::user()->id;
                             $movimentacao->cod_requisicao = $requisicaoAtendidaRec->cod_requisicao;
                             $movimentacao->save();
-                        }                       
+                        }
                     }
                 } 
             $retorno = ["status" => "Sucesso", "msg" => "Requisição finalizada com sucesso"];          

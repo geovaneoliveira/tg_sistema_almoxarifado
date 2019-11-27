@@ -84,7 +84,7 @@
               <div class="alert alert-success" role="alert">
                 Exclusão realizada com sucesso.
             </div>
-          @else if($status=='naoExcluido')
+          @elseif($status=='naoExcluido')
               <div class="alert alert-danger" role="alert">
                 Exclusão não pode ser realizada.
             </div>

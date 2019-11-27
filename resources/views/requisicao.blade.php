@@ -211,6 +211,18 @@
 
 
 
+		function valida () {
+   			var valido = true;
+   			arrayMateriaisRequisicao.forEach(function(mr){
+   					if(isNaN(mr.quantidade_req) || mr.quantidade_req<1 ) {
+   						valido = false;
+   					}
+   				});
+
+   			return valido;
+   		}
+
+
 
 	   	function atualizaLista() {
 	   		var listagemRequisitar = document.getElementById('listagemRequisicao');
@@ -226,12 +238,19 @@
 	      		input.placeholder = 'digite qtde...';
 	      		input.onkeyup = function() {
 	      			let id = this.id.replace('input_quantidade_id_', '');
-	      			if( ! isNaN(input.value) ) {
+	      			if( ! isNaN(input.value)) {
 	      				arrayMateriaisRequisicao[id].quantidade_req = input.value;
 	      				input.className = '';
 	      			}else{
+	      				arrayMateriaisRequisicao[id].quantidade_req = 0;
 	      				input.className = 'bg-danger';
-	      			}   			
+	      			}
+
+	      			if(valida() == true ){
+	   					document.getElementById('btn_requisitar').disabled = false;
+	   				} else {
+	   					document.getElementById('btn_requisitar').disabled = true;
+	   				}
 	      		};
 		      	linha.insertCell(2).append(input);
 	      		linha.insertCell(3).innerHTML = arrayMateriaisRequisicao[m].descricao_unid_medida;
@@ -248,9 +267,13 @@
 	      		linha.insertCell(4).append(btnRemove);
 	   		}
 
-	   		if(document.getElementById('btn_requisitar')){
+
+
+	   		if(document.getElementById('btn_requisitar')) {
 	   			if (arrayMateriaisRequisicao.length > 0) {
-	   				document.getElementById('btn_requisitar').disabled = false;
+	   					if(valida()==true ){
+	   						document.getElementById('btn_requisitar').disabled = false;
+	   					}	   				
 		   		}
 		   		else{
 		   			document.getElementById('btn_requisitar').disabled = true;
@@ -259,6 +282,8 @@
 	   		}
 	   		
 	   	}
+
+   		
 
 
 	    function remove( objMaterialRec ) {
