@@ -56,6 +56,33 @@
 
 
 
+
+
+<!-- Modal finalização-->
+<div class="modal fade" id="finalizaModal" tabindex="-1" role="dialog" aria-labelledby="finalizaModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="finalizaModalLabel"> título do modal </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" >
+	        <h6 id='id_Modal_msg'> mensagem </h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-success" data-dismiss="modal" id='id_btn_close_modal' >Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
 @push('scripts')
    	<script>
 
@@ -210,18 +237,38 @@
 	   		}
 	   	}
 
+	   	var openPageAnterior = function openPage(){
+	   		window.location.assign('/saida');
+	   	}
+
+	   	function exibeModal(resp){	   		
+			document.getElementById('finalizaModalLabel').innerHTML = resp.status;
+			document.getElementById('id_Modal_msg').innerHTML = resp.msg;
+			if(resp.status == 'Sucesso'){	        		
+	    		document.getElementById('finalizaModalLabel').className = 'text-success';
+	    		document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-success';
+	    		document.getElementById('id_btn_close_modal').addEventListener("click", openPageAnterior, false);
+	    		
+			} else {
+	    		document.getElementById('finalizaModalLabel').className = 'text-danger';
+	    		document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-danger';
+			}	        		
+			$('#finalizaModal').modal('show');
+
+	   	}
 
 	   	function finalizar () {
-	   		
+
 	   		var jsonRequisicaoAtendida = JSON.stringify(requisicao);
 	   		var xhttp = new XMLHttpRequest();
 	        xhttp.onreadystatechange = function() {
 	        	if (this.readyState == 4 && this.status == 200) {
 	        		var resp = JSON.parse(this.responseText);
-	        		alert(resp['msg']);
+	        		console.log(resp);
+	        		exibeModal(resp);
 		        } else if (this.readyState == 4 && this.status != 200) {
-		        	var resp = JSON.parse(this.responseText);
-	        		alert(resp['msg']);
+		        	var resp = {status : 'Erro', msg :'Erro inesperado relacionado ao servidor!' };
+		        	exibeModal(resp); 
 	          	}
 	        };
 	        xhttp.open("POST",  "/saida/finaliza" , true);

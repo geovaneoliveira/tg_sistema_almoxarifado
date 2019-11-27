@@ -132,8 +132,8 @@ class SaidaController extends Controller
         $requisicaoAtendidaRec = json_decode($jsonRequisicaoAtendidaRec);
 
         $retorno = [
-            "status"    =>  "erro",
-            "msg"       =>  "Aconteceu um erro inesperado ao processar a saída da requisição!"
+            "status"    =>  "Erro",
+            "msg"       =>  "Aconteceu um erro inesperado ao processar as saídas da requisição!"
         ];
 
 
@@ -148,13 +148,13 @@ class SaidaController extends Controller
                 foreach ($estoque->movimentacoes as $mov) {
                     if($mov->cod_requisicao == $requisicaoAtendidaRec->cod_requisicao ){
                         $requisicaoValida = false;
-                        $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada por já ter sido previamente processada"];
+                        $retorno = ["status" => "Erro", "msg" => "A requisição não pode ser processada por já ter sido processada previamente!"];
                     }
                 }
                 //verificando se é um valor numerico válido, se a quantidade em estoque é suficiente
                 if ( !(is_numeric($e->qtdeSaida)) || $e->qtdeSaida > $estoque->quantidade || $e->qtdeSaida < 0) {
                     $requisicaoValida = false;
-                    $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada devido a quantidades inválidas"];
+                    $retorno = ["status" => "Erro", "msg" => "A requisição não pode ser processada devido a quantidades inválidas"];
                 }
                 if($e->qtdeSaida  > 0) {
                     $requisicaoZerada = false;
@@ -165,13 +165,13 @@ class SaidaController extends Controller
             //tentando dar saida em uma quantidade maior do que a requisitada
             if($qtdeSaidaTotal > $mr->quantidade_req){
                 $requisicaoValida = false;
-                $retorno = ["status" => "erro", "msg" => "A requisição não pode ser processada pois as quantidades de saida excedem a requisitada!"];
+                $retorno = ["status" => "Erro", "msg" => "A requisição não pode ser processada pois as quantidades de saída excedem a requisitada!"];
             }
         }
 
         if($requisicaoZerada == true) {
             $requisicaoValida = false;
-            $retorno = [ "status" => "erro", "msg" => "A requisição não possui nenhum material para ser processado!" ];
+            $retorno = [ "status" => "Erro", "msg" => "A requisição não possui nenhum material para ser processado!" ];
         }
 
         //se valida, modifica-la e movimentaar material
@@ -198,9 +198,9 @@ class SaidaController extends Controller
                         }                       
                     }
                 } 
-            $retorno = ["status" => "sucesso", "msg" => "Requisição finalizada com sucesso"];          
+            $retorno = ["status" => "Sucesso", "msg" => "Requisição finalizada com sucesso"];          
             } catch (Exception $e) {
-                $retorno = ["status" => "erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];              
+                $retorno = ["status" => "Erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];              
             }
         }
         

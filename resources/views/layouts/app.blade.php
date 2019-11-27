@@ -31,6 +31,7 @@
 
 <body  >
     <div id="app" class="container bg-light">
+              
         <nav class="row navbar navbar-expand navbar-light shadow-sm pl-4" >
                <!-- Right Side Of Navbar -->
 
@@ -75,6 +76,22 @@
                 <div class="col-md-3 p-0 " >
                          @yield('lateral')
                 </div>  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
                 <div class="col-md-9 pt-3 align-self-start">
                     @yield('conteudo')
