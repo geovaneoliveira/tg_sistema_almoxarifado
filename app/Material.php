@@ -110,9 +110,14 @@ class Material extends Model
 
        $dias = Carbon::now()->diffInDays($maiordata, true);
 
-
+if($dias > 0){
         $consumoDiario = $consumoTotal / $dias;
-	    return $consumoDiario;
+		return $consumoDiario;
+}
+if($dias <= 0){
+return $consumoTotal;
+
+}
     //  return rand(0, 12);
 	}
 
