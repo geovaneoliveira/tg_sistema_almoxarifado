@@ -84,21 +84,21 @@ class Material extends Model
         $consumoTotal = 0;
         $maiordata=Carbon::today()->addDays(-1)->toDateString();;
 
-
-		foreach ($this->estoques() as $e)
+		foreach ($this->estoques as $e)
 		{
-
-			foreach ($e->movimentacoes() as $m)
+			foreach ($e->movimentacoes as $m)
 			{
 
 				if ($m->tipo_movimentacao == 'Requisição')
 				{
+
                     $hoje = Carbon::today()->toDateString();
                     $antes = Carbon::today()->addDays(-30)->toDateString();
 
-					if ($m->data_mov > $antes)
+                    if ($m->data_mov > $antes)
 					{
-                        if ($m->data_mov < $maiordata){
+                        if ($m->data_mov < $maiordata);
+                        {
                             $maiordata = $m->data_mov;
                            }
 
@@ -111,7 +111,7 @@ class Material extends Model
        $dias = Carbon::now()->diffInDays($maiordata, true);
 
 
-		$consumoDiario = $consumoTotal / $dias;
+        $consumoDiario = $consumoTotal / $dias;
 	    return $consumoDiario;
     //  return rand(0, 12);
 	}
