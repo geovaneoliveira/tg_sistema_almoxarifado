@@ -124,7 +124,50 @@ return $consumoTotal;
 
 
 
+public static function materiaisAbaixoEstoqueMin () {
+	$materiais = DB::select('
+		select material.cod_material,
+			material.nome_material,
+			material.lead_time,
+			material.cons_dia,
+			material.percentual_seg,
+			material.margem_seg,
+			(material.cons_dia * material.lead_time) as estoque_min, 
+			((material.cons_dia * material.lead_time) + (material.cons_dia * material.lead_time)*(percentual_seg/100) + margem_seg) as estoque_seg,
+			sum(estoque.quantidade) as estoque_total
+				from material
+					inner join estoque
+						on material.cod_material = estoque.cod_material
+				group by material.cod_material, material.nome_material, material.lead_time, material.cons_dia, material.percentual_seg, material.margem_seg
+				having sum(estoque.quantidade) < (material.cons_dia * material.lead_time)
+				order by material.nome_material');
 
+        return $materiais;
+
+}
+
+
+public static function materiaisAbaixoEstoqueSeg () {
+	$materiais = DB::select('
+		select material.cod_material,
+			material.nome_material, 
+			material.lead_time,
+			material.cons_dia,
+			material.percentual_seg,
+			material.margem_seg,
+			(material.cons_dia * material.lead_time) as estoque_min, 
+			((material.cons_dia * material.lead_time) + (material.cons_dia * material.lead_time)*(percentual_seg/100) + margem_seg) as estoque_seg,
+			sum(estoque.quantidade) as estoque_total
+				from material
+					inner join estoque
+						on material.cod_material = estoque.cod_material
+				group by material.nome_material, material.cod_material, material.lead_time, material.cons_dia, material.percentual_seg, material.margem_seg
+				having sum(estoque.quantidade) < ((material.cons_dia * material.lead_time) + (material.cons_dia * material.lead_time)*(percentual_seg/100) + margem_seg)
+				order by material.nome_material');
+
+        return $materiais;
+
+}
 
 
 }
