@@ -23,8 +23,10 @@ class UserController extends Controller
 
 
     public function gerenciar() {
-        $users = User::all();
-        return view('usuarios-gerenciar')->with('users', $users)->with('view', $this->view);
+        // $users = User::all();
+        // return view('usuarios-gerenciar')->with('users', $users)->with('view', $this->view);
+
+        return view('usuarios-gerenciar')->with('view', $this->view);
     }
 
 
