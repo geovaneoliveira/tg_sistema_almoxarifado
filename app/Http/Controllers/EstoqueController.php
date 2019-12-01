@@ -14,7 +14,7 @@ class EstoqueController extends Controller
 {
 
 	public $view = array(
-    	'active' => 'nula',
+    	'active' => 'gerenciarEstoque',
     	'operacao' => 'nula'
    	);
 
@@ -23,25 +23,32 @@ class EstoqueController extends Controller
         $this->middleware('autorizacao');
     }
 
+    /*
+
 	public function form() {
 		$this->view["active"] = "materiais";
 
 		$material = New Material;
 		$locais = Local::all();
-		return view('estoque-entrada')->with('view', $this->view)->with('locais', $locais)->with('material', $material);
+
+		return view('estoque-entrada')
+				->with('view', $this->view)
+				->with('locais', $locais)
+				->with('material', $material);
 	}
+	*/
 
 
 	public function gerenciar() {
        	$this->view["active"] =  "gerenciarEstoque";
 
-       	$estocados = Estoque::listarEstocadosOnde();
+       	//$estocados = Estoque::listarEstocadosOnde();
 
 	    return view('estoque-gerenciar')
 		    	->with('view', $this->view)
 		      	->with('tipos', Tipo::all())
-		      	->with('locais', Local::all())
-		      	->with('estocados', $estocados);
+		      	->with('locais', Local::all());
+		      //	->with('estocados', $estocados);
 	}
 
 
@@ -71,12 +78,14 @@ class EstoqueController extends Controller
 		
 		$estocado = Estoque::find($id);
 
-		return view('estoque-ajustar')->with('view', $this->view)->with('estocado', $estocado);
+		return view('estoque-ajustar')
+				->with('view', $this->view)
+				->with('estocado', $estocado);
 	}
 
 
 
-		public function edita() {
+	public function edita() {
        	$this->view["active"] = "gerenciarEstoque";
        	$this->view["operacao"] = "edita";
 		
@@ -86,67 +95,76 @@ class EstoqueController extends Controller
 
 		$locais = Local::all();
 
-		return view('estoque-ajustar')->with('view', $this->view)->with('estocado', $estocado)->with('locais', $locais);
+		return view('estoque-ajustar')
+				->with('view', $this->view)
+				->with('estocado', $estocado)
+				->with('locais', $locais);
 	}
 
 
 	public function atualiza() {
-		$this->view["active"] = "gerenciarEstoque";
-		
-		$id = Request::input('id');
-		$estocado = Estoque::find($id);
+		try {
+			$id = Request::input('id');
+			$estocado = Estoque::find($id);
 
-		if( $estocado->quantidade != Request::input('quantidade') ){
-			$this->view["operacao"] = "ajustado";
-			$tipo_movimentacao = 'Ajuste';
-			$qtde_movimentada = Request::input('quantidade') - $estocado->quantidade;
-			
-			$movimentacao = new Movimentacao();
-			$movimentacao->estoque_id = $estocado->id;
-			$movimentacao->cod_usuario = \Auth::user()->id;
-			$movimentacao->qtde_movimentada = $qtde_movimentada;
-			$movimentacao->tipo_movimentacao = $tipo_movimentacao;
-			$movimentacao->save();
+			if( $estocado->quantidade != Request::input('quantidade') ){
+				$tipo_movimentacao = 'Ajuste';
+				$qtde_movimentada = Request::input('quantidade') - $estocado->quantidade;
+				
+				$movimentacao = new Movimentacao();
+				$movimentacao->estoque_id = $estocado->id;
+				$movimentacao->cod_usuario = \Auth::user()->id;
+				$movimentacao->qtde_movimentada = $qtde_movimentada;
+				$movimentacao->tipo_movimentacao = $tipo_movimentacao;
+				$movimentacao->save();
 
-			$estocado->quantidade = Request::input('quantidade');
-		}else {
-			$this->view["operacao"] = "editado";
-			$estocado->lote = Request::input('lote');
-			$estocado->data_validade = Request::input('data_validade');
-			$estocado->cod_local = Request::input('cod_local');
+				$estocado->quantidade = Request::input('quantidade');
+				$estocado->save();
+				return redirect()
+						->action('EstoqueController@gerenciar')
+						->with('status', 'ajustado');
+			} else {
+				$estocado->lote = Request::input('lote');
+				$estocado->data_validade = Request::input('data_validade');
+				$estocado->cod_local = Request::input('cod_local');
+				$estocado->save();
+				return redirect()
+						->action('EstoqueController@gerenciar')
+						->with('status', 'editado');
+			}
+		} catch (\PDOException $e) {
+			if( $estocado->quantidade != Request::input('quantidade') ){
+				return redirect()
+					->action('EstoqueController@ajusta',  ['id' => Request::input('id') ] )
+					->with('status', 'naoEditado');
+			} else {
+				return redirect()
+					->action('EstoqueController@edita',  ['id' => Request::input('id') ])
+					->with('status', 'naoEditado');
+			}			
 		}
-		
-		$estocado->save();
 
-		return view('estoque-ajustar')
-						->with('view', $this->view)
-						->with('tipos', Tipo::all())
-		      			->with('locais', Local::all())
-		      			->with('estocado', $estocado);
 	}
 
 
+
+
 	public function remove() {
-		$this->view["operacao"] = "deletado";
-		$id = Request::route('id');
-		$estocado = Estoque::find($id);
-
-    try {
-    	if($estocado->movimentacoes()->count() == 1){
-    		$estocado->movimentacoes()->first()->delete();
-    	}
-    	$estocado->delete();
-    } catch (\Illuminate\Database\QueryException $e) {
-    	$this->view["operacao"] = "naoDeletado";
-    }
-		
-
- 		return view('estoque-gerenciar')
-		    	->with('view', $this->view)
-		      	->with('tipos', Tipo::all())
-		      	->with('locais', Local::all())
-		      	->with('estocados', Estoque::listarEstocadosOnde())
-		      	->with('estocado', $estocado);
+		try {
+			$id = Request::route('id');
+			$estocado = Estoque::find($id);
+			if($estocado->movimentacoes()->count() == 1){
+    			$estocado->movimentacoes()->first()->delete();
+	    	}
+	    	$estocado->delete();
+			return redirect()
+					->action('EstoqueController@gerenciar')
+					->with('status','excluido');
+	    } catch (\PDOException $e) {
+			return redirect()
+					->action('EstoqueController@gerenciar')
+					->with('status','naoExcluido');
+	    }
 	}
 
 

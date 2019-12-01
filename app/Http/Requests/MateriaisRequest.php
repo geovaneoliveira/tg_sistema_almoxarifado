@@ -24,7 +24,7 @@ class MateriaisRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome_material' => 'required|max:100',
+            'nome_material' => 'required|max:50',
             'cod_tipo'      => 'required',
             'cod_unid_medida' => 'required',
             'lead_time' => 'required|numeric',
@@ -37,7 +37,7 @@ class MateriaisRequest extends FormRequest
     public function messages()
     {
         return [
-            'required' => 'O :attribute é obrigatório',
+            'required' => 'O :attribute é obrigatório'
         ];
     }
 }

@@ -15,42 +15,59 @@ use App\Http\Requests\EstoqueRequest;
 
 class MaterialController extends Controller
 {
-  public $view = array(
-    'active' => 'materiais',
-      //'active' => 'material',
-      'operacao' => 'nula'
+    public $view = array(
+        'active' => 'materiais',
+        'operacao' => 'nula'
     );
 
 
-		public function __construct()
+	public function __construct()
     {
         $this->middleware('autorizacao');
     }
 
 	public function novo() {
-        return view('material')->with('view', $this->view)
-           ->with('unidades', Unidade::all())
-             ->with('tipos', Tipo::all());
+        return view('material')
+                ->with('view', $this->view)
+                ->with('unidades', Unidade::all())
+                ->with('tipos', Tipo::all());
     }
 
     public function adiciona(MateriaisRequest $request) {
+        try {
+            $nome_material = $request->input('nome_material');
+            $materialExistente = Material::where('nome_material', $nome_material)->count();
+            if($materialExistente == 0){
+            Material::create($request->all());//com validação
+            return redirect()
+                    ->action('MaterialController@consulta')
+                    ->with('status','incluido')
+                    ->with('view', $this->view);                       
+            } else {
+            return redirect()
+                    ->action('MaterialController@novo')
+                    ->with('status','naoIncluido')
+                    ->with('view', $this->view);   
+            }           
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('MaterialController@novo')
+                    ->with('status','naoIncluido')
+                    ->with('view', $this->view);              
+        }
 
-      Material::create($request->all());//com validação
 
-      return redirect()
-       ->action('MaterialController@novo')
-              ->withInput(Request::only('nome_material'))
-               ->with('operacao','incluido')
-               ->with('view', $this->view);
 
+        
     }
 
     public function consulta() {
-       $Materiais = Material::all();
+        //$Materiais = Material::all();
 
-        return view('material-consulta')->with('view', $this->view)
-          ->with('tipos', Tipo::all())
-            ->with('materiais', $Materiais);
+        return view('material-consulta')
+                ->with('view', $this->view)
+                ->with('tipos', Tipo::all());
+              //  ->with('materiais', $Materiais);
     }
 
     public function edita() {
@@ -64,31 +81,49 @@ class MaterialController extends Controller
     }
 
     public function remove() {
-		$id = Request::route('id');
-        $material = Material::find($id);
-        if ($material){
-            $res=Material::where('cod_material',$id)->delete();
+        try {
+            $id = Request::route('id');
+            $material = Material::find($id);
+            $material->delete();
+            if ($material){
+                $res=Material::where('cod_material',$id)->delete();
+                return redirect()
+                        ->action('MaterialController@consulta')
+                        ->with('status','excluido');
+            } else {
+                return redirect()
+                    ->action('MaterialController@consulta')
+                    ->with('status','naoExcluido');
+            }
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('MaterialController@consulta')
+                    ->with('status','naoExcluido');
         }
-        return redirect()->action('MaterialController@consulta');
 	}
 
 
     public function atualiza(MateriaisRequest $request) {
-        $material = Material::find($request->input('cod_material'));
-        $material->cod_material = $request->input('cod_material');
-        $material->nome_material = $request->input('nome_material');
-        $material->cod_tipo = $request->input('cod_tipo');
-        $material->cod_unid_medida = $request->input('cod_unid_medida');
-        $material->lead_time = $request->input('lead_time');
-        $material->cons_dia = $request->input('cons_dia');
-        $material->percentual_seg = $request->input('percentual_seg');
-        $material->margem_seg = $request->input('margem_seg');
-
-		$material->save();
-		return redirect()->action('MaterialController@novo')
-                    ->withInput(Request::only('nome_material'))
-                      ->with('operacao','atualizado');
-
+        try {
+            $material = Material::find($request->input('cod_material'));
+            $material->cod_material = $request->input('cod_material');
+            $material->nome_material = $request->input('nome_material');
+            $material->cod_tipo = $request->input('cod_tipo');
+            $material->cod_unid_medida = $request->input('cod_unid_medida');
+            $material->lead_time = $request->input('lead_time');
+            $material->cons_dia = $request->input('cons_dia');
+            $material->percentual_seg = $request->input('percentual_seg');
+            $material->margem_seg = $request->input('margem_seg');
+            $material->save();
+            return redirect()
+                    ->action('MaterialController@consulta')
+                    ->with('status','editado');
+            
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('MaterialController@novo')
+                    ->with('status','naoEditado');           
+        }
     }
 
 
@@ -98,20 +133,21 @@ class MaterialController extends Controller
 
         if ($nome_material){
             if ($tipo){
-                $Materiais = Material::where('cod_tipo', $tipo)->where('nome_material', 'like', '%' . $nome_material . '%')
-                ->orderby('cod_material', 'desc')
-                ->get();
+                $Materiais = Material::where('cod_tipo', $tipo)
+                                        ->where('nome_material', 'like', '%' . $nome_material . '%')
+                                        ->orderby('cod_material', 'desc')
+                                        ->get();
             }
             else{
                 $Materiais = Material::where('nome_material', 'like', '%' . $nome_material . '%')
-                ->orderby('cod_material', 'desc')
-                ->get();
+                                        ->orderby('cod_material', 'desc')
+                                        ->get();
             }
         }
         elseif($tipo){
             $Materiais = Material::where('cod_tipo', $tipo)
-            ->orderby('cod_material', 'desc')
-            ->get();
+                                    ->orderby('cod_material', 'desc')
+                                    ->get();
 
         }
         else{
@@ -131,11 +167,16 @@ class MaterialController extends Controller
 
     $material = Material::find($id);
     $locais = Local::all();
-    return view('material-alocacao')->with('view', $this->view)->with('locais', $locais)->with('material', $material);
+    return view('material-alocacao')
+            ->with('view', $this->view)
+            ->with('locais', $locais)
+            ->with('material', $material)
+            ->with('status', 'nenhum');
   }
 
 
 public function estocar(EstoqueRequest $request) {
+    try {
         $this->view["active"] = "materiais";
 
         $estoque = new Estoque();
@@ -160,20 +201,30 @@ public function estocar(EstoqueRequest $request) {
 
         $material = Material::where('cod_material', $request->input('cod_material') );
 
-    $material = Material::find($request->input('cod_material'));
-    $locais = Local::all();
-    return view('material-alocacao')->with('view', $this->view)->with('locais', $locais)->with('material', $material);
+        $material = Material::find($request->input('cod_material'));
+      
+
+        return redirect()
+                ->action('MaterialController@consulta')
+                ->with('status', 'alocado');
+
+        } catch (\PDOException $e) {
+            return redirect()
+                ->action('MaterialController@aloca', ['id' => $request->input('cod_material') ])
+                ->with('status', 'naoAlocado');
+        }
+
+
+        
     }
 
 
 
 
-public function consumoDiario(){
-    $id = Request::route('id');
-    $material = Material::find($id);
-    return $material->calcConsumoDiario();
-}
-
-
+    public function consumoDiario(){
+        $id = Request::route('id');
+        $material = Material::find($id);
+        return $material->calcConsumoDiario();
+    }
 
 }

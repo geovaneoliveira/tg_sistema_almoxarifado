@@ -50,9 +50,9 @@
 
   </div> <!--fim da primeira linha-->
 
-
-    <div class="row" style="height: 225px; overflow-y: auto;" ><!--inicio da listagem de locais-->
-      <div class="col">
+  @isset($estocados)
+    <div class="row mb-1 mt-1" style="max-height: 225px; overflow-y: auto;" ><!--inicio da listagem de locais-->
+      <div class="col-12">
         <table class="table table-sm table-bordered table-hover ">
         <tr>
           <th>Material</th>
@@ -74,33 +74,70 @@
           <td style="text-align: center;"> <a href="/estoque/ajusta/{{$e->id}}"> <span class="fas fa-balance-scale"></span> </a> </td>
         </tr>
         @endforeach
-      </table>
-        
-      </div>
-      
+      </table>        
+      </div>      
     </div><!--fim da listagem de locais-->
 
 
-<div class="row p-3">
-        @if ( $view['operacao'] == 'deletado' )
-              <div class="alert alert-success" role="alert">
-                <strong>Sucesso:</strong> O Material Estocado foi deletado do sistema com sucesso!
-              </div>
-            
-        @elseif ( $view['operacao'] == 'naoDeletado' )
-          <div class="alert alert-danger" role="alert">
-            <strong>Atenção:</strong> O Material estocado NÃO pode ser deletado do sistema. É provavel que o mesmo tenha alguma movimentação associada!
-          </div>
-        @endif
-  
-</div>
+    <div class="col-12 mt-1 mb-1" style="text-align: center;">
+      <label>Legenda:</label>   
+      <span class="fas fa-pencil-alt text-primary ml-3 mr-1"> Editar </span>
+      <span class="fas fa-trash text-danger ml-3 mr-1"> Excluir </span>
+      <span class="fas fa-balance-scale text-primary ml-3"> Ajustar </span>        
+    </div>
+
+  @endisset
+
+  <div class="row mt-1 mb-1">
+    <div class="col-12">
+
+      @if ( session('status') == 'excluido' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material estocado foi excluído do sistema com sucesso!
+        </div>
+          
+      @elseif ( session('status') == 'naoExcluido' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material estocado NÃO pode ser excluído do sistema!
+        </div>
+
+      @elseif ( session('status') == 'editado' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material estocado foi atualizado com sucesso!
+        </div>
+
+      @elseif ( session('status') == 'naoEditado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material estocado NÃO pode ser editado!
+        </div>
+
+      @elseif ( session('status') == 'ajustado' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material estocado foi ajustado com sucesso!
+        </div>
+
+      @elseif ( session('status') == 'naoAjustado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material estocado NÃO pode ser ajustado!
+        </div>
+
+      @endif
+        
+    </div>
+  </div>
 
 
 
   <div class="row">
-    <div class="col d-flex justify-content-around mt-3" id="secao-botoes">
-        <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-search"></i>Localizar</button>
-        <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>
+    <div class="col-12 d-flex justify-content-around mt-1" id="secao-botoes">
+        <button type="submit" class="btn btn-lg btn-success col-3"><i class="fas fa-search"></i>Localizar</button>
+        <button type="reset" class="btn btn-lg btn-success  col-3"><i class="fas fa-broom"></i>Limpar</button>
     </div>
   </div>
 

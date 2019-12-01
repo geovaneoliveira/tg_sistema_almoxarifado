@@ -63,16 +63,12 @@
 
 
 
-  
-
-
-
-    <div class="row">
-      <div class="col-md-12 d-flex justify-content-around mt-5" id="secao-botoes"> 
-          <button type="submit" class="btn btn-lg btn-success"><i class="far fa-save"></i>Salvar</button>         
-          <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>    
-      </div>
+    <div class="form-row">
+    <div class="col d-flex justify-content-around mt-3" id="secao-botoes">
+        <button type="submit" class="btn btn-lg btn-success col-3"><i class="far fa-save"></i>Salvar</button>         
+        <button type="reset" class="btn btn-lg btn-success  col-3"><i class="fas fa-broom"></i>Limpar</button> 
     </div>
+  </div>
 
   </form> <!-- fim do formulário-->
 

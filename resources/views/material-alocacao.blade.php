@@ -62,10 +62,15 @@
 
         </div>
 
-         
-            
+      </div> 
+ 
+
+     </div> <!-- fim da div row da parte do forumulario--> 
 
 
+<div class="row mt-3">
+  <div class="col-12">
+    
 
       @if (count($errors) > 0)
         <div class="alert alert-danger">
@@ -75,27 +80,25 @@
             @endforeach
           </ul>
         </div>
-      @else
-        @if(old('nome_material') && session('operacao')=='alocado')
-        <div class="alert alert-success" role="alert">
-          <strong>Sucesso:</strong> Material {{old('nome_material')}} foi alocado com sucesso!
-        </div>
-        @endif
-
-        @if(session('operacao')=='atualizado')
-        <div class="alert alert-success" role="alert">
-          <strong>Sucesso:</strong> Material {{old('nome_material')}} foi atualizado com sucesso!
-        </div>
-      @endif
 
       @endif
 
-      
+      @if ( session('status') == 'alocado' )
 
-      </div> 
- 
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material foi alocado com sucesso no estoque!
+        </div>
 
-     </div> <!-- fim da div row da parte do forumulario--> 
+      @elseif ( session('status') == 'naoAlocado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material NÃO pode ser alocado!
+        </div>
+
+      @endif
+  
+</div>
+</div>
 
 
 
@@ -105,9 +108,9 @@
 
     <div class="row">
       <div class="col-md-12 d-flex justify-content-around mt-5" id="secao-botoes"> 
-          <button type="submit" class="btn btn-lg btn-success"><i class="far fa-save"></i>Alocar</button>
-           <button type="button" class="btn btn-lg btn-success" onclick="history.back()" > <i class="fas fa-ban"></i>Cancelar</button>
-          <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>
+          <button type="submit" class="btn btn-lg btn-success col-3"><i class="far fa-save"></i>Alocar</button>
+           <button type="button" class="btn btn-lg btn-success col-3" onclick="history.back()" > <i class="fas fa-ban"></i>Cancelar</button>
+          <button type="reset" class="btn btn-lg btn-success col-3"><i class="fas fa-broom"></i>Limpar</button>
       </div>
     </div>
 

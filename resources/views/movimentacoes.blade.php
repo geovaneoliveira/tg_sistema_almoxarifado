@@ -107,6 +107,8 @@
   </div> <!--fim da primeira linha-->
 
 
+
+    @isset($movimentados)
     <div class="row" style="max-height: 300px; overflow-y: auto;" ><!--inicio da listagem de movimentacoes-->
       <div class="col">
         <table class="table table-sm table-bordered table-hover ">
@@ -136,11 +138,16 @@
 
       </div>
     </div><!--fim da listagem de locais-->
+    @endisset
+
+
+
+
 
   <div class="row">
     <div class="col d-flex justify-content-around mt-2" id="secao-botoes">
-        <button type="submit" class="btn btn-lg btn-success"><i class="fas fa-search"></i>Localizar</button>
-        <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>
+        <button type="submit" class="btn btn-lg btn-success col-3"><i class="fas fa-search"></i>Localizar</button>
+        <button type="reset" class="btn btn-lg btn-success  col-3"><i class="fas fa-broom"></i>Limpar</button>
     </div>
   </div>
 

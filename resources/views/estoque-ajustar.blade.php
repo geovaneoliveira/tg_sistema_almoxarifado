@@ -6,10 +6,10 @@
 
     
     <div class="row">    <!-- verificar classes is-valid e is-invalid para serem aplicadas via javaScript -->   
-      <div class="d-flex flex-wrap col-md-12">           
-        <div class="col-sm-12 col-md-6">
+              
+  
 
-          <div class="form-group">
+          <div class="form-group col-md-6">
             <label for="cod_material">Cód. de Estoque</label>
             <div class="input-group">
               <input type="number" class="form-control" id="cod_material" name="id" value="{{$estocado->id}}" readonly/>
@@ -19,42 +19,44 @@
             </div>
           </div>
 
-          <div class="form-group">
+          <div class="form-group col-md-6">
             <label for="cod_material">Cód. Material</label>
             <div class="input-group">
               <input type="number" class="form-control" id="cod_material" name="cod_material" value="{{$estocado->cod_material}}" readonly/>
             </div>
           </div>
 
-          <div class="form-group">
-            <label for="nome_material">Desc. Material</label>
-            <div class="input-group">  
-              <input type="text" class="form-control" id="nome_material" name="nome_material" value="{{$estocado->material->nome_material}}" readonly/>
+
+           <div class="form-group col-12">
+              <label for="nome_material">Desc. Material</label>
+              <div class="input-group">  
+                <input type="text" class="form-control" id="nome_material" name="nome_material" value="{{$estocado->material->nome_material}}" readonly/>
+              </div>
             </div>
-          </div>
 
-          </div>
-
-          <div div class="col-sm-12 col-md-6">
-
-            <label for="lote">Lote</label>
-          <input type="text" class="form-control mb-3" id="lote" name="lote" value="{{$estocado->lote}}" />
-
+          <div class="form-group col-6">
             <label for="quantidade_id">Quantidade</label>
             <input type="text" class="form-control mb-3" id="quantidade_id" name="quantidade" onkeyup="verifica();" value="{{$estocado->quantidade}}"/>
+          </div>
 
-            <div class="form-group">
+          <div class="form-group col-6">
+            <label for="lote">Lote</label>
+            <input type="text" class="form-control mb-3" id="lote" name="lote" value="{{$estocado->lote}}" />
+          </div>
+
+
+          <div class="form-group col-6">
               <label for="data_validade">Data Validade</label>
               <input type="date" class="form-control mb-3" id="data_validade" name="data_validade" value="{{ $estocado->getDataValidadeForm()}}"  readonly />             
             </div>
 
-            <div class="form-group">
+            <div class="form-group col-md-6">
               <label for="codLocal">Local de Armazenamento:</label>
               <div class="input-group">
-                @if($view['operacao']=='ajusta' || $view['operacao']=='ajustado')
+                @if($view['operacao']=='ajusta')
                   <input type="text" class="form-control mb-3" name="" id="" value="{{$estocado->local->nome_local}}" readonly="readonly"/>
                   <input type="hidden" name="cod_local" id="" value="{{$estocado->cod_local}}" />
-                @elseif($view['operacao']=='edita' || $view['operacao']=='editado')
+                @elseif($view['operacao']=='edita')
                   <select class="form-control" id="codLocal" name="cod_local">
                   @foreach($locais as $l)
                     <option value="{{$l->cod_local}}" @if($l->cod_local == $estocado->cod_local) selected @endif > {{$l->nome_local}} </option>
@@ -67,9 +69,12 @@
 
             <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
 
-          </div>
+     </div> <!-- fim da div row da parte do forumulario--> 
 
 
+
+<div class="row mt-3">
+    <div class="col-12">
 
       @if (count($errors) > 0)
         <div class="alert alert-danger">
@@ -79,31 +84,43 @@
             @endforeach
           </ul>
         </div>
-      @else
-        @if(old('nome_material') && session('operacao')=='alocado')
-        <div class="alert alert-success" role="alert">
-          <strong>Sucesso:</strong> Material {{old('nome_material')}} foi alocado com sucesso!
-        </div>
-        @endif
+      @endif
 
-        @if ( $view["operacao"] == 'ajustado' )
+      @if ( session('status') == 'editado' )
+
         <div class="alert alert-success" role="alert">
-          <strong>Sucesso:</strong> O Material estocado {{old('nome_material')}} foi ajustado com sucesso!
+          <strong>Sucesso:</strong> O material estocado foi atualizado com sucesso!
         </div>
-        @endif
+
+      @elseif ( session('status') == 'naoEditado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material estocado NÃO pode ser editado!
+        </div>
+
+      @elseif ( session('status') == 'ajustado' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material estocado foi ajustado com sucesso!
+        </div>
+
+      @elseif ( session('status') == 'naoAjustado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material estocado NÃO pode ser ajustado!
+        </div>
 
       @endif
-     
+        
+    </div>
+  </div>
 
-
-      </div> 
-     </div> <!-- fim da div row da parte do forumulario--> 
 
     <div class="row">
       <div class="col-md-12 d-flex justify-content-around mt-5" id="secao-botoes"> 
-          <button type="submit" class="btn btn-lg btn-success " id="btnEstoqueSubmit"><i class="far fa-save"></i></button>
-          <a href="/estoque/gerenciar" class="btn btn-lg btn-success"><i class="fas fa-ban"></i> Cancelar</a>
-          <button type="reset" class="btn btn-lg btn-success"><i class="fas fa-broom"></i>Limpar</button>    
+          <button type="submit" class="btn btn-lg btn-success  col-3" id="btnEstoqueSubmit"><i class="far fa-save"></i></button>
+          <a href="/estoque/gerenciar" class="btn btn-lg btn-success  col-3"><i class="fas fa-ban"></i> Cancelar</a>
+          <button type="reset" class="btn btn-lg btn-success  col-3"><i class="fas fa-broom"></i>Limpar</button>    
       </div>
     </div>
 
@@ -142,13 +159,13 @@
   console.log('operacao: ');
   console.log(operacao);
 
-  if (operacao=='edita' || operacao=='editado'){
+  if (operacao=='edita'){
     document.getElementById("lote").readOnly = false;
     document.getElementById("data_validade").readOnly = false;
     document.getElementById("quantidade_id").readOnly = true;
     document.getElementById("btnEstoqueSubmit").insertAdjacentHTML("beforeend","Salvar");
   }
-  if (operacao=='ajusta' || operacao=='ajustado'){
+  if (operacao=='ajusta'){
     document.getElementById("lote").readOnly = true;
     document.getElementById("data_validade").readOnly = true;
     document.getElementById("quantidade_id").readOnly = false;

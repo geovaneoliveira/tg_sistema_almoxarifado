@@ -26,14 +26,18 @@ class UserController extends Controller
         // $users = User::all();
         // return view('usuarios-gerenciar')->with('users', $users)->with('view', $this->view);
 
-        return view('usuarios-gerenciar')->with('view', $this->view);
+        return view('usuarios-gerenciar')
+                ->with('view', $this->view);
     }
 
 
     public function edita() {
         $id = Request::route('id');
         $user = User::find($id);
-        return redirect()->action('UserController@gerenciar')->with('user', $user)->with('operacao','editar');
+        return redirect()
+                ->action('UserController@gerenciar')
+                ->with('user', $user)
+                ->with('operacao','editar');
 
     }
 
@@ -41,62 +45,100 @@ class UserController extends Controller
         $permission = Request::input('permission');
         $name = Request::input('name');
         $email = Request::input('email');
-        $users = User::where('permission', $permission)->where('name', 'like', '%' . $name . '%')->where('email', 'like', '%' . $email . '%')
-               ->orderBy('name', 'asc')
-               ->get();
+        $users = User::where('name', 'like', '%' . $name . '%')
+                     ->where('email', 'like', '%' . $email . '%')
+                     ->orderBy('name', 'asc');
 
-        return view('usuarios-gerenciar')->with('users', $users)->with('view', $this->view);
+        if ($permission != -1) {
+            $users = $users->where('permission', $permission);
+        }
+
+        $users = $users->get();
+
+        return view('usuarios-gerenciar')
+                ->with('users', $users)
+                ->with('view', $this->view);
 
     }
 
 
     public function atualiza(UsersGerenciarRequest $request) {
-        $user = User::find($request->input('id'));
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->permission = $request->input('permission');
-        $user->save();
-
-        return redirect()
-                ->action('UserController@gerenciar')
-                    ->withInput(Request::only('name'))->with('operacao','atualizado');
+        try {
+            $user = User::find($request->input('id'));
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->permission = $request->input('permission');
+            $user->save();
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','editado');
+            
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','naoEditado');            
+        }
 
     }
 
 
     public function reseta() {
-        $id = Request::route('id');
-        $user = User::find($id);
-        $user->password = \Hash::make($user->email);
-        $user->save();
-        return redirect()->action('UserController@gerenciar')->with('operacao','resetado');
+        try {
+            $id = Request::route('id');
+            $user = User::find($id);
+            $user->password = \Hash::make($user->email);
+            $user->save();
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','resetado');            
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','naoResetado');        
+        }     
 
     }
 
 
     public function remove() {
-        $id = Request::route('id');
-        $user = User::find($id);
-        $user->delete();
-        return redirect()->action('UserController@gerenciar')->with('operacao','deletado');
+        try {
+            $id = Request::route('id');
+            $user = User::find($id);
+            $user->delete();
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','excluido');
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','naoExcluido');
+        }
     }
 
 
     public function minhaconta() {
         $this->view["active"] = "minhaconta";
-        return view('usuarios-minhaconta')->with('view', $this->view);
+        return view('usuarios-minhaconta')
+                ->with('view', $this->view);
 
     }
 
     public function atualizabyuser(UsersRequest $request) {
-        $user = User::find($request->input('id'));
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = \Hash::make( $request->input('password') );
-        $user->save();
-        return redirect()
-                ->action('UserController@minhaconta')->with('operacao','atualizado');
-
+        try {
+            $user = User::find($request->input('id'));
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = \Hash::make( $request->input('password') );
+            $user->save();
+            return redirect()
+                    ->action('UserController@minhaconta')
+                    ->with('status','editado');
+            
+        } catch (\PDOException $e) {
+            return redirect()
+                    ->action('UserController@gerenciar')
+                    ->with('status','naoEditado');            
+        }
     }
 
 

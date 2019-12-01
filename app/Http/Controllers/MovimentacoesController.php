@@ -23,13 +23,13 @@ class MovimentacoesController extends Controller
 
     public function abreForm() {
 
-        $movimentados = Movimentacao::listarMovimentacao();
+       // $movimentados = Movimentacao::listarMovimentacao();
 
         return view('movimentacoes')
                ->with('view', $this->view)
                 ->with('tipos', Tipo::all())
-                ->with('locais', Local::all())
-                 ->with('movimentados', $movimentados);
+                ->with('locais', Local::all());
+            //     ->with('movimentados', $movimentados);
     }
 
 

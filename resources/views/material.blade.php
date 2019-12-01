@@ -198,38 +198,70 @@
       </div>
 
 </div>
-
-
-
-
-
 @endif
 
-  @if (count($errors) > 0)
-  <div class="alert alert-danger">
-    <ul>
-      @foreach ($errors->all() as $error)
-      <li>{{ $error }}</li>
-      @endforeach
-    </ul>
-  </div>
-  @else
-    @if(old('nome_material') && session('operacao')=='incluido')
-    <div class="alert alert-success" role="alert">
-      <strong>Sucesso:</strong> Material {{old('nome_material')}} foi adicionado!
-    </div>
-    @endif
 
-    @if(session('operacao')=='atualizado')
-    <div class="alert alert-success" role="alert">
-      <strong>Sucesso:</strong> Material {{old('nome_material')}} foi atualizado!
-    </div>
-    @endif
-  @endif
+
+
 
   </div> <!-- fim da div row da parte do forumulario-->
 
 
+
+
+  <div class="row mt-3">
+    <div class="col-12">
+
+      @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      @if ( session('status') == 'excluido' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material foi excluído do sistema com sucesso!
+        </div>
+          
+      @elseif ( session('status') == 'naoExcluido' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material NÃO pode ser excluído do sistema!
+        </div>
+
+      @elseif ( session('status') == 'incluido' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material foi adicionado com sucesso!
+        </div>
+
+      @elseif ( session('status') == 'naoIncluido' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material NÃO pode ser adicionado no sistema!
+        </div>
+
+      @elseif ( session('status') == 'editado' )
+
+        <div class="alert alert-success" role="alert">
+          <strong>Sucesso:</strong> O material foi atualizado com sucesso!
+        </div>
+
+      @elseif ( session('status') == 'naoEditado' )
+
+        <div class="alert alert-danger" role="alert">
+          <strong>Atenção:</strong> O material NÃO pode ser editado!
+        </div>
+
+      @endif
+      
+    <div>
+  <div>
 
   <!-- BOTOES -->
   <div class="row">

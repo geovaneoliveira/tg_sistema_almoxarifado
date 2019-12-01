@@ -24,7 +24,7 @@ class UnidadesRequest extends FormRequest
     public function rules()
     {
         return [
-            'descricao_unid_medida' => 'required|min:2'
+            'descricao_unid_medida' => 'required|min:2|max:20|unique:unidade_medida'
         ];
     }
 
@@ -35,7 +35,9 @@ class UnidadesRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
-            'min'      => 'O campo :attribute precisa terpelo menos 2 caracteres'
+            'min'      => 'O campo :attribute precisa terpelo menos 2 caracteres',
+            'max'      => 'O campo :attribute não pode exceder 20 caracteres',
+            'unique'   => 'O :attribute já foi utilizado'
         ];
 
     }

@@ -25,7 +25,8 @@ class SaidaController extends Controller
 
 
     public function abreForm() {
-		return view('saida-consulta-de-requisicoes')->with('view', $this->view);
+		return view('saida-consulta-de-requisicoes')
+                ->with('view', $this->view);
 	}
 
 
@@ -86,21 +87,36 @@ class SaidaController extends Controller
 
 
     public function nega() {
-        $status = '';
-
+        $cod_requisicao = Request::route('cod_requisicao');
+        $requisicao = Requisicao::find($cod_requisicao);
         try {
-            $cod_requisicao = Request::route('cod_requisicao');
-            $requisicao = Requisicao::find($cod_requisicao);
-            $requisicao->situacao = 'Negada'; 
-            $requisicao->save(); 
-            $status = 'negada';          
-        } catch (Exception $e) {
-            $status = 'naoNegada';            
-        }
-
-        return view('saida-consulta-de-requisicoes')
-                                ->with('status', $status)
-                                ->with('view', $this->view);
+            
+            if( $requisicao->situacao == 'Aberta'){
+                $requisicao->situacao = 'Negada';
+                $requisicao->save(); 
+                return redirect()
+                    ->action('SaidaController@abreForm')
+                    ->with('status', 'negada');
+            } elseif( $requisicao->situacao == 'Negada'){
+                $requisicao->situacao = 'Aberta';
+                $requisicao->save(); 
+                return redirect()
+                        ->action('SaidaController@abreForm')
+                        ->with('status', 'aberta');
+            }            
+             
+                  
+        } catch (\PDOException $e) {
+            if( $requisicao->situacao == 'Aberta'){
+                return redirect()
+                    ->action('SaidaController@abreForm')
+                    ->with('status', 'aberta');
+            } else if( $requisicao->situacao == 'Negada'){
+                return redirect()
+                    ->action('SaidaController@abreForm')
+                    ->with('status', 'naoAberta');
+            }                            
+        }        
     }
 
 
@@ -206,7 +222,7 @@ class SaidaController extends Controller
                     }
                 } 
             $retorno = ["status" => "Sucesso", "msg" => "Requisição finalizada com sucesso"];          
-            } catch (Exception $e) {
+            } catch (\PDOException $e) {
                 $retorno = ["status" => "Erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];              
             }
         }

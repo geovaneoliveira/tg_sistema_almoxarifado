@@ -24,7 +24,7 @@ class TiposRequest extends FormRequest
     public function rules()
     {
         return [
-            'nome_tipo' => 'required|min:3'
+            'nome_tipo' => 'required|min:3|max:20|unique:tipo_material'
         ];
     }
 
@@ -35,7 +35,9 @@ class TiposRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute é obrigatório',
-            'min'      => 'O campo :attribute precisa ter mais do que três caracteres'
+            'min'      => 'O campo :attribute precisa ter mais do que três caracteres',
+            'max'      => 'O campo :attribute não pode exceder 20 caracteres',
+            'unique'   => 'O :attribute já foi utilizado'
         ];
 
     }
