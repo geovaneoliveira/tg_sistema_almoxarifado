@@ -134,12 +134,12 @@ class MaterialController extends Controller
         if ($nome_material){
             if ($tipo){
                 $Materiais = Material::where('cod_tipo', $tipo)
-                                        ->where('nome_material', 'like', '%' . $nome_material . '%')
+                                        ->where(\DB::Raw('UPPER(nome_material)'), 'like', '%' . strtoupper($nome_material) . '%')
                                         ->orderby('cod_material', 'desc')
                                         ->get();
             }
             else{
-                $Materiais = Material::where('nome_material', 'like', '%' . $nome_material . '%')
+                $Materiais = Material::where(\DB::Raw('UPPER(nome_material)'), 'like', '%' . strtoupper($nome_material) . '%')
                                         ->orderby('cod_material', 'desc')
                                         ->get();
             }

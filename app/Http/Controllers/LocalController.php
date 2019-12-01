@@ -20,9 +20,9 @@ class LocalController extends Controller
 
 
     public function lista() {
-    	$locais = Local::all();
+    	//$locais = Local::all();
 		return view('local')
-				->with('locais', $locais)
+				//->with('locais', $locais)
 				->with('view', $this->view);
 	}
 
@@ -100,5 +100,21 @@ class LocalController extends Controller
 					->with('view', $this->view);			
 		}
 	}
+
+
+	public function localiza() {
+        $nome_local = Request::input('nome_local');        
+
+        $locais = Local::where(\DB::Raw('UPPER(nome_local)'),  'like' , '%' . strtoupper($nome_local) . '%' )
+					        ->orderBy('nome_local', 'asc')
+					        ->get();
+
+        return view('local')
+				->with('locais', $locais)
+				->with('view', $this->view);        
+
+    }
+
+
 
 }

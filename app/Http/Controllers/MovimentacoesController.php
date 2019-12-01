@@ -43,10 +43,9 @@ class MovimentacoesController extends Controller
         $data_mov_ini = Request::input('data_mov_ini');
         $data_mov_fim = Request::input('data_mov_fim');
         $qtde_movimentada = Request::input('qtde_movimentada');
-        $cod_usuario  = Request::input('name');
-        $cod_requisicao = Request::input('cod_requisicao');
+        $nome_usuario  = Request::input('name');
 
-      $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov_ini, $data_mov_fim, $qtde_movimentada, $cod_usuario, $cod_requisicao);
+        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov_ini, $data_mov_fim, $qtde_movimentada, $nome_usuario);
 
         return view('movimentacoes')
                 ->with('view', $this->view)
@@ -54,12 +53,6 @@ class MovimentacoesController extends Controller
                 ->with('locais', Local::all())
                 ->with('movimentados', $movimentados);
     }
-
-    public static function format_data($data) {
-return 3;
-     //   return date('d/m/Y', strtotime($data));
-}
-
 
 
 }

@@ -34,7 +34,7 @@ class Movimentacao extends Model
     }
 
 
-    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov_ini='', $data_mov_fim='', $qtde_movimentada='', $cod_usuario='') {
+    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov_ini='', $data_mov_fim='', $qtde_movimentada='', $nome_usuario='') {
         $stmt = DB::table('Movimentacao')
             ->join('Estoque', 'Movimentacao.estoque_id', '=', 'Estoque.id')
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
@@ -43,11 +43,11 @@ class Movimentacao extends Model
             ->leftJoin('Requisicao', 'Movimentacao.cod_requisicao', '=', 'Requisicao.cod_requisicao');
 
         if ($nome_material) {
-            $stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
+            $stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
         }
 
         if ($lote) {
-            $stmt->where('Estoque.lote', 'like', '%' . $lote . '%');
+            $stmt->where(\DB::Raw('UPPER(Estoque.lote)'), 'like', '%' . strtoupper($lote) . '%');
         }
 
         if ($tipo_movimentacao) {
@@ -71,8 +71,8 @@ class Movimentacao extends Model
             $stmt->where('Movimentacao.qtde_movimentada', $qtde_movimentada);
         }
 
-        if ($cod_usuario) {
-            $stmt->where('Users.name', 'like', '%' . $cod_usuario . '%');
+        if ($nome_usuario) {
+            $stmt->where(\DB::Raw('UPPER(Users.name)'), 'like', '%' . strtoupper($nome_usuario) . '%');
         }
 
 

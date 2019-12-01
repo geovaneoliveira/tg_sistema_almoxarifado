@@ -45,8 +45,8 @@ class UserController extends Controller
         $permission = Request::input('permission');
         $name = Request::input('name');
         $email = Request::input('email');
-        $users = User::where('name', 'like', '%' . $name . '%')
-                     ->where('email', 'like', '%' . $email . '%')
+        $users = User::where(\DB::Raw('UPPER(name)'), 'like', '%' . strtoupper($name) . '%')
+                     ->where(\DB::Raw('UPPER(email)'), 'like', '%' . strtoupper($email) . '%')
                      ->orderBy('name', 'asc');
 
         if ($permission != -1) {

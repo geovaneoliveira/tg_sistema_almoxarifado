@@ -34,11 +34,11 @@ class Estoque extends Model
 			->join('Unidade_medida', 'Material.cod_unid_medida', '=', 'Unidade_medida.cod_unid_medida');
 
         if ($nome_material) {
-			$stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
+			$stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
 		}
 
         if ($lote) {
-			$stmt->where('Estoque.lote', 'like', '%' . $lote . '%');
+			$stmt->where(\DB::Raw('UPPER(Estoque.lote)'), 'like', '%' . strtoupper($lote) . '%');
 		}
 
 		if ($cod_tipo) {

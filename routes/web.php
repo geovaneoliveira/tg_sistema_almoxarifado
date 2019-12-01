@@ -17,10 +17,11 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/local', 'LocalController@lista');
-Route::post('/local/adiciona', 'LocalController@adiciona');
+Route::match(['get', 'post'],'/local/adiciona', 'LocalController@adiciona');
 Route::get('/local/remove/{id}', 'LocalController@remove');
 Route::get('/local/edita/{id}', 'LocalController@edita');
-Route::post('/local/atualiza', 'LocalController@atualiza');
+Route::match(['get', 'post'],'/local/atualiza', 'LocalController@atualiza');
+Route::match(['get', 'post'],'/local/localiza', 'LocalController@localiza');
 
 Route::get('/unidade', 'UnidadeController@lista');
 Route::match(['get', 'post'],'/unidade/adiciona', 'UnidadeController@adiciona');
@@ -35,31 +36,31 @@ Route::get('/tipo/edita/{id}', 'TipoController@edita');
 Route::match(['get', 'post'],'/tipo/atualiza', 'TipoController@atualiza');
 
 Route::get('/material', 'MaterialController@novo');
-Route::post('/material/adiciona', 'MaterialController@adiciona');
+Route::match(['get', 'post'],'/material/adiciona', 'MaterialController@adiciona');
 Route::get('/material/consulta', 'MaterialController@consulta');
 Route::get('/material/edita/{id}', 'MaterialController@edita');
 Route::get('/material/consulta/remove/{id}', 'MaterialController@remove');
-Route::post('/material/atualiza', 'MaterialController@atualiza');
-Route::post('/material/localiza', 'MaterialController@localiza');
+Route::match(['get', 'post'],'/material/atualiza', 'MaterialController@atualiza');
+Route::match(['get', 'post'],'/material/localiza', 'MaterialController@localiza');
 Route::get('/material/aloca/{id}', 'MaterialController@aloca');
-Route::post('/material/estocar', 'MaterialController@estocar');
+Route::match(['get', 'post'],'/material/estocar', 'MaterialController@estocar');
 
 Route::get('/material/consumodiario/{id}', 'MaterialController@consumoDiario');
 
 Route::get('/user/gerenciar', 'UserController@gerenciar');
-Route::post('/user/localiza', 'UserController@localiza');
-Route::post('/user/adiciona', 'UserController@adiciona');
+Route::match(['get', 'post'],'/user/localiza', 'UserController@localiza');
+Route::match(['get', 'post'],'/user/adiciona', 'UserController@adiciona');
 Route::get('/user/remove/{id}', 'UserController@remove');
 Route::get('/user/edita/{id}', 'UserController@edita');
 Route::get('/user/reseta/{id}', 'UserController@reseta');
-Route::post('/user/atualiza', 'UserController@atualiza');
+Route::match(['get', 'post'],'/user/atualiza', 'UserController@atualiza');
 Route::get('/user/minhaconta', 'UserController@minhaconta');
-Route::post('/user/atualizabyuser', 'UserController@atualizabyuser');
+Route::match(['get', 'post'],'/user/atualizabyuser', 'UserController@atualizabyuser');
 
 //Route::get('/estoque/form', 'EstoqueController@form');
 Route::get('/estoque/gerenciar', 'EstoqueController@gerenciar');
-Route::post('/estoque/localiza', 'EstoqueController@localiza');
-Route::post('/estoque/atualiza', 'EstoqueController@atualiza');
+Route::match(['get', 'post'],'/estoque/localiza', 'EstoqueController@localiza');
+Route::match(['get', 'post'],'/estoque/atualiza', 'EstoqueController@atualiza');
 Route::get('/estoque/ajusta/{id}', 'EstoqueController@ajusta');
 Route::get('/estoque/edita/{id}', 'EstoqueController@edita');
 Route::get('/estoque/remove/{id}', 'EstoqueController@remove');
@@ -72,11 +73,11 @@ Route::get('/minhas-requisicoes', 'MinhasRequisicoesController@abreForm');
 Route::get('/minhas-requisicoes/edita/{cod_requisicao}', 'MinhasRequisicoesController@edita');
 Route::get('/minhas-requisicoes/remove/{cod_requisicao}', 'MinhasRequisicoesController@remove');
 Route::get('/minhas-requisicoes/exibeDetalhes/{cod_requisicao}', 'MinhasRequisicoesController@exibeDetalhes');
-Route::post('/minhas-requisicoes/localiza', 'MinhasRequisicoesController@localiza');
+Route::match(['get', 'post'],'/minhas-requisicoes/localiza', 'MinhasRequisicoesController@localiza');
 Route::get('/minhas-requisicoes/localizaMateriaisRequisitados/{cod_requisicao}', 'MinhasRequisicoesController@localizaMateriaisRequisitados');
 
 Route::get('/saida', 'SaidaController@abreForm');
-Route::post('/saida/localiza', 'SaidaController@localiza');
+Route::match(['get', 'post'],'/saida/localiza', 'SaidaController@localiza');
 Route::get('/saida/exibeDetalhes/{cod_requisicao}', 'SaidaController@exibeDetalhes');
 Route::get('/saida/nega/{cod_requisicao}', 'SaidaController@nega');
 Route::get('/saida/atende/{cod_requisicao}', 'SaidaController@atende');
@@ -93,4 +94,4 @@ Route::get('/inventario', 'InventarioController@abreForm');
 Route::get('/inventario/localiza', 'InventarioController@localizaMateriais');
 
 Route::get('/movimentacoes', 'MovimentacoesController@abreForm');
-Route::post ('/movimentacoes/localiza', 'MovimentacoesController@localiza');
+Route::match(['get', 'post'],'/movimentacoes/localiza', 'MovimentacoesController@localiza');

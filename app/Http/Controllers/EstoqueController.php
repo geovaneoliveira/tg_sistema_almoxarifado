@@ -23,32 +23,14 @@ class EstoqueController extends Controller
         $this->middleware('autorizacao');
     }
 
-    /*
-
-	public function form() {
-		$this->view["active"] = "materiais";
-
-		$material = New Material;
-		$locais = Local::all();
-
-		return view('estoque-entrada')
-				->with('view', $this->view)
-				->with('locais', $locais)
-				->with('material', $material);
-	}
-	*/
-
 
 	public function gerenciar() {
        	$this->view["active"] =  "gerenciarEstoque";
-
-       	//$estocados = Estoque::listarEstocadosOnde();
 
 	    return view('estoque-gerenciar')
 		    	->with('view', $this->view)
 		      	->with('tipos', Tipo::all())
 		      	->with('locais', Local::all());
-		      //	->with('estocados', $estocados);
 	}
 
 

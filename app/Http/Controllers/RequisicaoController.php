@@ -21,9 +21,9 @@ class RequisicaoController extends Controller
 
     public function abreForm() {
 		return view('requisicao')
-                                ->with('view', $this->view)
-                                ->with('tipos', Tipo::all())
-                                ->with('operacao', 'abreForm');
+                ->with('view', $this->view)
+                ->with('tipos', Tipo::all())
+                ->with('operacao', 'abreForm');
 	}
 
 

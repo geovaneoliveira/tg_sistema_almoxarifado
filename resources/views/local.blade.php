@@ -2,7 +2,7 @@
 @extends('layouts.lateral')
 @section('conteudo')
 
-<form action="{{ session('local') ? '/local/atualiza' : '/local/adiciona'}}" class="ml-4 mr-4" method="post">
+<form action="{{ session('local') ? '/local/atualiza' : '/local/adiciona'}}" class="ml-4 mr-4" method="post" id="form_local_id">
   
   <div class="row">    <!-- verificar classes is-valid e is-invalid para serem aplicadas via javaScript -->   
     <div class="col">           
@@ -33,6 +33,7 @@
  
   </div> <!-- fim da div row da parte do forumulario--> 
 
+  @isset($locais)
   <div class="row" style="max-height: 225px; overflow-y: auto;" ><!--inicio da listagem de locais-->
     <div class="col">
       <table class="table table-sm table-bordered table-hover">
@@ -56,6 +57,7 @@
     <span class="fas fa-pencil-alt text-primary ml-3 mr-1"> Editar </span>
     <span class="fas fa-trash text-danger ml-3"> Excluir </span>       
   </div>
+  @endisset
 
 
   <div class="row mt-1">
@@ -125,7 +127,7 @@
       @else
         <button type="submit" class="btn btn-lg btn-success col-3"><i class="fas fa-check"></i>Cadastrar</button>          
       @endif
-        
+        <button type="button" class="btn btn-lg btn-success col-3" onclick="localizar();"><i class="fas fa-search"></i>Localizar</button>        
         <button type="reset" class="btn btn-lg btn-success col-3"><i class="fas fa-broom"></i>Limpar</button>    
     </div>
   </div>
@@ -133,8 +135,15 @@
 </form> <!-- fim do formulário-->
 
 
+  @push('scripts')
 
+    <script>
+      function localizar(){
+        document.getElementById('form_local_id').action = "/local/localiza";
+        document.getElementById('form_local_id').submit();
+      }
+    </script>
 
-
+  @endpush
 
 @endsection

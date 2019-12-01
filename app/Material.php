@@ -57,7 +57,7 @@ class Material extends Model
 
 
         if ($nome_material) {
-			$stmt->where('Material.nome_material', 'like', '%' . $nome_material . '%');
+			$stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
 		}
 
 		if ($cod_tipo) {

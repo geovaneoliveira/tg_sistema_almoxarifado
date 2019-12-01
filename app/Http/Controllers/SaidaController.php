@@ -42,7 +42,9 @@ class SaidaController extends Controller
         $requisicoes = Requisicao::where('cod_requisicao',  'like' , '%' . $cod_requisicao . '%' );
 
         if ($nome_requisitante) {
-            $requisitantes = User::where('name', 'like' , '%' . $nome_requisitante . '%' )->select('id')->get();
+            $requisitantes = User::where(\DB::Raw('UPPER(name)'), 'like', '%' . strtoupper($nome_requisitante) . '%')
+                                ->select('id')
+                                ->get();
             $requisicoes->whereIn('cod_usuario',  $requisitantes);
         }
 
