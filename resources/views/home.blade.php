@@ -12,11 +12,11 @@
             <div class="card-header pt-4" style="background-color: #FFFF66;"  >
               <h5 class="card-title "> <i class="fas fa-cubes fa-lg menu-icone "></i> Estoque de Segurança Atingido!</h5>
             </div>
-            <div class="card-body " style="background-color: #FFFF99;">           
+            <div class="card-body " style="background-color: #FFFF99;">
               <p class="card-text"><strong>Atenção:</strong> {{count($materiaisAbaixoEstoqueSeg)}} materiais parecem ter atingido o estoque de segurança e exigem a sua atenção.</p>
               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
-                <a class="text-muted">ver materias...</a>
-              </button>            
+                <a class="text-muted">ver materiais...</a>
+              </button>
             </div>
             <div id="collapse1" class="collapse"  data-parent="#accordionExample1">
               <ul class="list-group text-muted">
@@ -26,7 +26,7 @@
                     <span class="badge badge-pill" style="background-color: #FFFF66;" >{{$maes->estoque_total}} de {{$maes->estoque_seg}} </span>
                   </li>
                 @endforeach
-              </ul>  
+              </ul>
             </div>
           </div>
         </div>
@@ -36,8 +36,8 @@
             <div class="card-header pt-4">
               <h5 class="card-title text-success"> <i class="fas fa-cubes fa-lg menu-icone"></i> Estoque de Segurança </h5>
             </div>
-            <div class="card-body ">           
-              <p class="card-text">Nenhum material parece ter atingido o estoque de segurança.</p>           
+            <div class="card-body ">
+              <p class="card-text">Nenhum material parece ter atingido o estoque de segurança.</p>
             </div>
           </div>
         </div>
@@ -54,8 +54,8 @@
             <div class="card-body " style="background-color: #FAB3AB;">
               <p class="card-text"><strong>Atenção:</strong> {{count($materiaisAbaixoEstoqueMin)}} materiais parecem ter atingido o estoque mínimo e exigem a sua atenção urgente!</p>
               <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
-                <a class="text-muted">ver materias...</a>
-              </button>            
+                <a class="text-muted">ver materiais...</a>
+              </button>
             </div>
             <div id="collapse2" class="collapse"  data-parent="#accordionExample2">
               <ul class="list-group text-muted">
@@ -65,7 +65,7 @@
                     <span class="badge badge-pill" style="background-color: #FA9A8F;">{{$maem->estoque_total}} de {{$maem->estoque_min}} </span>
                   </li>
                 @endforeach
-              </ul> 
+              </ul>
             </div>
           </div>
         </div>
@@ -75,8 +75,8 @@
             <div class="card-header pt-4">
               <h5 class="card-title text-success"> <i class="fas fa-cubes fa-lg menu-icone"></i> Estoque Mínimo </h5>
             </div>
-            <div class="card-body ">           
-              <p class="card-text">Nenhum material parece ter atingido o estoque mínimo.</p>           
+            <div class="card-body ">
+              <p class="card-text">Nenhum material parece ter atingido o estoque mínimo.</p>
             </div>
           </div>
         </div>S
@@ -89,11 +89,11 @@
               <div class="card-header pt-4" style="background-color: #FFFF66;" >
                 <h5 class="card-title"><i class="fas fa-users fa-lg menu-icone" ></i>Permissão para novos usuários </h5>
               </div>
-              <div class="card-body" style="background-color: #FFFF99;" >                  
+              <div class="card-body" style="background-color: #FFFF99;" >
                 <p class="card-text">Parece que {{ $usuariosSemPermissao->count() }} novos usuários se registraram no sistema e precisam da sua autorização de acesso.</p>
                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
                   <a class="text-muted">Ver usuários...</a>
-                </button>            
+                </button>
               </div>
               <div id="collapse4" class="collapse"  data-parent="#accordionExample4">
                 <ul class="list-group text-muted">
@@ -112,8 +112,8 @@
               <div class="card-header pt-4">
                 <h5 class="card-title text-success"> <i class="fas fa-users fa-lg menu-icone"></i> Permissão para novos usuários </h5>
               </div>
-              <div class="card-body ">           
-                <p class="card-text">Todos os usuários estão devidamente cadastrados quanto as suas permissões de acesso</p>           
+              <div class="card-body ">
+                <p class="card-text">Todos os usuários estão devidamente cadastrados quanto as suas permissões de acesso</p>
               </div>
             </div>
           </div>
@@ -134,7 +134,7 @@
                 <p class="card-text"><strong>Atenção:</strong> {{$estoquesVencidos->count()}} lotes parecem estar com a data de validade vencida e exigem a sua atenção.</p>
                 <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
                   <a class="text-muted">ver lotes...</a>
-                </button>            
+                </button>
             </div>
             <div id="collapse3" class="collapse"  data-parent="#accordionExample3">
               <ul class="list-group text-muted">
@@ -144,7 +144,7 @@
                     <span class="badge badge-pill" style="background-color: #FA9A8F;">{{$ev->quantidade}}</span>
                   </li>
                 @endforeach
-              </ul>  
+              </ul>
             </div>
           </div>
         </div>
@@ -154,8 +154,8 @@
             <div class="card-header pt-4">
               <h5 class="card-title text-success"> <i class="fas fa-building fa-lg menu-icone"></i> Validade de Lotes em Estoque </h5>
             </div>
-            <div class="card-body ">           
-              <p class="card-text">Parece que todos os materiais em estoque estão de acordo com as suas respectivas datas de validade.</p>           
+            <div class="card-body ">
+              <p class="card-text">Parece que todos os materiais em estoque estão de acordo com as suas respectivas datas de validade.</p>
             </div>
           </div>
         </div>
@@ -167,11 +167,11 @@
             <div class="card-header pt-4" style="background-color: #FFFF66;" >
               <h5 class="card-title"><i class="far fa-list-alt fa-lg menu-icone"></i>Requisições em Aberto</h5>
             </div>
-            <div class="card-body " style="background-color: #FFFF99;">            
+            <div class="card-body " style="background-color: #FFFF99;">
               <p class="card-text"><strong>Atenção:</strong> Parece haver {{$requisicoesAbertas->count()}} novas requisicões que presisaräo ser atendidas.</p>
               <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
                 <a class="text-muted">ver requisições...</a>
-              </button>            
+              </button>
             </div>
             <div id="collapse5" class="collapse"  data-parent="#accordionExample5">
               <ul class="list-group text-muted">
@@ -181,7 +181,7 @@
                       <span class="badge badge-pill" style="background-color: #FFFF66;">{{$req->materiais_requisitados->count()}}</span>
                   </li>
                 @endforeach
-              </ul>  
+              </ul>
             </div>
           </div>
         </div>
@@ -191,8 +191,8 @@
             <div class="card-header pt-4">
               <h5 class="card-title text-success"> <i class="far fa-list-alt fa-lg menu-icone"></i> Requisições em Aberto </h5>
             </div>
-            <div class="card-body ">           
-              <p class="card-text">No momento não há requisições em aberto. Todas foram atendidas ou negadas.</p>           
+            <div class="card-body ">
+              <p class="card-text">No momento não há requisições em aberto. Todas foram atendidas ou negadas.</p>
             </div>
           </div>
         </div>

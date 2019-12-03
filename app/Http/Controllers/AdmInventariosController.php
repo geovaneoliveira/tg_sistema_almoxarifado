@@ -16,7 +16,9 @@ class AdmInventariosController extends Controller
     }
 
     public function abreForm() {
-        return view('adm-inventarios-ativo')->with('view', $this->view)->with('operacao', 'abreForm');
+        return view('adm-inventarios-ativo')
+          ->with('view', $this->view)
+              ->with('operacao', 'abreForm');
     }
 
 
@@ -28,7 +30,17 @@ class AdmInventariosController extends Controller
         return view('adm-inventarios-localiza')->with('view', $this->view);
     }
 
-        public function exibeDetalhes() {
+    public function exibeDetalhes() {
         return view('adm-inventarios-detalhes')->with('view', $this->view);
     }
+
+    public function iniciar(){
+
+
+
+        return view('adm-inventarios-ativo')
+        ->with('view', $this->view)
+        ->with('operacao', 'abreForm');
+    }
+
 }
