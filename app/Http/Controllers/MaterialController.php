@@ -42,23 +42,23 @@ class MaterialController extends Controller
             return redirect()
                     ->action('MaterialController@consulta')
                     ->with('status','incluido')
-                    ->with('view', $this->view);                       
+                    ->with('view', $this->view);
             } else {
             return redirect()
                     ->action('MaterialController@novo')
                     ->with('status','naoIncluido')
-                    ->with('view', $this->view);   
-            }           
+                    ->with('view', $this->view);
+            }
         } catch (\PDOException $e) {
             return redirect()
                     ->action('MaterialController@novo')
                     ->with('status','naoIncluido')
-                    ->with('view', $this->view);              
+                    ->with('view', $this->view);
         }
 
 
 
-        
+
     }
 
     public function consulta() {
@@ -118,11 +118,11 @@ class MaterialController extends Controller
             return redirect()
                     ->action('MaterialController@consulta')
                     ->with('status','editado');
-            
+
         } catch (\PDOException $e) {
             return redirect()
                     ->action('MaterialController@novo')
-                    ->with('status','naoEditado');           
+                    ->with('status','naoEditado');
         }
     }
 
@@ -202,7 +202,7 @@ public function estocar(EstoqueRequest $request) {
         $material = Material::where('cod_material', $request->input('cod_material') );
 
         $material = Material::find($request->input('cod_material'));
-      
+
 
         return redirect()
                 ->action('MaterialController@consulta')
@@ -215,7 +215,7 @@ public function estocar(EstoqueRequest $request) {
         }
 
 
-        
+
     }
 
 

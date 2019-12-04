@@ -32,7 +32,7 @@ class SaidaController extends Controller
 
     public function localiza() {
         $nome_requisitante = Request::input('nome_requisitante');
-        $cod_requisicao = Request::input('cod_requisicao');        
+        $cod_requisicao = Request::input('cod_requisicao');
         $situacao = Request::input('situacao');
         $data_req_inicial = Request::input('data_req_inicial');
         $data_req_final = Request::input('data_req_final');
@@ -72,7 +72,7 @@ class SaidaController extends Controller
 
         return view('saida-consulta-de-requisicoes')
                 ->with('view', $this->view)
-                ->with('requisicoes', $requisicoes);         
+                ->with('requisicoes', $requisicoes);
 
     }
 
@@ -92,22 +92,22 @@ class SaidaController extends Controller
         $cod_requisicao = Request::route('cod_requisicao');
         $requisicao = Requisicao::find($cod_requisicao);
         try {
-            
+
             if( $requisicao->situacao == 'Aberta'){
                 $requisicao->situacao = 'Negada';
-                $requisicao->save(); 
+                $requisicao->save();
                 return redirect()
                     ->action('SaidaController@abreForm')
                     ->with('status', 'negada');
             } elseif( $requisicao->situacao == 'Negada'){
                 $requisicao->situacao = 'Aberta';
-                $requisicao->save(); 
+                $requisicao->save();
                 return redirect()
                         ->action('SaidaController@abreForm')
                         ->with('status', 'aberta');
-            }            
-             
-                  
+            }
+
+
         } catch (\PDOException $e) {
             if( $requisicao->situacao == 'Aberta'){
                 return redirect()
@@ -117,8 +117,8 @@ class SaidaController extends Controller
                 return redirect()
                     ->action('SaidaController@abreForm')
                     ->with('status', 'naoAberta');
-            }                            
-        }        
+            }
+        }
     }
 
 
@@ -180,7 +180,7 @@ class SaidaController extends Controller
                 }
                 if($e->qtdeSaida  > 0) {
                     $requisicaoZerada = false;
-                } 
+                }
 
                 $qtdeSaidaTotal += $e->qtdeSaida;
             }
@@ -222,14 +222,14 @@ class SaidaController extends Controller
                             $movimentacao->save();
                         }
                     }
-                } 
-            $retorno = ["status" => "Sucesso", "msg" => "Requisição finalizada com sucesso"];          
+                }
+            $retorno = ["status" => "Sucesso", "msg" => "Requisição finalizada com sucesso"];
             } catch (\PDOException $e) {
-                $retorno = ["status" => "Erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];              
+                $retorno = ["status" => "Erro", "msg" => "Aconteceu um erro inesperado ao processar a saída da requisição!"];
             }
         }
-        
-        return $retorno;        
+
+        return $retorno;
     }
 
 
@@ -237,7 +237,7 @@ class SaidaController extends Controller
 
 
 
-            
+
 
 
 

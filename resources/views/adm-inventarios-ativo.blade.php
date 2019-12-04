@@ -29,8 +29,8 @@
     </div>
     <div class="form-row ">
         <div class="col-12 d-flex justify-content-around mt-4" id="">
-              <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/analisa';" disabled><i class="fas fa-check  mr-2"></i>Analisar</button>
-              <button type="button" class="btn btn-lg btn-danger col-sm-5 col-md-4" disabled> <i class="fas fa-trash mr-2"></i>Suspender</button>
+              <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/analisa';"><i class="fas fa-check  mr-2"></i>Analisar</button>
+              <button type="button" class="btn btn-lg btn-danger col-sm-5 col-md-4"> <i class="fas fa-trash mr-2"></i>Suspender</button>
         </div>
       </div>
     </fieldset>

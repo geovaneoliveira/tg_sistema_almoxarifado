@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Request;
 use App\Tipo;
+use App\Adminventarios;
 
 class AdmInventariosController extends Controller
 {
@@ -35,7 +36,6 @@ class AdmInventariosController extends Controller
     }
 
     public function iniciar(){
-
 
 
         return view('adm-inventarios-ativo')

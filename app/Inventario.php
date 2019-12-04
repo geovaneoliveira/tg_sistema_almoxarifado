@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventario extends Model
 {
-	protected $table = 'contagem';
+	protected $table = 'inventario';
 	public $timestamps = false;
-	protected $fillable = array('id_matinventariados', 'id_contador', 'qtde_contada');
-	protected $primaryKey = 'id';
+	protected $fillable = array('cod_resp', 'data_inicio', 'data_fim');
+	protected $primaryKey = 'cod_inventario';
 
-
+	public function materiaisinventariados(){
+		return $this->hasMany('App\Materialinventariado');
+	}
 }
