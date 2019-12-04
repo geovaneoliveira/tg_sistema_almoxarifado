@@ -40,7 +40,15 @@ class AdmInventariosController extends Controller
     }
 
     public function abreFormLocaliza() {
-        return view('adm-inventarios-localiza')->with('view', $this->view);
+
+       // $inventarios = Inventario::all();
+       $cod_resp = Request::input('cod_resp');
+       $inventarios = Inventario::where('cod_resp',  'like' , '%' . $cod_resp . '%' );
+        $inventarios = $inventarios->orderBy('cod_inventario', 'asc')->get();
+
+        return view('adm-inventarios-localiza')
+        ->with('view', $this->view)
+          ->with('inventarios', $inventarios);
     }
 
     public function exibeDetalhes() {
@@ -50,7 +58,8 @@ class AdmInventariosController extends Controller
     public function suspender() {
         $id = Request::route('id');
         $inventario = Inventario::find($id);
-        $inventario->delete();
+        $inventario->data_fim = Carbon::now()->toDateString();
+        $inventario->save();
         return view('adm-inventarios-ativo')
         ->with('view', $this->view);
     }

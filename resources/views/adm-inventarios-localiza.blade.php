@@ -7,21 +7,17 @@
     <div class="form-row d-flex align-items-end">
 
         <div class="col-sm-12 col-md-6 form-group">
-          <label for="">Responsável</label>
-          <input type="text" class="form-control" id="" placeholder="parte do nome do requisitante">
+          <label for="cod_resp">Responsável</label>
+          <input type="text" class="form-control" id="cod_resp" name="cod_resp" placeholder="parte do nome do requisitante">
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
-            <label for=""> Data de Início</label>
+            <label for="data_inicio"> Data de Início</label>
             <div class="input-group">
-              <input type="date" class="form-control" id="">
-              <input type="date" class="form-control" id="">
+              <input type="date" class="form-control" id="data_inicio" name="data_inicio">
+              <input type="date" class="form-control" id="data_inicio" name="data_inicio">
             </div>
         </div>
-
-
-
-
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
@@ -37,24 +33,18 @@
             <th>Finalizado</th>
             <th style="width: 5%;" ></th>
           </tr>
+        @foreach($inventarios as $i)
           <tr>
-            <td> 11 </td>
-            <td> Geovane Viana </td>
-            <td> 09/11/2019 </td>
-            <td> 09/11/2019 </td>
+            <td> {{$i->cod_inventario}} </td>
+            <td> {{$i->cod_resp}} </td>
+            <td> {{$i->data_inicio}} </td>
+            <td> {{$i->data_fim}} </td>
             <td> <a href="/adm-inventarios/exibeDetalhes/11"> <span class="far fa-eye">       </span> </a> </td>
           </tr>
-
-          <tr>
-            <td> 10 </td>
-            <td> Mariana Fogaça </td>
-            <td> 07/10/2018 </td>
-            <td> 08/10/208  </td>
-            <td> <a href="/adm-inventarios/exibeDetalhes/10"> <span class="far fa-eye"> </span> </a> </td>
-          </tr>
+        @endforeach
 
         </table>
-      </div><!--fim da listagem de locais-->
+      </div><!--fim da listagem de inventarios-->
     </div>
 
 
