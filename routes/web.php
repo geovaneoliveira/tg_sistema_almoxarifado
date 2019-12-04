@@ -87,6 +87,7 @@ Route::post('/saida/finaliza', 'SaidaController@finaliza');
 
 Route::get('/adm-inventarios', 'AdmInventariosController@abreForm');
 Route::get('/adm-inventarios/iniciar', 'AdmInventariosController@iniciar');
+Route::get('/adm-inventarios/suspender/{id}', 'AdmInventariosController@suspender');
 Route::get('/adm-inventarios/analisa', 'AdmInventariosController@abreFormAnalisa');
 Route::get('/adm-inventarios/localiza', 'AdmInventariosController@abreFormLocaliza');
 Route::get('/adm-inventarios/exibeDetalhes/{id}', 'AdmInventariosController@exibeDetalhes');

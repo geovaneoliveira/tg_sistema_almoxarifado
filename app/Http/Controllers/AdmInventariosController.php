@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 use Request;
 use App\Tipo;
-use App\Adminventarios;
+use App\Inventario;
+use Carbon\Carbon;
 
 class AdmInventariosController extends Controller
 {
         public $view = [
-        "active" => "adm-inventarios"
+        'active' => 'adm-inventarios',
+        'operacao' => 'iniciado'
     ];
 
     public function __construct()
@@ -17,9 +19,19 @@ class AdmInventariosController extends Controller
     }
 
     public function abreForm() {
+
+        $inventario = Inventario::where('data_fim', '=' , null)
+        ->orderby('cod_inventario', 'desc')
+        ->get();
+        if($inventario){
+            $status = 'editado';
+        }
+
         return view('adm-inventarios-ativo')
           ->with('view', $this->view)
-              ->with('operacao', 'abreForm');
+            ->with('status', $status)
+              ->with('operacao', 'abreForm')
+                  ->with('inventario', $inventario);
     }
 
 
@@ -35,12 +47,29 @@ class AdmInventariosController extends Controller
         return view('adm-inventarios-detalhes')->with('view', $this->view);
     }
 
+    public function suspender() {
+        $id = Request::route('id');
+        $inventario = Inventario::find($id);
+        $inventario->delete();
+        return view('adm-inventarios-ativo')
+        ->with('view', $this->view);
+    }
+
+
+
     public function iniciar(){
 
+        $inventario = new Inventario();
+        $inventario->cod_resp = \Auth::user()->id;
+        $inventario->data_inicio = Carbon::now()->toDateString();
+        $inventario->save();
+        $inventario->get();
 
-        return view('adm-inventarios-ativo')
+        return redirect()
+        ->action('AdmInventariosController@abreForm')
         ->with('view', $this->view)
-        ->with('operacao', 'abreForm');
+        ->with('status', 'editado')
+        ->with('inventario', $inventario);
     }
 
 }
