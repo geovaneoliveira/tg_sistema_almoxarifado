@@ -7,20 +7,58 @@
 
     <div class="form-row d-flex align-items-end">
 
+@if($inventario)
+@foreach($inventario as $i)
+@if($loop->first)
        <div class="col-sm-12 col-md-2 form-group">
-          <label for="">Inventário Ativo</label>
-          <input type="text" class="form-control" id="" value="" readonly />
+          <label for="cod_inventario">Inventário Ativo</label>
+          <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="{{ $i->cod_inventario }}" readonly />
         </div>
 
         <div class="col-sm-12 col-md-5 form-group">
-          <label for="">Responsável</label>
-          <input type="text" class="form-control" id="" value="" readonly />
+          <label for="cod_resp">Responsável</label>
+          <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="{{ $i->cod_resp }}" readonly />
         </div>
 
         <div class="col-sm-12 col-md-5 form-group">
-          <label for="">Contador</label>
-          <input type="text" class="form-control" id="" value="" readonly />
+          <label for="user">Contador</label>
+          <input type="text" class="form-control" id="user" name="user" value="{{Auth::user()->name}}" readonly />
         </div>
+@endif
+@endforeach
+@else
+<div class="col-sm-12 col-md-2 form-group">
+    <label for="cod_inventario">Inventário Ativo</label>
+    <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
+  </div>
+
+  <div class="col-sm-12 col-md-5 form-group">
+    <label for="cod_resp">Responsável</label>
+    <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="" readonly />
+  </div>
+
+  <div class="col-sm-12 col-md-5 form-group">
+    <label for="user">Contador</label>
+    <input type="text" class="form-control" id="user" name="user" value="" readonly />
+  </div>
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <div class="col-sm-6 col-md-3  form-group">
             <label for="cod_tipo">Local</label>

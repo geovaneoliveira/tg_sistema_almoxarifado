@@ -20,18 +20,31 @@ class AdmInventariosController extends Controller
 
     public function abreForm() {
 
-        $inventario = Inventario::where('data_fim', '=' , null)
-        ->orderby('cod_inventario', 'desc')
-        ->get();
-        if($inventario){
-            $status = 'editado';
+        $inventario = Inventario::where('data_fim', '=', null)
+        ->orderBy('cod_inventario', 'asc')
+        ->count();
+
+        if($inventario == 0){
+            $status = 'nao';
+
+       return view('adm-inventarios-ativo')
+       ->with('view', $this->view)
+         ->with('status', $status)
+           ->with('operacao', 'abredois');
+        }
+        else{
+            $inventario = Inventario::where('data_fim', '=', null)
+            ->orderBy('cod_inventario', 'asc')
+            ->get();
+              $status = 'editado';
+              return view('adm-inventarios-ativo')
+              ->with('view', $this->view)
+                ->with('status', $status)
+                  ->with('operacao', 'abreum')
+                      ->with('inventario', $inventario);
         }
 
-        return view('adm-inventarios-ativo')
-          ->with('view', $this->view)
-            ->with('status', $status)
-              ->with('operacao', 'abreForm')
-                  ->with('inventario', $inventario);
+
     }
 
 
@@ -45,6 +58,21 @@ class AdmInventariosController extends Controller
        $cod_resp = Request::input('cod_resp');
        $inventarios = Inventario::where('cod_resp',  'like' , '%' . $cod_resp . '%' );
         $inventarios = $inventarios->orderBy('cod_inventario', 'asc')->get();
+
+        foreach ($inventarios as $LE)
+        {
+            if($LE->data_inicio){
+             $dt = Carbon::create($LE->data_inicio);
+             $LE->data_inicio = $dt;
+             $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
+            }
+
+            if($LE->data_fim){
+             $dt1 = Carbon::create($LE->data_fim);
+             $LE->data_fim = $dt1;
+             $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
+            }
+        }
 
         return view('adm-inventarios-localiza')
         ->with('view', $this->view)
@@ -60,8 +88,12 @@ class AdmInventariosController extends Controller
         $inventario = Inventario::find($id);
         $inventario->data_fim = Carbon::now()->toDateString();
         $inventario->save();
-        return view('adm-inventarios-ativo')
-        ->with('view', $this->view);
+
+        return redirect()
+        ->action('AdmInventariosController@abreForm')
+        ->with('view', $this->view)
+        ->with('status', 'editado')
+        ->with('inventario', $inventario);
     }
 
 

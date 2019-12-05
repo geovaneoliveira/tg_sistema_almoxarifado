@@ -2,7 +2,7 @@
 @extends('layouts.lateral')
 @section('conteudo')
 
-@if ( session('inventario') )
+@if($operacao == 'abreum')
 
 @foreach($inventario as $i)
 @if($loop->first)
