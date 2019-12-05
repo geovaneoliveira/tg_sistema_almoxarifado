@@ -9,18 +9,18 @@
 
        <div class="col-sm-12 col-md-3 form-group">
           <label for="">Cód.</label>
-          <input type="text" class="form-control" id="" value="" readonly />
+          <input type="text" class="form-control" id="" value="43" readonly />
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="">Responsável</label>
-          <input type="text" class="form-control" id="" value="" readonly />
+          <input type="text" class="form-control" id="" value="Mariana Nogueira" readonly />
         </div>
 
         <div class="col-sm-12 col-md-3 form-group">
             <label for=""> Data de Início</label>
             <div class="input-group">
-              <input type="date" class="form-control" id="" value="" readonly />
+              <input type="text" class="form-control" id="" value="05/12/2019" readonly />
             </div>
         </div>
 
@@ -85,35 +85,17 @@
             <th>Qtde</th>
           </tr>
 
+          @foreach ($estocados as $e)
           <tr>
-            <td > Porca Sextavada M8 DIN 934 </td>
-            <td > 2346762 </td>
-            <td > A673 </td>
-            <td > 132 </td>
-            <td > pçs </td>
-            <td> Gustavo da Silva </td>
-            <td> 131 </td>
-          </tr>
-
-          <tr>
-            <td > Parafuso Allen Cabeça baixa M8 DIN 912 </td>
-            <td > 789762 </td>
-            <td > A673 </td>
-            <td > 157 </td>
-            <td > pçs </td>
-            <td> Mariana Teixeira </td>
-            <td> 156 </td>
-          </tr>
-
-          <tr>
-            <td > Parafuso Allen M10 DIN 912 </td>
-            <td > 789762 </td>
-            <td > A673 </td>
-            <td > 168 </td>
-            <td > pçs </td>
-            <td > Girafales Veldez </td>
-            <td > 167 </td>
-          </tr>
+            <td                            > {{$e->nome_material}} </td>
+            <td                            > {{$e->lote }} </td>
+            <td                            > {{$e->nome_local }} </td>
+            <td                            > {{$e->quantidade }} </td>
+            <td                            > {{$e->descricao_unid_medida }}</td>
+            <td                            > Jean Depicoli</td>
+            <td                            > {{$e->quantidade - 5 }}</td>
+        </tr>
+          @endforeach
 
         </table>
       </div><!--fim da listagem de locais-->

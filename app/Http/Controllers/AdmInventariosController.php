@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use Request;
 use App\Tipo;
 use App\Inventario;
+use App\Local;
 use Carbon\Carbon;
+use App\Estoque;
 
 class AdmInventariosController extends Controller
 {
@@ -37,6 +39,21 @@ class AdmInventariosController extends Controller
             ->orderBy('cod_inventario', 'asc')
             ->get();
               $status = 'editado';
+              foreach ($inventario as $LE)
+              {
+                  if($LE->data_inicio){
+                   $dt = Carbon::create($LE->data_inicio);
+                   $LE->data_inicio = $dt;
+                   $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
+                  }
+
+                  if($LE->data_fim){
+                   $dt1 = Carbon::create($LE->data_fim);
+                   $LE->data_fim = $dt1;
+                   $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
+                  }
+              }
+
               return view('adm-inventarios-ativo')
               ->with('view', $this->view)
                 ->with('status', $status)
@@ -49,7 +66,14 @@ class AdmInventariosController extends Controller
 
 
     public function abreFormAnalisa() {
-        return view('adm-inventarios-analisa')->with('view', $this->view);
+
+        $estocados = Estoque::listarEstocadosOnde();
+
+        return view('adm-inventarios-analisa')
+           ->with('view', $this->view)
+            ->with('tipos', Tipo::all())
+             -> with('locais', Local::all())
+              ->with('estocados', $estocados);
     }
 
     public function abreFormLocaliza() {
@@ -80,14 +104,20 @@ class AdmInventariosController extends Controller
     }
 
     public function exibeDetalhes() {
-        return view('adm-inventarios-detalhes')->with('view', $this->view);
+
+        $estocados = Estoque::listarEstocadosOnde();
+
+        return view('adm-inventarios-detalhes')
+        ->with('view', $this->view)
+        ->with('estocados', $estocados);
     }
 
     public function suspender() {
         $id = Request::route('id');
         $inventario = Inventario::find($id);
-        $inventario->data_fim = Carbon::now()->toDateString();
-        $inventario->save();
+     //   $inventario->data_fim = Carbon::now()->toDateString();
+     //   $inventario->save();
+        $inventario->delete();
 
         return redirect()
         ->action('AdmInventariosController@abreForm')
@@ -105,6 +135,32 @@ class AdmInventariosController extends Controller
         $inventario->data_inicio = Carbon::now()->toDateString();
         $inventario->save();
         $inventario->get();
+
+        return redirect()
+        ->action('AdmInventariosController@abreForm')
+        ->with('view', $this->view)
+        ->with('status', 'editado')
+        ->with('inventario', $inventario);
+    }
+
+    public function finalizar(){
+
+// ARRUMAR ESSA PARTE PRA TRAZER O ESTOQUE CERTO, PARECE Q TA TRAZENDO TODOS E ATUALIZANDO A DATA DE TODOS, CONFIRMAR ISSO
+        $inventario = Inventario::where('data_fim', '=', null)
+        ->orderBy('cod_inventario', 'asc')
+        ->get();
+        foreach($inventario as $i){
+        $i->data_fim = Carbon::now()->toDateString();
+        $i->save();
+      //  $inventario->delete();
+        }
+
+
+        $estocados = Estoque::all();
+        foreach($estocados as $e){
+            $e->quantidade = $e->quantidade - 5;
+            $e->save();
+        }
 
         return redirect()
         ->action('AdmInventariosController@abreForm')

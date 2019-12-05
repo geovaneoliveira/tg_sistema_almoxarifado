@@ -22,7 +22,7 @@ class MaterialRequisitado extends Model
 	}
 
 
-	public static function listarMateriaisRequisitadosOnde($cod_requisicao = '') { 
+	public static function listarMateriaisRequisitadosOnde($cod_requisicao = '') {
 		$stmt = DB::table('requisicao_material')
 				->join('Material', 'requisicao_material.cod_material', '=', 'Material.cod_material')
 				->join('tipo_material', 'Material.cod_tipo', '=', 'tipo_material.cod_tipo')
@@ -48,7 +48,7 @@ class MaterialRequisitado extends Model
 			if($mo->estoque->cod_material == $this->cod_material){
 				$qtdeAtend -= $mo->qtde_movimentada;
 			}
-			
+
 
 	}
 

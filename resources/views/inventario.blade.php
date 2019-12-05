@@ -7,7 +7,28 @@
 
     <div class="form-row d-flex align-items-end">
 
-@if($inventario)
+@if(empty($inventario))
+
+<div class="col-sm-12 col-md-2 form-group">
+        <label for="cod_inventario">Inventário Ativo</label>
+        <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
+      </div>
+
+      <div class="col-sm-12 col-md-5 form-group">
+        <label for="cod_resp">Responsável</label>
+        <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="" readonly />
+      </div>
+
+      <div class="col-sm-12 col-md-5 form-group">
+        <label for="user">Contador</label>
+        <input type="text" class="form-control" id="user" name="user" value="" readonly />
+      </div>
+
+
+
+
+
+@else
 @foreach($inventario as $i)
 @if($loop->first)
        <div class="col-sm-12 col-md-2 form-group">
@@ -17,7 +38,7 @@
 
         <div class="col-sm-12 col-md-5 form-group">
           <label for="cod_resp">Responsável</label>
-          <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="{{ $i->cod_resp }}" readonly />
+          <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="{{ $i->user->name }}" readonly />
         </div>
 
         <div class="col-sm-12 col-md-5 form-group">
@@ -26,38 +47,7 @@
         </div>
 @endif
 @endforeach
-@else
-<div class="col-sm-12 col-md-2 form-group">
-    <label for="cod_inventario">Inventário Ativo</label>
-    <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
-  </div>
-
-  <div class="col-sm-12 col-md-5 form-group">
-    <label for="cod_resp">Responsável</label>
-    <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="" readonly />
-  </div>
-
-  <div class="col-sm-12 col-md-5 form-group">
-    <label for="user">Contador</label>
-    <input type="text" class="form-control" id="user" name="user" value="" readonly />
-  </div>
 @endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
           <div class="col-sm-6 col-md-3  form-group">
@@ -121,9 +111,9 @@
             <td                            > {{$e->lote }} </td>
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
-            <td                            > {{$e->descricao_unid_medida }} </td>
+            <td                            > {{$e->descricao_unid_medida }}</td>
             <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="/home"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td> <a href="/inventario"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
           @endforeach
 

@@ -47,4 +47,9 @@ class User extends Authenticatable
         return $this->hasMany('App\Requisicao', 'cod_usuario');
     }
 
+    public function inventarios(){
+        return $this->hasMany('App\Requisicao', 'cod_usuario');
+    }
+
+
 }

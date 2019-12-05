@@ -58,11 +58,33 @@ class InventarioController extends Controller
 
         $estocados = Estoque::listarEstocadosOnde($nome_material, $cod_tipo, $lote, $cod_local);
 
-	    return view('inventario')
-		    	->with('view', $this->view)
-		      	->with('tipos', Tipo::all())
-		      	->with('locais', Local::all())
-		      	->with('estocados', $estocados);
+        $inventario = Inventario::where('data_fim', '=', null)
+        ->orderBy('cod_inventario', 'asc')
+        ->count();
+
+        if($inventario == 0){
+        return view('inventario')->with('view', $this->view)
+        ->with('tipos', Tipo::all())
+        ->with('locais', Local::all())
+        ->with('estocados', $estocados);
+        }
+        else{
+            $inventario = Inventario::where('data_fim', '=', null)
+            ->orderBy('cod_inventario', 'asc')
+            ->get();
+
+            return view('inventario')->with('view', $this->view)
+            ->with('tipos', Tipo::all())
+            ->with('locais', Local::all())
+            ->with('estocados', $estocados)
+             ->with('inventario', $inventario);
+        }
+
+//	    return view('inventario')
+	//	    	->with('view', $this->view)
+	 //     	->with('tipos', Tipo::all())
+	//	      	->with('locais', Local::all())
+	//	      	->with('estocados', $estocados);
 
     }
 

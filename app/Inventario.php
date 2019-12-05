@@ -13,5 +13,9 @@ class Inventario extends Model
 
 	public function materiaisinventariados(){
 		return $this->hasMany('App\Materialinventariado');
+    }
+
+    public function user() {
+		return $this->belongsTo('App\User', 'cod_resp');
 	}
 }

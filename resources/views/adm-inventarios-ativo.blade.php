@@ -21,7 +21,7 @@
 
               <div class="col-sm-12 col-md-6 form-group">
                 <label for="">Responsável</label>
-                <input type="text" class="form-control" id="codresp" value="{{ $i->cod_resp }}" readonly/>
+                <input type="text" class="form-control" id="codresp" value="{{ $i->user->name }}" readonly/>
               </div>
 
               <div class="col-sm-12 col-md-3 form-group">

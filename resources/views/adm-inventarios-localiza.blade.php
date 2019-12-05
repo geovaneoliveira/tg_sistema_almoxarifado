@@ -8,7 +8,7 @@
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="cod_resp">Responsável</label>
-          <input type="text" class="form-control" id="cod_resp" name="cod_resp" placeholder="parte do nome do requisitante">
+          <input type="text" class="form-control" id="cod_resp" name="cod_resp" placeholder="responsável">
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
