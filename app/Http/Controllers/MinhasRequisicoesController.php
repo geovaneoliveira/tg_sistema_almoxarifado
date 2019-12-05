@@ -14,7 +14,7 @@ class MinhasRequisicoesController extends Controller
 
 	public function __construct()
     {
-        $this->middleware('autorizacao');
+       // $this->middleware('autorizacao');
     }
 
     public function abreForm() {

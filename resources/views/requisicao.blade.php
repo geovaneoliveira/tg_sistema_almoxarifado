@@ -82,7 +82,7 @@
 				<div class="col-12 d-flex justify-content-around" id="">
 				@isset($operacao)
 	    			@if($operacao=='edita')
-	    				<button type="button" class="btn btn-lg btn-success col-3"  onclick="requisitar();"  ><i class="far fa-save mr-2"></i>Salvar</button>
+	    				<button id="btn_requisitar"  type="button" class="btn btn-lg btn-success col-3"  onclick="requisitar();"  ><i class="far fa-save mr-2"></i>Salvar</button>
 					@endif
 
 					@if($operacao=='abreForm')
@@ -301,17 +301,21 @@
 	   		var xhttp = new XMLHttpRequest();
 
 	        xhttp.onreadystatechange = function() {
-	        	if (this.readyState == 4 && this.status == 200) {
+	        	if (this.readyState == 4 && this.status == 200) 
+	        	{
 	        		document.getElementById('id_codRequisicaoModal').innerHTML = this.responseText;
 	        		$('#protocoloModal').modal('show');	
-		        } else if (this.readyState == 4 && this.status != 200) {
-		        	document.getElementById('id_Modal_msg').innerHTML = '<h6>Erro ao tentar salvar uma requisição. Tente novamente mais tarde.<h6>' ;
-		        	document.getElementById('protocoloModalLabel').innerHTML = 'Erro ao Requisitar';
-		        	document.getElementById('protocoloModalLabel').className = 'text-danger';
-		        	document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-danger';
-	        		$('#protocoloModal').modal('show');
+		        }
+		        else
+		        	if (this.readyState == 4 && this.status != 200)
+				        {
+				        	document.getElementById('id_Modal_msg').innerHTML = '<h6>Erro ao tentar salvar uma requisição. Tente novamente mais tarde.<h6>' ;
+				        	document.getElementById('protocoloModalLabel').innerHTML = 'Erro ao Requisitar';
+				        	document.getElementById('protocoloModalLabel').className = 'text-danger';
+				        	document.getElementById('id_btn_close_modal').className = 'btn btn-lg btn-danger';
+			        		$('#protocoloModal').modal('show');
 
-	          	}
+			          	}
 	        };
 
 	        xhttp.open("GET", "/requisicao/requisita/" + cod_requisicao + "/" + jsonMateriais , true);

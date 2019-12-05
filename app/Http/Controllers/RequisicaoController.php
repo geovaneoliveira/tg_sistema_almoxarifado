@@ -16,7 +16,7 @@ class RequisicaoController extends Controller
 
 	public function __construct()
     {
-        $this->middleware('autorizacao');
+       // $this->middleware('autorizacao');
     }
 
     public function abreForm() {
@@ -37,9 +37,10 @@ class RequisicaoController extends Controller
 
     public function requisita() {
         $cod_requisicao = Request::route('cod_requisicao');
+
         if ($cod_requisicao > 0) {
             $requisicao = Requisicao::find($cod_requisicao);
-            foreach ($requisicao->materiaisRequisitados as $mr) {
+            foreach ($requisicao->materiais_requisitados as $mr) {
                 $mr->delete();
             }
 

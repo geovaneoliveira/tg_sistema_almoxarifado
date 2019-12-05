@@ -25,7 +25,7 @@ class AutorizacaoMiddleware
     }
 
     if( ( \Auth::user()->permission == 3 )
-        && (!$request->is('requisicao'))   
+        && (!$request->is('requisicao*'))   
         && (!$request->is('user/minhaconta')) 
         && (!$request->is('minhas-requisicoes*'))  ) 
     {
