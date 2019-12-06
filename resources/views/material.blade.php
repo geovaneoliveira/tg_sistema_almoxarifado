@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-      
+
 
     <div class="col-md-6">
       <div class="form-group">
@@ -119,7 +119,7 @@
       </div>
     </div>
 
-      <div class="col-md-6" > 
+      <div class="col-md-6" >
         <div class="form-group ">
         <label for="cod_tipo">Tipo de Material:</label>
         <div class="input-group">
@@ -227,7 +227,7 @@
         <div class="alert alert-success" role="alert">
           <strong>Sucesso:</strong> O material foi excluído do sistema com sucesso!
         </div>
-          
+
       @elseif ( session('status') == 'naoExcluido' )
 
         <div class="alert alert-danger" role="alert">
@@ -259,7 +259,7 @@
         </div>
 
       @endif
-      
+
     <div>
   <div>
 
@@ -307,7 +307,7 @@ function calc_estoques(){
   }
 
   var percentual_seg = document.getElementById("percentual_seg").value;
-  var margem_seg = document.getElementById("margem_seg").value;    
+  var margem_seg = document.getElementById("margem_seg").value;
   if( !isNaN(percentual_seg) &&  !isNaN(margem_seg) ) {
     var estoque_seg = ( estoque_min + (estoque_min * (percentual_seg / 100)) + margem_seg*1) ;
     document.getElementById("estoque_seg").value = estoque_seg;
@@ -318,6 +318,8 @@ function calc_estoques(){
 window.onload = function(){
   calc_estoques();
 }
+@push('scripts')
+
 
 </script>
 

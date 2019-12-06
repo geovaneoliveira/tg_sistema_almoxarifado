@@ -31,7 +31,7 @@ class RequisicaoController extends Controller
         $myJson = Request::route('json');
         $myObj = json_decode($myJson);
         $listaMateriais = Material::listarMateriaisOnde($myObj->nome_material, $myObj->cod_tipo );
-        return response()->json($listaMateriais); 
+        return response()->json($listaMateriais);
     }
 
 
@@ -67,7 +67,7 @@ class RequisicaoController extends Controller
 
         return 'ERRO ao tentar salvar Requisição.';
     }
-  
+
 
 
 }

@@ -36,10 +36,10 @@
         @foreach($inventarios as $i)
           <tr>
             <td> {{$i->cod_inventario}} </td>
-            <td> {{$i->cod_resp}} </td>
+            <td> {{$i->user->name}} </td>
             <td> {{$i->data_inicio}} </td>
             <td> {{$i->data_fim}} </td>
-            <td> <a href="/adm-inventarios/exibeDetalhes/11"> <span class="far fa-eye">       </span> </a> </td>
+            <td> <a href="/adm-inventarios/exibeDetalhes/{{$i->cod_inventario}}"> <span class="far fa-eye">       </span> </a> </td>
           </tr>
         @endforeach
 

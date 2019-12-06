@@ -3,70 +3,64 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="">
+  <form class="" action="/adm-inventarios/exibeDetalhes/localizar">
 
     <div class="form-row d-flex align-items-end">
 
        <div class="col-sm-12 col-md-3 form-group">
-          <label for="">Cód.</label>
-          <input type="text" class="form-control" id="" value="43" readonly />
+          <label for="cod_inventario">Cód.</label>
+          <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
-          <label for="">Responsável</label>
-          <input type="text" class="form-control" id="" value="Mariana Nogueira" readonly />
+          <label for="cod_resp">Responsável</label>
+          <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="" readonly />
         </div>
 
         <div class="col-sm-12 col-md-3 form-group">
-            <label for=""> Data de Início</label>
+            <label for="data_inicio"> Data de Início</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="" value="05/12/2019" readonly />
+              <input type="text" class="form-control" id="data_inicio" name="data_inicio" value="" readonly />
             </div>
         </div>
 
-          <div class="col-sm-6 col-md-3  form-group">
-            <label for="cod_tipo">Local</label>
-            <div class="input-group">
-              <select class="form-control" id="" name="">
-                <option value=""> Todos </option>
-                <option value="1"> D284 </option>
-                <option value="2"> U896 </option>
-                <option value="3"> P593 </option>
+        <div class="form-group col col-md-6">
+            <label for="cod_local">Local:</label>
+            <div class="input-group" >
+              <select class="form-control" id="cod_local" name="cod_local">
+                <option value="">todos</option>
+                @foreach($locais as $l)
+                <option value="{{$l->cod_local}}">{{$l->nome_local}}</option>
+                @endforeach
               </select>
             </div>
           </div>
 
 
-          <div class="col-sm-6 col-md-3 form-group">
-            <label for="cod_tipo">Tipo</label>
-            <div class="input-group">
-              <select class="form-control" id="" name="">
-                <option value=""> Todas </option>
-                <option value="1"> Lubrificantes </option>
-                <option value="2"> EPIs </option>
-                <option value="3"> Escritório </option>
+          <div class="form-group col col-md-6">
+            <label for="cod_tipo">Tipo de Material:</label>
+            <div class="input-group" >
+              <select class="form-control" id="cod_tipo" name="cod_tipo">
+                <option value="">todos</option>
+                @foreach($tipos as $t)
+                <option value="{{$t->cod_tipo}}">{{$t->nome_tipo}}</option>
+                @endforeach
               </select>
             </div>
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
-            <label for="">Material</label>
-            <input type="text" class="form-control" id="" placeholder="parte do nome do material">
+            <label for="cod_material">Material</label>
+            <input type="text" class="form-control" id="cod_material" name="cod_material" placeholder="parte do nome do material">
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
-            <label for="">Lote</label>
-            <input type="text" class="form-control" id="" placeholder="parte núm. lote">
+            <label for="cod_lote">Lote</label>
+            <input type="text" class="form-control" id="cod_lote" name="cod_lote" placeholder="parte núm. lote">
           </div>
-
-
-
-
-
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
-
 
     <div class="form-row">
       <div class="col-md-12" style="max-height:400px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
@@ -85,23 +79,19 @@
             <th>Qtde</th>
           </tr>
 
-          @foreach ($estocados as $e)
-          <tr>
-            <td                            > {{$e->nome_material}} </td>
-            <td                            > {{$e->lote }} </td>
-            <td                            > {{$e->nome_local }} </td>
-            <td                            > {{$e->quantidade }} </td>
-            <td                            > {{$e->descricao_unid_medida }}</td>
-            <td                            > Jean Depicoli</td>
-            <td                            > {{$e->quantidade - 5 }}</td>
-        </tr>
-          @endforeach
+
 
         </table>
       </div><!--fim da listagem de locais-->
     </div>
 
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-around" id="">
 
+          <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
+          <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
+        </div>
+      </div>
 </form> <!-- fim do formulário-->
 
 
@@ -109,13 +99,7 @@
 
 
 
-    <div class="row mt-4">
-      <div class="col-12 d-flex justify-content-around" id="">
 
-        <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
-        <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
-      </div>
-    </div>
 
 
 

@@ -112,22 +112,14 @@
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
-            <td > <input type="text" name="" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a href="/inventario"> <span class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td > <input type="text" name="qtde_contada" data-id="{{$e->id}}" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
+            <td> <a  > <span data-id="{{$e->id }}" class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
           @endforeach
 
         </table>
       </div><!--fim da listagem de locais-->
     </div>
-
-
-
-
-
-
-
-
 
     <div class="row mt-4">
       <div class="col-12 d-flex justify-content-around" id="">
@@ -140,6 +132,24 @@
 </form> <!-- fim do formulário-->
 
 </div>
+
+
+@push('scripts')
+<script type="text/javascript">
+ //   function btn_inventario(e) {
+  //    var id = document.getElementById("qtde_contada").value;
+    
+   //   document.getElementById("qtde_contada").value = '12';
+     //   document.getElementById(e.target.id).value = '11';}
+
+     $(document).on('click', 'button[data-id]', function (e) {
+    var requested_to = $(this).attr('data-id');
+
+    document.getElementById(requested_to).value = '11';}
+    }
+</script>
+@endpush
+
 
 
 @endsection

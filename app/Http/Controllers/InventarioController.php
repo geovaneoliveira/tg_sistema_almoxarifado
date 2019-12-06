@@ -88,4 +88,19 @@ class InventarioController extends Controller
 
     }
 
+
+    public function insere(){
+
+
+
+    //    var xhttp = new XMLHttpRequest();
+     //   xhttp.onreadystatechange = function() {
+    //      if (this.readyState == 4 && this.status == 200) {
+    //        document.getElementById("cons_dia_id").value = this.responseText;
+    //     }
+    //    };
+   //     xhttp.open("GET", "/material/consumodiario/" + id , true);
+    //    xhttp.send();
+    }
+
 }

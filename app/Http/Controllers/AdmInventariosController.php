@@ -67,13 +67,12 @@ class AdmInventariosController extends Controller
 
     public function abreFormAnalisa() {
 
-        $estocados = Estoque::listarEstocadosOnde();
+     //   $estocados = Estoque::listarEstocadosOnde();
 
         return view('adm-inventarios-analisa')
            ->with('view', $this->view)
             ->with('tipos', Tipo::all())
-             -> with('locais', Local::all())
-              ->with('estocados', $estocados);
+             -> with('locais', Local::all());
     }
 
     public function abreFormLocaliza() {
@@ -105,14 +104,27 @@ class AdmInventariosController extends Controller
 
     public function exibeDetalhes() {
 
-        $estocados = Estoque::listarEstocadosOnde();
+
+
+
+
+
 
         return view('adm-inventarios-detalhes')
         ->with('view', $this->view)
-        ->with('estocados', $estocados);
+        ->with('tipos', Tipo::all())
+        ->with('locais', Local::all());
     }
 
+public function exibeDetalhesLocalizar(){
+
+return 3;
+}
+
+
+
     public function suspender() {
+
         $id = Request::route('id');
         $inventario = Inventario::find($id);
      //   $inventario->data_fim = Carbon::now()->toDateString();
@@ -146,7 +158,7 @@ class AdmInventariosController extends Controller
     public function finalizar(){
 
 // ARRUMAR ESSA PARTE PRA TRAZER O ESTOQUE CERTO, PARECE Q TA TRAZENDO TODOS E ATUALIZANDO A DATA DE TODOS, CONFIRMAR ISSO
-        $inventario = Inventario::where('data_fim', '=', null)
+        $inventario = Inventario::whereDate('data_fim', '=', null)
         ->orderBy('cod_inventario', 'asc')
         ->get();
         foreach($inventario as $i){
@@ -156,17 +168,35 @@ class AdmInventariosController extends Controller
         }
 
 
-        $estocados = Estoque::all();
-        foreach($estocados as $e){
-            $e->quantidade = $e->quantidade - 5;
-            $e->save();
-        }
+  //      $estocados = Estoque::all();
+  //      foreach($estocados as $e){
+    //        $e->quantidade = $e->quantidade - 5;
+    //        $e->save();
+    //    }
 
         return redirect()
         ->action('AdmInventariosController@abreForm')
         ->with('view', $this->view)
         ->with('status', 'editado')
         ->with('inventario', $inventario);
+    }
+
+    public function analisarlocalizar(){
+
+        $nome_material = Request::input('nome_material');
+        $cod_tipo = Request::input('cod_tipo');
+        $lote = Request::input('lote');
+        $cod_local = Request::input('cod_local');
+        $contagem = Request::input('contagem');
+        $situacao = Request::input('situacao');
+
+$estocados = 0;
+        return view('adm-inventarios-analisa')
+           ->with('view', $this->view)
+            ->with('tipos', Tipo::all())
+             -> with('locais', Local::all())
+              ->with('estocados', $estocados);
+
     }
 
 }

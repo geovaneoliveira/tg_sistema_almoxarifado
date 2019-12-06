@@ -3,13 +3,12 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="" action="/adm-inventarios/finalizar">
+  <form class="" action="/adm-inventarios/analisa/localizar">
 
     <fieldset class="border shadow-sm p-3">
     <legend>Inconsistências:</legend>
 
     <div class="form-row d-flex align-items-end">
-
 
           <div class="form-group col col-md-6">
             <label for="cod_local">Local:</label>
@@ -51,14 +50,14 @@
               <legend class=" m-0 p-0" style="font-size: 1em;">Situação</legend>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="">
-                <label class="form-check-label" for="defaultCheck1">
+                <input class="form-check-input" type="checkbox" value="Avaliados" id="situacao" name="situacao[]">
+                <label class="form-check-label" for="situacao">
                 Avaliados
               </div>
 
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck2">
-                <label class="form-check-label" for="defaultCheck2">
+                <input class="form-check-input" type="checkbox" value="Não Avaliados" id="situacao" name="situacao[]">
+                <label class="form-check-label" for="situacao">
                 Não Avaliados
               </div>
 
@@ -80,13 +79,8 @@
                   <button type="submit" class="btn btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
           </div>
 
-
-
-
-
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
-
 
     <div class="form-row">
       <div class="col-md-12" style="max-height:400px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
@@ -103,30 +97,11 @@
             <th > <i class="fas fa-check-double " > </th>
           </tr>
 
-          @foreach ($estocados as $e)
-          <tr>
-            <td                            > {{$e->id}} </td>
-            <td                            > {{$e->nome_material}} </td>
-            <td                            > {{$e->lote }} </td>
-            <td                            > {{$e->nome_local }} </td>
-            <td                            > {{$e->quantidade }} </td>
-            <td                            > {{$e->descricao_unid_medida }} </td>
-            <td                            > Coordenador da Silva </td>
-            <td                            > {{$e->quantidade - 5}} </td>
-            <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td>
-              </tr>
-          @endforeach
-
-
-
-
-
 
 
         </table>
       </div><!--fim da listagem de locais-->
     </div>
-
 
 </fieldset>
 <div class="row mt-4">

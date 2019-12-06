@@ -120,7 +120,7 @@
           <th>Tipo</th>
           <th>Qtde</th>
           <th>Responsável</th>
-          <th>Requ.</th>
+          <th>Requisição</th>
         </tr>
         @foreach ($movimentados as $m)
         <tr>

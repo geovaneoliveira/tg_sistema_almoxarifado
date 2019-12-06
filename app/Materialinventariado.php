@@ -13,6 +13,10 @@ class Materialinventariado extends Model
 
 	public function contagens(){
 		return $this->hasMany('App\Contagem');
+    }
+
+    public function inventarios() {
+		return $this->belongsTo('App\Inventario', 'cod_inventario');
 	}
 
 }

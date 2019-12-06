@@ -48,8 +48,13 @@ class User extends Authenticatable
     }
 
     public function inventarios(){
-        return $this->hasMany('App\Requisicao', 'cod_usuario');
+        return $this->hasMany('App\Inventario', 'cod_usuario');
     }
+
+    public function contagens(){
+        return $this->hasMany('App\Contagem', 'cod_usuario');
+    }
+
 
 
 }
