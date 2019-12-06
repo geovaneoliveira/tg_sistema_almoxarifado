@@ -112,8 +112,8 @@
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
-            <td > <input type="text" name="qtde_contada" data-id="{{$e->id}}" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td> <a  > <span data-id="{{$e->id }}" class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td > <input type="text" name="qtde_contada"  value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
+            <td onclick="btn_inventario({{$loop->index}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>  
         </tr>
           @endforeach
 
@@ -135,17 +135,14 @@
 
 
 @push('scripts')
-<script type="text/javascript">
- //   function btn_inventario(e) {
-  //    var id = document.getElementById("qtde_contada").value;
+<script>
+    function btn_inventario(e) {
+
+      document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
+      document.getElementById(e).type = "button";
+
+      document.getElementById(e).onclick = "function btn_inventario(e)";
     
-   //   document.getElementById("qtde_contada").value = '12';
-     //   document.getElementById(e.target.id).value = '11';}
-
-     $(document).on('click', 'button[data-id]', function (e) {
-    var requested_to = $(this).attr('data-id');
-
-    document.getElementById(requested_to).value = '11';}
     }
 </script>
 @endpush
