@@ -14,9 +14,16 @@ class RequisicaoController extends Controller
         "active" => "requisicao"
     ];
 
-	public function __construct()
-    {
-       // $this->middleware('autorizacao');
+	public function __construct() {
+        
+        $this->middleware('autorizacao');
+
+        if(\App\Inventario::where('data_fim', '=', null)->count() > 0 ) {
+            $this->view['inventario'] = true;
+        } else {
+            $this->view['inventario'] = false;
+        }
+        
     }
 
     public function abreForm() {

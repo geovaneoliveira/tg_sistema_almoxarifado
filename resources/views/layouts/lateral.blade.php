@@ -10,47 +10,65 @@
             <div class="collapse navbar-collapse  " id="navbarTogglerDemo03"  style="height: 100%;" >
               <ul class="d-block navbar-nav align-self-start nav-pills  " style="margin: 0 auto;" >
                 <li class="nav-item">
-                  <a href="/home" class="nav-link {{ asset('view') ?    $view['active'] == 'home' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-home fa-lg menu-icone"></i>Home</a> 
+                  <a href="/home" class="nav-link {{ asset('view') ?    $view['active'] == 'home' ? 'active' : ''    :''}} 
+                    @if (Auth::user()->permission == 3)
+                      disabled
+                  @endif"><i class="fas fa-home fa-lg menu-icone"></i>Home</a> 
                 </li>
 
                 <li class="nav-item">
-                  <a href="/local" class="nav-link {{ asset('view') ?    $view['active'] == 'local' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif" ><i class="fas fa-inbox fa-lg menu-icone"></i>Locais</a> 
+                  <a href="/local" class="nav-link {{ asset('view') ?    $view['active'] == 'local' ? 'active' : ''    :''}} 
+                  @if (Auth::user()->permission == 3)
+                      disabled
+                  @endif" ><i class="fas fa-inbox fa-lg menu-icone"></i>Locais</a> 
                 </li>
 
                 <li class="nav-item">
-                  <a href="/unidade" class="nav-link {{ asset('view') ?    $view['active'] == 'unidade' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-ruler fa-lg menu-icone"></i>Unidades</a> 
+                  <a href="/unidade" class="nav-link {{ asset('view') ?    $view['active'] == 'unidade' ? 'active' : ''    :''}}
+                  @if (Auth::user()->permission == 3)
+                      disabled
+                  @endif"><i class="fas fa-ruler fa-lg menu-icone"></i>Unidades</a> 
                 </li>
   
 
                 <li class="nav-item"> 
-                  <a href="/tipo" class="nav-link {{ asset('view') ?    $view['active'] == 'tipo' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-sitemap fa-lg menu-icone"></i>Tipos</a> 
-                </li>
-
-
-                
-                <!--
-                <li class="nav-item" >
-                  <a href="/material" class="nav-link {{ asset('view') ?    $view['active'] == 'material' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif" ><i class="fas fa-cube fa-lg menu-icone"></i>Cadastrar Material</a>
-                </li>
-                -->
-                
+                  <a href="/tipo" class="nav-link {{ asset('view') ?    $view['active'] == 'tipo' ? 'active' : ''    :''}} 
+                  @if (Auth::user()->permission == 3)
+                      disabled
+                  @endif"><i class="fas fa-sitemap fa-lg menu-icone"></i>Tipos</a> 
+                </li>                
 
                 <li class="nav-item">
-                  <a href="/material/consulta" class="nav-link {{ asset('view') ?    $view['active'] == 'materiais' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-cubes fa-lg menu-icone"></i>Materiais</a>
+                  <a href="/material/consulta" class="nav-link {{ asset('view') ?    $view['active'] == 'materiais' ? 'active' : ''    :''}} 
+                  @if ($view['inventario'] == true) 
+                    disabled
+                  @else
+                    @if (Auth::user()->permission == 3)
+                      disabled
+                    @endif
+                  @endif"><i class="fas fa-cubes fa-lg menu-icone"></i>Materiais</a>
                 </li>
 
-                <!--
                 <li class="nav-item"> 
-                  <a href="/estoque/form" class="nav-link {{ asset('view') ?    $view['active'] == 'entrada' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-box-open fa-lg menu-icone"></i>Entrada de Estoque</a> 
-                </li>
-                -->
-
-                <li class="nav-item"> 
-                  <a href="/estoque/gerenciar" class="nav-link {{ asset('view') ?    $view['active'] == 'gerenciarEstoque' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-building fa-lg menu-icone"></i>Estoque</a> 
+                  <a href="/estoque/gerenciar" class="nav-link {{ asset('view') ?    $view['active'] == 'gerenciarEstoque' ? 'active' : ''    :''}} 
+                  @if ($view['inventario'] == true) 
+                    disabled
+                  @else
+                    @if (Auth::user()->permission == 3)
+                      disabled
+                    @endif
+                  @endif"><i class="fas fa-building fa-lg menu-icone"></i>Estoque</a> 
                 </li>
 
                 <li class="nav-item "> 
-                  <a href="/saida" class="nav-link {{ asset('view') ?    $view['active'] == 'saida' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-dolly-flatbed fa-lg menu-icone"></i>Saída</a> 
+                  <a href="/saida" class="nav-link {{ asset('view') ?    $view['active'] == 'saida' ? 'active' : ''    :''}} 
+                  @if ($view['inventario'] == true) 
+                    disabled
+                  @else
+                    @if (Auth::user()->permission == 3)
+                      disabled
+                    @endif
+                   @endif"><i class="fas fa-dolly-flatbed fa-lg menu-icone"></i>Saída</a> 
                 </li>
 
                 <li class="nav-item"> 
