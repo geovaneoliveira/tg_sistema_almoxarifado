@@ -10,57 +10,64 @@ use App\Estoque;
 
 class AdmInventariosController extends Controller
 {
-        public $view = [
-        'active' => 'adm-inventarios',
-        'operacao' => 'iniciado'
+    public $view = [
+      'active' => 'adm-inventarios',
+      'operacao' => 'iniciado'
     ];
 
-    public function __construct()
-    {
-        $this->middleware('autorizacao');
+    public function __construct() {
+      $this->middleware('autorizacao');
+
+      if(\App\Inventario::where('data_fim', '=', null)->count() > 0 ) {
+        $this->view['inventario'] = true;
+      } else {
+        $this->view['inventario'] = false;
+      }
+        
     }
 
     public function abreForm() {
 
+      $inventario = Inventario::where('data_fim', '=', null)
+                                                      ->orderBy('cod_inventario', 'asc')
+                                                      ->count();
+
+      if($inventario == 0) {
+        $status = 'nao';
+
+        return view('adm-inventarios-ativo')
+                                          ->with('view', $this->view)
+                                          ->with('status', $status)
+                                          ->with('operacao', 'abredois');
+      } else {
+
         $inventario = Inventario::where('data_fim', '=', null)
-        ->orderBy('cod_inventario', 'asc')
-        ->count();
+                                                ->orderBy('cod_inventario', 'asc')
+                                                ->get();
+        $status = 'editado';
 
-        if($inventario == 0){
-            $status = 'nao';
+        foreach ($inventario as $LE) {
 
-       return view('adm-inventarios-ativo')
-       ->with('view', $this->view)
-         ->with('status', $status)
-           ->with('operacao', 'abredois');
-        }
-        else{
-            $inventario = Inventario::where('data_fim', '=', null)
-            ->orderBy('cod_inventario', 'asc')
-            ->get();
-              $status = 'editado';
-              foreach ($inventario as $LE)
-              {
-                  if($LE->data_inicio){
-                   $dt = Carbon::create($LE->data_inicio);
-                   $LE->data_inicio = $dt;
-                   $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
-                  }
+          if($LE->data_inicio){
+            $dt = Carbon::create($LE->data_inicio);
+            $LE->data_inicio = $dt;
+            $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
+          }
 
-                  if($LE->data_fim){
-                   $dt1 = Carbon::create($LE->data_fim);
-                   $LE->data_fim = $dt1;
-                   $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
-                  }
-              }
+          if($LE->data_fim){
+            $dt1 = Carbon::create($LE->data_fim);
+            $LE->data_fim = $dt1;
+            $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
+          }
 
-              return view('adm-inventarios-ativo')
-              ->with('view', $this->view)
-                ->with('status', $status)
-                  ->with('operacao', 'abreum')
-                      ->with('inventario', $inventario);
         }
 
+        return view('adm-inventarios-ativo')
+                                  ->with('view', $this->view)
+                                  ->with('status', $status)
+                                  ->with('operacao', 'abreum')
+                                  ->with('inventario', $inventario);
+      }
 
     }
 

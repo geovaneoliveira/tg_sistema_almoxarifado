@@ -12,9 +12,16 @@ class TipoController extends Controller
     	'operacao' => 'nula'
    	);
 
-		public function __construct()
-    {
+	public function __construct() {
+
         $this->middleware('autorizacao');
+
+		if(\App\Inventario::where('data_fim', '=', null)->count() > 0 ) {
+			$this->view['inventario'] = true;
+		} else {
+			$this->view['inventario'] = false;
+		}
+        
     }
 
 
