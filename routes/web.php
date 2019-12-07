@@ -94,7 +94,7 @@ Route::get('/adm-inventarios/analisa/localizar', 'AdmInventariosController@anali
 Route::get('/adm-inventarios/localiza', 'AdmInventariosController@abreFormLocaliza');
 Route::get('/adm-inventarios/exibeDetalhes/{id}', 'AdmInventariosController@exibeDetalhes');
 Route::get('/adm-inventarios/exibeDetalhes/localizar', 'AdmInventariosController@exibeDetalhesLocalizar');
-Route::get('/adm-inventarios/contagem/{id}/{qtde_contada/{cod_inventario}', 'AdmInventariosController@contagem');
+Route::get('/adm-inventarios/contagem/{id}/{qtde_contada}', 'AdmInventariosController@contagem');
 
 
 Route::get('/inventario', 'InventarioController@abreForm');

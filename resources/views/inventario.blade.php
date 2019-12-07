@@ -8,10 +8,11 @@
     <div class="form-row d-flex align-items-end">
 
 @if(empty($inventario))
-
+Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
+<!--
 <div class="col-sm-12 col-md-2 form-group">
         <label for="cod_inventario">Inventário Ativo</label>
-        <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
+        <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="Não há " readonly />
       </div>
 
       <div class="col-sm-12 col-md-5 form-group">
@@ -23,7 +24,7 @@
         <label for="user">Contador</label>
         <input type="text" class="form-control" id="user" name="user" value="" readonly />
       </div>
-
+    -->
 
 
 
@@ -114,7 +115,7 @@
             <td                            > CODIGO INVENTARIO {{$i->cod_inventario}}</td>
             <td                            > CODIGO MAT {{$e->id}}</td>
             <td > <input type="text" name="qtde_contada" id="qtde_contada" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td onclick="btn_inventario({{$loop->index}}, {{$e->id }}, {{$i->cod_inventario}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td onclick="btn_inventario({{$loop->index}}, {{$e->id}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
           @endforeach
 
@@ -141,7 +142,7 @@
 @push('scripts')
 
 <script>
-    function btn_inventario(e, a, codinv) {
+    function btn_inventario(e, a) {
 
       document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
 
@@ -155,7 +156,7 @@
 
     }
   };
-  xhttp.open("GET", "/adm-inventarios/contagem/" + a + "/" + qtde_contada + "/" + codinv , true);
+  xhttp.open("GET", "/adm-inventarios/contagem/" + a + "/" + qtde_contada, true);
   xhttp.send();
 }
 

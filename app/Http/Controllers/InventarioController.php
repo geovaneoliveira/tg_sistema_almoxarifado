@@ -98,17 +98,35 @@ class InventarioController extends Controller
 
 
     public function contagem(){
-        $id_material = Request::route('id');
-
+        $id_estoque = Request::route('id');
         $qtde_contada = Request::route('qtde_contada');
-        $cod_inventario = Request::route('cod_inventario');
         $id_contador = \Auth::user()->id;
 
-        $contagem = new Contagem;
+        $inventario = Inventario::whereDate('data_fim', '=', null)
+        ->first();
 
+        $materialinventariado = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)
+        ->where('id_estoque', '=', $id_estoque)->first();
+
+
+        if($materialinventariado){
+        $contagem = new Contagem;
         $contagem->qtde_contada = $qtde_contada;
         $contagem->id_contador = $id_contador;
+        $contagem->id_matinventariado = $materialinventariado->id;
         $contagem->save();
+        } else{
+            $materialinventariado = new MaterialInventariado;
+            $materialinventariado->id_estoque = $id_estoque;
+            $materialinventariado->cod_inventario = $inventario->cod_inventario;
+            $materialinventariado->save();
+
+            $contagem = new Contagem;
+            $contagem->qtde_contada = $qtde_contada;
+            $contagem->id_matinventariado = $materialinventariado->id;
+            $contagem->id_contador = $id_contador;
+            $contagem->save();
+        }
 
     }
 
