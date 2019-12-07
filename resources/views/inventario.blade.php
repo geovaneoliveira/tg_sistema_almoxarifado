@@ -89,6 +89,8 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
     </div>
 
 
+
+  @isset ($estocados)
     <div class="form-row">
       <div class="col-md-12" style="max-height:300px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
         <table class="table table-sm table-bordered table-hover " style="text-align: center;">
@@ -112,14 +114,22 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
-            <td > <input type="text" name="qtde_contada" id="qtde_contada" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td onclick="btn_inventario({{$loop->index}}, {{$e->id}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
-        </tr>
+            <td > <input type="text"  id="qtde_contada_estoque_{{$e->id}}" value="{{$e->qtde_contada}}" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
+            <td onclick="btn_inventario( {{$e->id}} );"> <a id="link_id_estoque_{{$e->id}}"> 
+              <span class=
+                      @if($e->qtde_contada)
+                        "fas fa-pencil-alt text-primary"                         
+                      @else
+                        "fas fa-arrow-right text-success"                        
+                      @endif  
+              > </span> </a> </td>
+          </tr>
           @endforeach
 
         </table>
       </div><!--fim da listagem de locais-->
     </div>
+    @endisset
 
     <div class="row mt-4">
       <div class="col-12 d-flex justify-content-around" id="">
@@ -140,23 +150,24 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
 @push('scripts')
 
 <script>
-    function btn_inventario(e, a) {
+  function btn_inventario(a) {
 
- //     document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
+    document.getElementById('link_id_estoque_' + a).innerHTML = '<span  class="fas fa-pencil-alt text-primary">   </span>';
 
-  var qtde_contada = document.getElementById('qtde_contada').value;
+    var qtde_contada = document.getElementById('qtde_contada_estoque_' + a).value;
 
 
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById('cod_resp').value = this.responseText;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        //document.getElementById('cod_resp').value = this.responseText;
+        console.log(this.responseText);
 
-    }
-  };
-  xhttp.open("GET", "/inventario/contagem/" + a + "/" + qtde_contada, true);
-  xhttp.send();
-}
+      }
+    };
+    xhttp.open("GET", "/inventario/contagem/" + a + "/" + qtde_contada, true);
+    xhttp.send();
+  }
 
 </script>
 @endpush

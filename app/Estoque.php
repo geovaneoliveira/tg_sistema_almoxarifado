@@ -25,6 +25,9 @@ class Estoque extends Model
 		return $this->hasMany('App\Movimentacao');
 	}
 
+	public function materiais_inventariados() {
+		return $this->hasMany('App\Materialinventariado', 'id_estoque');
+	}
 
 
 	public static function listarEstocadosOnde($nome_material='', $cod_tipo='', $lote='', $cod_local='') {

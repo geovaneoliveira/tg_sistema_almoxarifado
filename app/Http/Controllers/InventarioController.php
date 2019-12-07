@@ -32,28 +32,29 @@ class InventarioController extends Controller
 
     public function abreForm() {
 
-        $estocados = Estoque::listarEstocadosOnde();
+        //$estocados = Estoque::listarEstocadosOnde();
 
         $inventario = Inventario::where('data_fim', '=', null)
         ->orderBy('cod_inventario', 'asc')
         ->count();
 
         if($inventario == 0){
-        return view('inventario')->with('view', $this->view)
-        ->with('tipos', Tipo::all())
-        ->with('locais', Local::all())
-        ->with('estocados', $estocados);
-        }
-        else{
+        return view('inventario')
+                            ->with('view', $this->view)
+                            ->with('tipos', Tipo::all())
+                        //->with('estocados', $estocados)
+                            ->with('locais', Local::all());
+        } else {
             $inventario = Inventario::where('data_fim', '=', null)
-            ->orderBy('cod_inventario', 'asc')
-            ->get();
+                                    ->orderBy('cod_inventario', 'asc')
+                                    ->get();
 
-            return view('inventario')->with('view', $this->view)
-            ->with('tipos', Tipo::all())
-            ->with('locais', Local::all())
-            ->with('estocados', $estocados)
-             ->with('inventario', $inventario);
+            return view('inventario')
+                                ->with('view', $this->view)
+                                ->with('tipos', Tipo::all())
+                                ->with('locais', Local::all())
+                                //->with('estocados', $estocados)
+                                ->with('inventario', $inventario);
         }
 
     }
@@ -68,25 +69,43 @@ class InventarioController extends Controller
         $estocados = Estoque::listarEstocadosOnde($nome_material, $cod_tipo, $lote, $cod_local);
 
         $inventario = Inventario::where('data_fim', '=', null)
-        ->orderBy('cod_inventario', 'asc')
-        ->count();
+                                        ->first();
 
-        if($inventario == 0){
-        return view('inventario')->with('view', $this->view)
-        ->with('tipos', Tipo::all())
-        ->with('locais', Local::all())
-        ->with('estocados', $estocados);
+        foreach ($estocados as $e) {
+            $e->qtde_contada = null;
+            $materialInventariado = Materialinventariado::where('cod_inventario', '=' , $inventario->cod_inventario)
+                                        ->where('id_estoque', '=' , $e->id)
+                                        ->first();
+            if ($materialInventariado) {
+                foreach ($materialInventariado->contagens as $co) {
+                    if($co->id_contador == \Auth::user()->id ) {
+                        $e->qtde_contada = $co->qtde_contada;
+                    }
+                }
+            }                       
         }
-        else{
-            $inventario = Inventario::where('data_fim', '=', null)
-            ->orderBy('cod_inventario', 'asc')
-            ->get();
 
-            return view('inventario')->with('view', $this->view)
-            ->with('tipos', Tipo::all())
-            ->with('locais', Local::all())
-            ->with('estocados', $estocados)
-             ->with('inventario', $inventario);
+        $inventario = Inventario::where('data_fim', '=', null)
+                                    ->orderBy('cod_inventario', 'asc')
+                                    ->count();
+
+        if($inventario == 0) {
+            return view('inventario')
+                                ->with('view', $this->view)
+                                ->with('tipos', Tipo::all())
+                                ->with('locais', Local::all())
+                                ->with('estocados', $estocados);
+        } else {
+            $inventario = Inventario::where('data_fim', '=', null)
+                                    ->orderBy('cod_inventario', 'asc')
+                                    ->get();
+
+            return view('inventario')
+                                ->with('view', $this->view)
+                                ->with('tipos', Tipo::all())
+                                ->with('locais', Local::all())
+                                ->with('estocados', $estocados)
+                                ->with('inventario', $inventario);
         }
 
 //	    return view('inventario')
@@ -99,39 +118,52 @@ class InventarioController extends Controller
 
 
     public function contagem(){
+
         $id_estoque = Request::route('id');
         $qtde_contada = Request::route('qtde_contada');
         $id_contador = \Auth::user()->id;
 
-        $inventario = Inventario::whereDate('data_fim', '=', null)
-        ->first();
+        $inventario = Inventario::where('data_fim', '=', null)
+                                        ->first();
 
-        $materialinventariado = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)
-        ->where('id_estoque', '=', $id_estoque)->first();
+        $materialinventariado = Materialinventariado::where('cod_inventario', '=', $inventario->cod_inventario)
+                                                        ->where('id_estoque', '=', $id_estoque)
+                                                        ->first();
+       
+        if($materialinventariado ){ 
+            $contagemExistente = Contagem::where('id_matinventariados', '=', $materialinventariado->id)
+                                ->where('id_contador', "=", $id_contador)
+                                ->first();
 
-        return 'sucesso';
+            if($contagemExistente) {
+                $contagemExistente->qtde_contada = $qtde_contada;
+                $contagemExistente->save();
+                return "sucesso: contagem exitente";
+            } else {                
+                $contagem = new Contagem;
+                $contagem->qtde_contada = $qtde_contada;
+                $contagem->id_contador = $id_contador;
+                $contagem->id_matinventariados = $materialinventariado->id;
+                $contagem->save();
+                return "sucesso: contagem inexitente";
+            }            
 
-        if($materialinventariado){
-        $contagem = new Contagem;
-        $contagem->qtde_contada = $qtde_contada;
-        $contagem->id_contador = $id_contador;
-        $contagem->id_matinventariado = $materialinventariado->id;
-        $contagem->save();
-        } else{
-            $materialinventariado = new MaterialInventariado;
+        } else {
+            $materialinventariado = new Materialinventariado;
             $materialinventariado->id_estoque = $id_estoque;
             $materialinventariado->cod_inventario = $inventario->cod_inventario;
             $materialinventariado->save();
 
             $contagem = new Contagem;
             $contagem->qtde_contada = $qtde_contada;
-            $contagem->id_matinventariado = $materialinventariado->id;
+            $contagem->id_matinventariados = $materialinventariado->id;
             $contagem->id_contador = $id_contador;
             $contagem->save();
+            return 'sucesso: material não tinha sido inventariado ainda';
         }
 
 
-        return 'sucesso';
+        return 'sucesso: geral';
     }
 
 }

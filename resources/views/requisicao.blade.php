@@ -58,7 +58,7 @@
 
 	<form class="mt-4">
 		<fieldset class="border shadow-sm p-3">
-		<legend>Requição: <strong id="legend_num_req_id">Nova</strong> </legend>
+		<legend>Requisição: <strong id="legend_num_req_id">Nova</strong> </legend>
 			<div class="form-row">
 				<div class="col-md-12" style="height: 170px; overflow-y: scroll;" >
 					<table class="table table-sm table-bordered table-hover " style="text-align: center;">

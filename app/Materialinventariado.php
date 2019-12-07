@@ -12,11 +12,18 @@ class Materialinventariado extends Model
 	protected $primaryKey = 'id';
 
 	public function contagens(){
-		return $this->hasMany('App\Contagem');
+		return $this->hasMany('App\Contagem', 'id_matinventariados');
     }
 
-    public function inventarios() {
+    public function inventario() {
 		return $this->belongsTo('App\Inventario', 'cod_inventario');
 	}
+
+	public function estoque() {
+		return $this->belongsTo('App\Estoque', 'id_estoque');
+	}
+
+
+
 
 }
