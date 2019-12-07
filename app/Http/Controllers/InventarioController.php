@@ -8,6 +8,7 @@ use App\Material;
 use App\Local;
 use App\Estoque;
 use App\Inventario;
+use App\Contagem;
 
 class InventarioController extends Controller
 {
@@ -89,18 +90,19 @@ class InventarioController extends Controller
     }
 
 
-    public function insere(){
+    public function contagem(){
+        $id_material = Request::route('id');
 
+        $qtde_contada = Request::route('qtde_contada');
+        $cod_inventario = Request::route('cod_inventario');
+        $id_contador = \Auth::user()->id;
 
+        $contagem = new Contagem;
 
-    //    var xhttp = new XMLHttpRequest();
-     //   xhttp.onreadystatechange = function() {
-    //      if (this.readyState == 4 && this.status == 200) {
-    //        document.getElementById("cons_dia_id").value = this.responseText;
-    //     }
-    //    };
-   //     xhttp.open("GET", "/material/consumodiario/" + id , true);
-    //    xhttp.send();
+        $contagem->qtde_contada = $qtde_contada;
+        $contagem->id_contador = $id_contador;
+        $contagem->save();
+
     }
 
 }

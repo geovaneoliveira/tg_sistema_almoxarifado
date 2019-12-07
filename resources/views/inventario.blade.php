@@ -45,9 +45,8 @@
           <label for="user">Contador</label>
           <input type="text" class="form-control" id="user" name="user" value="{{Auth::user()->name}}" readonly />
         </div>
-@endif
-@endforeach
-@endif
+
+
 
 
           <div class="col-sm-6 col-md-3  form-group">
@@ -112,8 +111,10 @@
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
-            <td > <input type="text" name="qtde_contada"  value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td onclick="btn_inventario({{$loop->index}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
+            <td                            > CODIGO INVENTARIO {{$i->cod_inventario}}</td>
+            <td                            > CODIGO MAT {{$e->id}}</td>
+            <td > <input type="text" name="qtde_contada" id="qtde_contada" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
+            <td onclick="btn_inventario({{$loop->index}}, {{$e->id }}, {{$i->cod_inventario}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
           @endforeach
 
@@ -127,6 +128,9 @@
         <button type="submit" class="btn btn-lg col-md-4 btn-success" onclick=""style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
         <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
       </div>
+      @endif
+      @endforeach
+      @endif
     </div>
 
 </form> <!-- fim do formulário-->
@@ -135,13 +139,26 @@
 
 
 @push('scripts')
+
 <script>
-    function btn_inventario(e) {
+    function btn_inventario(e, a, codinv) {
 
       document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
 
+  var qtde_contada = document.getElementById('qtde_contada').value;
+
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      //document.getElementById("cons_dia_id").value = this.responseText;
 
     }
+  };
+  xhttp.open("GET", "/adm-inventarios/contagem/" + a + "/" + qtde_contada + "/" + codinv , true);
+  xhttp.send();
+}
+
 </script>
 @endpush
 
