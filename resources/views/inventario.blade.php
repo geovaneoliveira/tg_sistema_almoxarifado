@@ -152,7 +152,7 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
 <script>
   function btn_inventario(a) {
 
-    document.getElementById('link_id_estoque_' + a).innerHTML = '<span  class="fas fa-pencil-alt text-primary">   </span>';
+    
 
     var qtde_contada = document.getElementById('qtde_contada_estoque_' + a).value;
 
@@ -160,6 +160,7 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
+        document.getElementById('link_id_estoque_' + a).innerHTML = '<span  class="fas fa-pencil-alt text-primary">   </span>';
         //document.getElementById('cod_resp').value = this.responseText;
         console.log(this.responseText);
 
