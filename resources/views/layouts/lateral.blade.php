@@ -72,7 +72,14 @@
                 </li>
 
                 <li class="nav-item"> 
-                  <a href="/inventario" class="nav-link {{ asset('view') ?    $view['active'] == 'inventario' ? 'active' : ''    :''}} @if (Auth::user()->permission == 3) disabled @endif"><i class="fas fa-check-square fa-lg menu-icone"></i>Inventário</a> 
+                  <a href="/inventario" class="nav-link {{ asset('view') ?    $view['active'] == 'inventario' ? 'active' : ''    :''}} 
+                  @if ($view['inventario'] == false) 
+                    disabled
+                  @else
+                    @if (Auth::user()->permission == 3)
+                      disabled
+                    @endif
+                  @endif"><i class="fas fa-check-square fa-lg menu-icone"></i>Inventário</a> 
                 </li>
 
                 <li class="nav-item"> 
@@ -86,7 +93,8 @@
                   <a href="/user/gerenciar" class="nav-link {{ asset('view') ?    $view['active'] == 'gerenciarusuarios' ? 'active' : ''    :''}} @if (Auth::user()->permission != 1) disabled @endif" ><i class="fas fa-users fa-lg menu-icone" ></i>Usuários</a>
 
                 <li class="nav-item"> 
-                  <a href="/adm-inventarios" class="nav-link {{ asset('view') ?    $view['active'] == 'adm-inventarios' ? 'active' : ''    :''}} @if (Auth::user()->permission != 1) disabled @endif"><i class="fas fa-check-double fa-lg menu-icone"></i>Adm. Inventários</a> 
+                  <a href="/adm-inventarios" class="nav-link {{ asset('view') ?    $view['active'] == 'adm-inventarios' ? 'active' : ''    :''}}
+                  @if (Auth::user()->permission != 1) disabled @endif"><i class="fas fa-check-double fa-lg menu-icone"></i>Adm. Inventários</a> 
                 </li>
 
     
