@@ -112,8 +112,6 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
             <td                            > {{$e->nome_local }} </td>
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
-            <td                            > CODIGO INVENTARIO {{$i->cod_inventario}}</td>
-            <td                            > CODIGO MAT {{$e->id}}</td>
             <td > <input type="text" name="qtde_contada" id="qtde_contada" value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
             <td onclick="btn_inventario({{$loop->index}}, {{$e->id}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
@@ -144,7 +142,7 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
 <script>
     function btn_inventario(e, a) {
 
-      document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
+ //     document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
 
   var qtde_contada = document.getElementById('qtde_contada').value;
 
@@ -152,11 +150,11 @@ Não há inventário Ativo! <- COLOCAR UMA MENSAGEM BONITINHA AQUI
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      //document.getElementById("cons_dia_id").value = this.responseText;
+      document.getElementById('cod_resp').value = this.responseText;
 
     }
   };
-  xhttp.open("GET", "/adm-inventarios/contagem/" + a + "/" + qtde_contada, true);
+  xhttp.open("GET", "/inventario/contagem/" + a + "/" + qtde_contada, true);
   xhttp.send();
 }
 

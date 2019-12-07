@@ -94,11 +94,13 @@ Route::get('/adm-inventarios/analisa/localizar', 'AdmInventariosController@anali
 Route::get('/adm-inventarios/localiza', 'AdmInventariosController@abreFormLocaliza');
 Route::get('/adm-inventarios/exibeDetalhes/{id}', 'AdmInventariosController@exibeDetalhes');
 Route::get('/adm-inventarios/exibeDetalhes/localizar', 'AdmInventariosController@exibeDetalhesLocalizar');
-Route::get('/adm-inventarios/contagem/{id}/{qtde_contada}', 'AdmInventariosController@contagem');
+
 
 
 Route::get('/inventario', 'InventarioController@abreForm');
 Route::get('/inventario/localiza', 'InventarioController@localizaMateriais');
+Route::get('/inventario/contagem/{id}/{qtde_contada}', 'InventarioController@contagem');
+
 
 Route::get('/movimentacoes', 'MovimentacoesController@abreForm');
 Route::match(['get', 'post'],'/movimentacoes/localiza', 'MovimentacoesController@localiza');

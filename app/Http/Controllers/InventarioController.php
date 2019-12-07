@@ -9,6 +9,7 @@ use App\Local;
 use App\Estoque;
 use App\Inventario;
 use App\Contagem;
+use App\Materialinventariado;
 
 class InventarioController extends Controller
 {
@@ -108,6 +109,7 @@ class InventarioController extends Controller
         $materialinventariado = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)
         ->where('id_estoque', '=', $id_estoque)->first();
 
+        return 'sucesso';
 
         if($materialinventariado){
         $contagem = new Contagem;
@@ -128,6 +130,8 @@ class InventarioController extends Controller
             $contagem->save();
         }
 
+
+        return 'sucesso';
     }
 
 }
