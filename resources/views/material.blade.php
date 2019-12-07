@@ -318,7 +318,6 @@ function calc_estoques(){
 window.onload = function(){
   calc_estoques();
 }
-@push('scripts')
 
 
 </script>

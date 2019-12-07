@@ -113,7 +113,7 @@
             <td                            > {{$e->quantidade }} </td>
             <td                            > {{$e->descricao_unid_medida }}</td>
             <td > <input type="text" name="qtde_contada"  value="" placeholder="digite qtde..." class="p-0 m-0" style="width: 100%;" />  </td>
-            <td onclick="btn_inventario({{$loop->index}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>  
+            <td onclick="btn_inventario({{$loop->index}});"> <a id="{{$loop->index}}"> <span  class="fas fa-arrow-right text-success">   </span> </a> </td>
         </tr>
           @endforeach
 
@@ -139,10 +139,8 @@
     function btn_inventario(e) {
 
       document.getElementById(e).innerHTML = '<i class="fas fa-pencil-alt" </i>';
-      document.getElementById(e).type = "button";
 
-      document.getElementById(e).onclick = "function btn_inventario(e)";
-    
+
     }
 </script>
 @endpush
