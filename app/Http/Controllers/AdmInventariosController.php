@@ -230,7 +230,7 @@ return 3;
         foreach($inventario as $i){
         $i->data_fim = Carbon::now()->toDateString();
         $i->save();
-      //  $inventario->delete();
+
         }
 
 
@@ -256,10 +256,10 @@ return 3;
         $contagem = Request::input('contagem');
         $situacao = Request::input('situacao');
 
-     $inventario = Inventario::where('data_fim', '=', null)
-     ->first();
+        $inventario = Inventario::where('data_fim', '=', null)
+         ->first();
 
-     $cod_inventario = $inventario->cod_inventario;
+        $cod_inventario = $inventario->cod_inventario;
 
         $materialinventariado = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $contagem, $situacao);
 

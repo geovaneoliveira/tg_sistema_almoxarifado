@@ -107,7 +107,7 @@
 
           <td  > @foreach($i->contagens as $co) {{$co->user->name}}   <br> @endforeach <br> </td>
           <td  > @foreach($i->contagens as $co) {{$co->qtde_contada}} <br> @endforeach <br> </td>
-          <td  > @foreach($i->contagens as $co) <a href="#"> <span class="far fa-circle text-success">   </span> </a> <br> @endforeach <br> </td>
+          <td  > @foreach($i->contagens as $co) <a id="btn_contagem_{{$co->id}}" onclick="btn_contagem({{$co->id}});"> <span class="far fa-circle text-success">   </span> </a> <br> @endforeach <br> </td>
 
         </tr>
 
@@ -134,6 +134,23 @@
 
 
 </div>
+@push('scripts')
+
+<script>
+  function btn_contagem(a) {
+    var NAME = document.getElementById('btn_contagem_' + a);
+
+
+    //if(NAME.innerHTML = '<span  class="far fa-check-circle">   </span>'){
+  //      NAME.innerHTML =  '<span  class="far fa-circle text-success">   </span>';
+  //  }
+  //  else{
+        NAME.innerHTML = '<span  class="far fa-check-circle">   </span>';
+ //   }
+  }
+
+</script>
+@endpush
 
 
 @endsection
