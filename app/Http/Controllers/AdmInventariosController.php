@@ -7,6 +7,8 @@ use App\Inventario;
 use App\Local;
 use Carbon\Carbon;
 use App\Estoque;
+use App\Materialinventariado;
+use App\Contagem;
 
 class AdmInventariosController extends Controller
 {
@@ -23,7 +25,7 @@ class AdmInventariosController extends Controller
       } else {
         $this->view['inventario'] = false;
       }
-        
+
     }
 
     public function abreForm() {
@@ -74,12 +76,19 @@ class AdmInventariosController extends Controller
 
     public function abreFormAnalisa() {
 
-     //   $estocados = Estoque::listarEstocadosOnde();
+     $inventario = Inventario::where('data_fim', '=', null)
+     ->first();
+
+     $materialinventariado = Materialinventariado::where('cod_inventario', '=', $inventario->cod_inventario)
+     ->orderBy('id_estoque', 'desc')
+     ->get();
+
 
         return view('adm-inventarios-analisa')
            ->with('view', $this->view)
             ->with('tipos', Tipo::all())
-             -> with('locais', Local::all());
+             ->with('locais', Local::all())
+              ->with('materialinventariado', $materialinventariado);
     }
 
     public function abreFormLocaliza() {
@@ -134,8 +143,19 @@ return 3;
 
         $id = Request::route('id');
         $inventario = Inventario::find($id);
-     //   $inventario->data_fim = Carbon::now()->toDateString();
-     //   $inventario->save();
+
+        $materiaisinventariados = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)
+        ->get();
+
+        foreach($materiaisinventariados as $m){
+        $contagens = Contagem::where('id_matinventariados', '=', $m->id)->get();
+
+        foreach($contagens as $c){
+            $c->delete();
+        }
+        $m->delete();
+        }
+
         $inventario->delete();
 
         return redirect()
@@ -197,12 +217,13 @@ return 3;
         $contagem = Request::input('contagem');
         $situacao = Request::input('situacao');
 
-$estocados = 0;
-        return view('adm-inventarios-analisa')
-           ->with('view', $this->view)
-            ->with('tipos', Tipo::all())
-             -> with('locais', Local::all())
-              ->with('estocados', $estocados);
+        $materialinventariado = Materialinventariado::listarMateriais($nome_material, $lote, $cod_tipo, $cod_local, $contagem, $situacao);
+
+           return view('adm-inventarios-analisa')
+              ->with('view', $this->view)
+               ->with('tipos', Tipo::all())
+                ->with('locais', Local::all())
+                 ->with('materialinventariado', $materialinventariado);
 
     }
 

@@ -86,7 +86,6 @@
       <div class="col-md-12" style="max-height:400px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
         <table class="table table-sm table-bordered table-hover " style="text-align: center;">
           <tr>
-            <th>Est.</th>
             <th>Material </th>
             <th>Lote </th>
             <th>Local</th>
@@ -96,9 +95,23 @@
             <th>Qtde </th>
             <th > <i class="fas fa-check-double " > </th>
           </tr>
+          @foreach($materialinventariado as $i)
+          <tr>
+          <td >{{$i->estoque->material->nome_material}} </td>
+          <td >{{$i->estoque->lote}} </td>
+          <td >{{$i->estoque->local->nome_local}} </td>
+          <td >{{$i->estoque->quantidade}} </td>
+          <td >{{$i->estoque->material->unidade->descricao_unid_medida}} </td>
 
 
 
+          <td  > @foreach($i->contagens as $co) {{$co->user->name}}   <br> @endforeach <br> </td>
+          <td  > @foreach($i->contagens as $co) {{$co->qtde_contada}} <br> @endforeach <br> </td>
+          <td  > @foreach($i->contagens as $co) <a href="#"> <span class="far fa-circle text-success">   </span> </a> <br> @endforeach <br> </td>
+
+        </tr>
+
+          @endforeach
         </table>
       </div><!--fim da listagem de locais-->
     </div>

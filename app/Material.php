@@ -132,7 +132,7 @@ public static function materiaisAbaixoEstoqueMin () {
 			material.cons_dia,
 			material.percentual_seg,
 			material.margem_seg,
-			(material.cons_dia * material.lead_time) as estoque_min, 
+			(material.cons_dia * material.lead_time) as estoque_min,
 			((material.cons_dia * material.lead_time) + (material.cons_dia * material.lead_time)*(percentual_seg/100) + margem_seg) as estoque_seg,
 			sum(estoque.quantidade) as estoque_total
 				from material
@@ -150,12 +150,12 @@ public static function materiaisAbaixoEstoqueMin () {
 public static function materiaisAbaixoEstoqueSeg () {
 	$materiais = DB::select('
 		select material.cod_material,
-			material.nome_material, 
+			material.nome_material,
 			material.lead_time,
 			material.cons_dia,
 			material.percentual_seg,
 			material.margem_seg,
-			(material.cons_dia * material.lead_time) as estoque_min, 
+			(material.cons_dia * material.lead_time) as estoque_min,
 			((material.cons_dia * material.lead_time) + (material.cons_dia * material.lead_time)*(percentual_seg/100) + margem_seg) as estoque_seg,
 			sum(estoque.quantidade) as estoque_total
 				from material
