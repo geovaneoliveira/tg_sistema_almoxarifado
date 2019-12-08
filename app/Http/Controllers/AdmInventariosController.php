@@ -91,32 +91,53 @@ class AdmInventariosController extends Controller
               ->with('materialinventariado', $materialinventariado);
     }
 
+
     public function abreFormLocaliza() {
+      return view('adm-inventarios-localiza')->with('view', $this->view);
+    }
 
-       // $inventarios = Inventario::all();
-       $cod_resp = Request::input('cod_resp');
-       $inventarios = Inventario::where('cod_resp',  'like' , '%' . $cod_resp . '%' );
-        $inventarios = $inventarios->orderBy('cod_inventario', 'asc')->get();
 
-        foreach ($inventarios as $LE)
-        {
-            if($LE->data_inicio){
-             $dt = Carbon::create($LE->data_inicio);
-             $LE->data_inicio = $dt;
-             $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
-            }
 
-            if($LE->data_fim){
-             $dt1 = Carbon::create($LE->data_fim);
-             $LE->data_fim = $dt1;
-             $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
-            }
+    public function localizaInventarios () {
+      $nome_respon = Request::input('nome_respon');
+      $data_inicio_i = Request::input('data_inicio_i');
+      $data_inicio_f = Request::input('data_inicio_f');
+
+      $stmt = Inventario::join('Users', 'inventario.cod_resp', '=', 'Users.id');
+
+      if ($nome_respon) {
+        $stmt->where(\DB::Raw('UPPER(Users.name)'),  'like' , '%' . strtoupper($nome_respon) . '%' );
+      }
+
+      if ($data_inicio_i) {
+        $stmt->whereDate('inventario.data_inicio', '>=', $data_inicio_i);
+      }
+
+      if ($data_inicio_f) {
+        $stmt->whereDate('inventario.data_inicio', '<=', $data_inicio_f);
+      }
+
+      $inventarios = $stmt->orderBy('inventario.cod_inventario', 'desc')->get();
+
+      foreach ($inventarios as $LE) {
+        if($LE->data_inicio) {
+          $dt = Carbon::create($LE->data_inicio);
+          $LE->data_inicio = $dt;
+          $LE->data_inicio = date_format($LE->data_inicio,"d/m/Y");
         }
 
-        return view('adm-inventarios-localiza')
-        ->with('view', $this->view)
-          ->with('inventarios', $inventarios);
+        if($LE->data_fim) {
+          $dt1 = Carbon::create($LE->data_fim);
+          $LE->data_fim = $dt1;
+          $LE->data_fim = date_format($LE->data_fim,"d/m/Y");
+        }
+      }
+
+      return view('adm-inventarios-localiza')
+                                    ->with('inventarios', $inventarios)
+                                    ->with('view', $this->view);
     }
+
 
     public function exibeDetalhes() {
         $cod_inventario = Request::route('id');

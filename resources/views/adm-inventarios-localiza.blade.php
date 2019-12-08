@@ -3,26 +3,26 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="">
+  <form class="" action="/adm-inventarios/localizaInventarios"  method="post">
     <div class="form-row d-flex align-items-end">
 
         <div class="col-sm-12 col-md-6 form-group">
-          <label for="cod_resp">Responsável</label>
-          <input type="text" class="form-control" id="cod_resp" name="cod_resp" placeholder="responsável">
+          <label for="nome_resp">Responsável</label>
+          <input type="text" class="form-control" id="nome_resp" name="nome_respon" placeholder="responsável">
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
             <label for="data_inicio"> Data de Início</label>
             <div class="input-group">
-              <input type="date" class="form-control" id="data_inicio" name="data_inicio">
-              <input type="date" class="form-control" id="data_inicio" name="data_inicio">
+              <input type="date" class="form-control" name="data_inicio_i">
+              <input type="date" class="form-control" name="data_inicio_f">
             </div>
         </div>
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     </div>
 
-
+    @isset ($inventarios)
     <div class="form-row">
       <div class="col-md-12" style="height: 225px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
         <table class="table table-sm table-bordered table-hover " style="text-align: center;">
@@ -46,12 +46,13 @@
         </table>
       </div><!--fim da listagem de inventarios-->
     </div>
+    @endisset
 
 
 <div class="form-row">
         <div class="col-12 d-flex justify-content-around mt-5" id="">
 
-            <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-3" onclick="window.location.href='/adm-inventarios/localiza';"><i class="fas fa-search mr-2"></i>Localizar</button>
+            <button type="submit" class="btn btn-lg btn-success col-sm-5 col-md-3" ><i class="fas fa-search mr-2"></i>Localizar</button>
 
               <button type="reset" class="btn btn-lg btn-success col-sm-5 col-md-3" ><i class="fas fa-broom mr-2"  ></i>Limpar</button>
 

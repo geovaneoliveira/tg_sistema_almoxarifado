@@ -91,7 +91,8 @@ Route::get('/adm-inventarios/suspender/{id}', 'AdmInventariosController@suspende
 Route::get('/adm-inventarios/finalizar', 'AdmInventariosController@finalizar');
 Route::get('/adm-inventarios/analisa', 'AdmInventariosController@abreFormAnalisa');
 Route::get('/adm-inventarios/analisa/localizar', 'AdmInventariosController@analisarlocalizar');
-Route::get('/adm-inventarios/localiza', 'AdmInventariosController@abreFormLocaliza');
+Route::get('/adm-inventarios/abreFormLocaliza', 'AdmInventariosController@abreFormLocaliza');
+Route::match(['get', 'post'],'/adm-inventarios/localizaInventarios', 'AdmInventariosController@localizaInventarios');
 Route::get('/adm-inventarios/exibeDetalhes/{id}', 'AdmInventariosController@exibeDetalhes');
 Route::get('/adm-inventarios/exibeDetalhes/localizar', 'AdmInventariosController@exibeDetalhesLocalizar');
 
