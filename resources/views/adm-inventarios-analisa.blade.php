@@ -65,13 +65,13 @@
           </div>
 
           <div class="col-sm-6 col-md-4 form-group">
-            <label for="">Material</label>
-            <input type="text" class="form-control" id="" placeholder="parte do nome do material">
+            <label for="nome_material">Material</label>
+            <input type="text" class="form-control" id="nome_material" name="nome_material" placeholder="parte do nome do material">
           </div>
 
           <div class="col-sm-6 col-md-4 form-group">
-            <label for="">Lote</label>
-            <input type="text" class="form-control" id="" placeholder="parte núm. lote">
+            <label for="lote">Lote</label>
+            <input type="text" class="form-control" id="lote" name="lote" placeholder="parte núm. lote">
           </div>
 
 

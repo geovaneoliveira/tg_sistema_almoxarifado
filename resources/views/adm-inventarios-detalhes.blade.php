@@ -9,18 +9,18 @@
 
        <div class="col-sm-12 col-md-3 form-group">
           <label for="cod_inventario">Cód.</label>
-          <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="" readonly />
+       <input type="text" class="form-control" id="cod_inventario" name="cod_inventario" value="{{$inventario->cod_inventario}}" readonly />
         </div>
 
         <div class="col-sm-12 col-md-6 form-group">
           <label for="cod_resp">Responsável</label>
-          <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="" readonly />
+        <input type="text" class="form-control" id="cod_resp" name="cod_resp" value="{{$inventario->user->name}}" readonly />
         </div>
 
         <div class="col-sm-12 col-md-3 form-group">
             <label for="data_inicio"> Data de Início</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="data_inicio" name="data_inicio" value="" readonly />
+            <input type="text" class="form-control" id="data_inicio" name="data_inicio" value="{{$inventario->data_inicio}}" readonly />
             </div>
         </div>
 
@@ -55,8 +55,8 @@
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
-            <label for="cod_lote">Lote</label>
-            <input type="text" class="form-control" id="cod_lote" name="cod_lote" placeholder="parte núm. lote">
+            <label for="lote">Lote</label>
+            <input type="text" class="form-control" id="lote" name="lote" placeholder="parte núm. lote">
           </div>
 
       <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -78,7 +78,22 @@
             <th>Contador</th>
             <th>Qtde</th>
           </tr>
+          @foreach($materiaisinventariados as $i)
+          <tr>
+          <td >{{$i->estoque->material->nome_material}} </td>
+          <td >{{$i->estoque->lote}} </td>
+          <td >{{$i->estoque->local->nome_local}} </td>
+          <td >{{$i->estoque->quantidade}} </td>
+          <td >{{$i->estoque->material->unidade->descricao_unid_medida}} </td>
 
+
+
+          <td  > @foreach($i->contagens as $co) {{$co->user->name}}   <br> @endforeach <br> </td>
+          <td  > @foreach($i->contagens as $co) {{$co->qtde_contada}} <br> @endforeach <br> </td>
+
+        </tr>
+
+          @endforeach
 
 
         </table>

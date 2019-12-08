@@ -25,27 +25,27 @@ class Materialinventariado extends Model
     }
 
 
-    public static function listarMateriais($nome_material='', $lote='', $cod_tipo='', $local='', $contagem='', $situacao='') {
-        $stmt = DB::table('materiais_inventariados')
-            ->join('Estoque', 'materiais_inventariados.id_estoque', '=', 'Estoque.id')
+    public static function listarMateriais($cod_inventario='', $nome_material='', $lote='', $cod_tipo='', $cod_local='', $contagem='', $situacao='') {
+        $stmt = DB::table('Materiais_inventariados')
+            ->join('Estoque', 'Materiais_inventariados.id_estoque', '=', 'Estoque.id')
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
             ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
-            ->join('tipo_material', 'Material.cod_tipo', '=', 'tipo_material.cod_tipo');
+            ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo');
 
+            if ($cod_inventario) {
+                $stmt->where('cod_inventario', '=', $cod_inventario);
+            }
         if ($nome_material) {
             $stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
         }
-
         if ($lote) {
             $stmt->where(\DB::Raw('UPPER(Estoque.lote)'), 'like', '%' . strtoupper($lote) . '%');
         }
-
-        if ($local) {
-            $stmt->where('Estoque.cod_local', $local);
-        }
-
         if ($cod_tipo) {
-            $stmt->where('tipo_material.cod_tipo', $cod_tipo);
+            $stmt->where('Tipo_material.cod_tipo', '=', $cod_tipo);
+        }
+        if ($cod_local) {
+            $stmt->where('Estoque.cod_local', '=', $cod_local);
         }
 
         if($contagem) {
@@ -56,11 +56,9 @@ class Materialinventariado extends Model
 
         }
 
+        $listaMateriais = $stmt->select('Materiais_inventariados.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Tipo_material.nome_tipo', 'Users.name')->get();
 
-        $listaMateriais = $stmt->select('materiais_inventariados.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'tipo_material.nome_tipo', 'Users.name')->get();
-
-     //   $listaMateriais = $stmt->get();
-
+        $listaMateriais = $stmt->get();
 
         return $listaMateriais;
 

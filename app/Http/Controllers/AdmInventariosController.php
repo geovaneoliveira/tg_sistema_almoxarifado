@@ -119,17 +119,35 @@ class AdmInventariosController extends Controller
     }
 
     public function exibeDetalhes() {
+        $cod_inventario = Request::route('id');
 
+        $inventario = Inventario::find($cod_inventario);
+        $nome_material = Request::input('nome_material');
+        $cod_tipo = Request::input('cod_tipo');
+        $lote = Request::input('lote');
+        $cod_local = Request::input('cod_local');
 
+// ARRUMAR A PESQUISA AQUI
+        $materiaisinventariados = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)->get();
 
+            if($inventario->data_inicio){
+             $dt = Carbon::create($inventario->data_inicio);
+             $inventario->data_inicio = $dt;
+             $inventario->data_inicio = date_format($inventario->data_inicio,"d/m/Y");
+        }
 
-
-
+           if($inventario->data_fim){
+            $dt1 = Carbon::create($inventario->data_fim);
+        $inventario->data_fim = $dt1;
+        $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
+            }
 
         return view('adm-inventarios-detalhes')
         ->with('view', $this->view)
         ->with('tipos', Tipo::all())
-        ->with('locais', Local::all());
+        ->with('locais', Local::all())
+        ->with('inventario', $inventario)
+        ->with('materiaisinventariados', $materiaisinventariados);
     }
 
 public function exibeDetalhesLocalizar(){
@@ -217,7 +235,12 @@ return 3;
         $contagem = Request::input('contagem');
         $situacao = Request::input('situacao');
 
-        $materialinventariado = Materialinventariado::listarMateriais($nome_material, $lote, $cod_tipo, $cod_local, $contagem, $situacao);
+     $inventario = Inventario::where('data_fim', '=', null)
+     ->first();
+
+     $cod_inventario = $inventario->cod_inventario;
+
+        $materialinventariado = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $contagem, $situacao);
 
            return view('adm-inventarios-analisa')
               ->with('view', $this->view)
