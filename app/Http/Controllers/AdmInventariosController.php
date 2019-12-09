@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Estoque;
 use App\Materialinventariado;
 use App\Contagem;
+use App\Movimentacao;
 
 class AdmInventariosController extends Controller
 {
@@ -243,33 +244,35 @@ class AdmInventariosController extends Controller
     }
 
     public function finalizar() {
+        $inv = Inventario::where('data_fim', '=', null)->first();
         $inventario = Inventario::where('data_fim', '=', null)
                                                     ->orderBy('cod_inventario', 'asc')
                                                     ->get();
-        foreach($inventario as $i){
-        $i->data_fim = Carbon::now()->toDateString();
-        $i->save();
+
+        foreach($inv->materiaisinventariados as $m){
+          $movimentacao = new Movimentacao();
+          $movimentacao->estoque_id = $m->estoque->id;
+          $movimentacao->cod_usuario = \Auth::user()->id;
+          $qtde_movimentada = $m->qtde_estoque_sistema - $m->qtde_estoque_real;
+          $movimentacao->qtde_movimentada = $qtde_movimentada;
+          $movimentacao->tipo_movimentacao = 'Inventário';
+          $movimentacao->save();
+
+          $estoque = Estoque::find($m->id_estoque);
+          $estoque->quantidade = $m->qtde_estoque_real;
+          $estoque->save();
         }
 
-        foreach($inventario->materiaisinventariados as $m){
-        $movimentacao = new Movimentacao();
-        $movimentacao->estoque_id = $m->estoque->id;
-        $movimentacao->cod_usuario = \Auth::user()->id;
-        $qtde_movimentada = $m->qtde_estoque_sistema - $m->qtde_estoque_real;
-        $movimentacao->qtde_movimentada = $qtde_movimentada;
-        $movimentacao->tipo_movimentacao = 'Inventário';
-        $movimentacao->save();
-
-        $estoque = Estoque::find($m->id_estoque);
-        $estoque->quantidade = $m->qtde_estoque_real;
-        $estoque->save();
+        foreach($inventario as $i){
+          $i->data_fim = Carbon::now()->toDateString();
+          $i->save();
         }
 
         return redirect()
-        ->action('AdmInventariosController@abreForm')
-        ->with('view', $this->view)
-        ->with('status', 'editado')
-        ->with('inventario', $inventario);
+                    ->action('AdmInventariosController@abreForm')
+                    ->with('view', $this->view)
+                    ->with('status', 'editado')
+                    ->with('inventario', $inventario);
     }
 
     public function analisarlocalizar(){
@@ -295,45 +298,45 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
 
-      $materialinventariadoPreliminar = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
+      $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
-      $materialinventariado = array();
-      $estocados = \App\Estoque::where('quantidade', '>', 0)->get();
-      if($contagem == "i") {
-            $materialinventariado = $materialinventariadoPreliminar;
+      // $materialinventariado = array();
+      // $estocados = \App\Estoque::where('quantidade', '>', 0)->get();
+      // if($contagem == "i") {
+      //       $materialinventariado = $materialinventariadoPreliminar;
             
-      } elseif($contagem == "notI") {
-        foreach ($estocados as $e) {
-          $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
+      // } elseif($contagem == "notI") {
+      //   foreach ($estocados as $e) {
+      //     $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
 
-          if(!$mi) {
-            $mi = new \App\Materialinventariado();
-            $mi->cod_inventario = $inventario->cod_inventario;
-            $mi->id_estoque = $e->id;
-            $mi->qtde_estoque_sistema = null;
-            $mi->qtde_estoque_real = null;
-            array_push($materialinventariado, $mi);
-          }  
-        }
+      //     if(!$mi) {
+      //       $mi = new \App\Materialinventariado();
+      //       $mi->cod_inventario = $inventario->cod_inventario;
+      //       $mi->id_estoque = $e->id;
+      //       $mi->qtde_estoque_sistema = null;
+      //       $mi->qtde_estoque_real = null;
+      //       array_push($materialinventariado, $mi);
+      //     }  
+      //   }
 
-      } elseif($contagem == "all") {
+      // } elseif($contagem == "all") {
 
-        foreach ($estocados as $e) {
-            $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
+      //   foreach ($estocados as $e) {
+      //     $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
 
-            if($mi) {
-              array_push($materialinventariado, $mi);              
-            } else {
-              $mi = new \App\Materialinventariado();
-              $mi->cod_inventario = $inventario->cod_inventario;
-              $mi->id_estoque = $e->id;
-              $mi->qtde_estoque_sistema = null;
-              $mi->qtde_estoque_real = null;
-              array_push($materialinventariado, $mi);
-            }
-          }
+      //     if($mi) {
+      //         array_push($materialinventariado, $mi);              
+      //       } else {
+      //         $mi = new \App\Materialinventariado();
+      //         $mi->cod_inventario = $inventario->cod_inventario;
+      //         $mi->id_estoque = $e->id;
+      //         $mi->qtde_estoque_sistema = null;
+      //         $mi->qtde_estoque_real = null;
+      //         array_push($materialinventariado, $mi);
+      //       }
+      //     }
 
-        }
+      // }
                 
       return view('adm-inventarios-analisa')
                                           ->with('view', $this->view)

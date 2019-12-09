@@ -79,6 +79,13 @@ class Materialinventariado extends Model
 
             if($mi){
               array_push($materialinventariado, $mi);
+            } else {
+              $mi = new Materialinventariado();
+              $mi->cod_inventario = $cod_inventario;
+              $mi->id_estoque = $l;
+              $mi->qtde_estoque_sistema = null;
+              $mi->qtde_estoque_real = null;
+              array_push($materialinventariado, $mi);
             }
         }
 

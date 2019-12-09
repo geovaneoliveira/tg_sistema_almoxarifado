@@ -11,8 +11,8 @@ class Inventario extends Model
 	protected $fillable = array('cod_resp', 'data_inicio', 'data_fim');
 	protected $primaryKey = 'cod_inventario';
 
-	public function materiaisinventariados(){
-		return $this->hasMany('App\Materialinventariado');
+	public function materiaisinventariados() {
+		return $this->hasMany('App\Materialinventariado', 'cod_inventario');
     }
 
     public function user() {
