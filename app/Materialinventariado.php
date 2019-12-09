@@ -48,43 +48,76 @@ class Materialinventariado extends Model
         if ($cod_local) {
             $stmt->where('Estoque.cod_local', '=', $cod_local);
         }
+
+        $estocados = $stmt->select('estoque.id')->groupBy('estoque.id')->orderBy('estoque.id')->get();
  
-        if ($situacao) {
-            if( in_array("Avaliados", $situacao ) && !in_array("Não Avaliados", $situacao )) {
-                $stmt->where('qtde_estoque_real', '!=', null);
-            }
-            if( !in_array("Avaliados", $situacao ) && in_array("Não Avaliados", $situacao )) {
-                $stmt->where('qtde_estoque_real', '=', null);
-            }
-        }
+        // if ($situacao) {
+        //     if( in_array("Avaliados", $situacao ) && !in_array("Não Avaliados", $situacao )) {
+        //         $stmt->where('qtde_estoque_real', '!=', null);
+        //     }
+        //     if( !in_array("Avaliados", $situacao ) && in_array("Não Avaliados", $situacao )) {
+        //         $stmt->where('qtde_estoque_real', '=', null);
+        //     }
+        // }
 
 
-        if ($cod_inventario) {
-            $stmt->where('cod_inventario', '=', $cod_inventario);
-        }
+        // if ($cod_inventario) {
+        //     $stmt->where('cod_inventario', '=', $cod_inventario);
+        // }
 
 
 
-        $le = $stmt->select('estoque.id')->orderBy('estoque.id')->get();
+        // $le = $stmt->select('estoque.id')->orderBy('estoque.id')->get();
 
-        $listaEstocados = array();
+        // $listaEstocados = array();
 
-        foreach ($le as $e) {
-            array_push($listaEstocados, $e->id);
-        }
+        // foreach ($le as $e) {
+        //     array_push($listaEstocados, $e->id);
+        // }
 
 
+
+        // $materialinventariado = array();
+        // foreach ($listaEstocados as $l) {
+        //     $mi = \App\Materialinventariado::where('cod_inventario', $cod_inventario)->where('id_estoque', $l)->first();
+
+        //     if($mi){
+        //       array_push($materialinventariado, $mi);
+        //     } else {
+        //       $mi = new Materialinventariado();
+        //       $mi->cod_inventario = $cod_inventario;
+        //       $mi->id_estoque = $l;
+        //       $mi->qtde_estoque_sistema = null;
+        //       $mi->qtde_estoque_real = null;
+        //       array_push($materialinventariado, $mi);
+        //     }
+        // }
 
         $materialinventariado = array();
-        foreach ($listaEstocados as $l) {
-            $mi = \App\Materialinventariado::where('cod_inventario', $cod_inventario)->where('id_estoque', $l)->first();
+        foreach ($estocados as $l) {
+            $mi = \App\Materialinventariado::where('cod_inventario', $cod_inventario)->where('id_estoque', $l->id)->first();
 
             if($mi){
-              array_push($materialinventariado, $mi);
+                if ($situacao) {
+                    if( in_array("Avaliados", $situacao ) && !in_array("Não Avaliados", $situacao )) {
+                        if($mi->qtde_estoque_real != null){
+                            array_push($materialinventariado, $mi);
+                        }
+                    } else if( !in_array("Avaliados", $situacao ) && in_array("Não Avaliados", $situacao )) {
+                        if($mi->qtde_estoque_real == null){
+                            array_push($materialinventariado, $mi);
+                        }
+                    } else {
+                        array_push($materialinventariado, $mi);
+                    }
+                }else {
+                        array_push($materialinventariado, $mi);
+                    }
+              
             } else {
               $mi = new Materialinventariado();
               $mi->cod_inventario = $cod_inventario;
-              $mi->id_estoque = $l;
+              $mi->id_estoque = $l->id;
               $mi->qtde_estoque_sistema = null;
               $mi->qtde_estoque_real = null;
               array_push($materialinventariado, $mi);

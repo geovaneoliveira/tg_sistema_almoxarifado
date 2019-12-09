@@ -298,7 +298,39 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
 
-      $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
+      $materialinventariadoPreliminar = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
+
+
+
+
+      $materialinventariado = array();
+
+      if($contagem == "all") {
+
+        $materialinventariado = $materialinventariadoPreliminar;
+
+      } elseif($contagem == "notI") {
+
+        foreach ($materialinventariadoPreliminar as $matInv) {
+          if($matInv->contagens->count() == 0) {
+            array_push($materialinventariado, $matInv);
+          }  
+        }
+
+      } elseif($contagem == "i") {
+
+        foreach ($materialinventariadoPreliminar as $matInv) {
+          if($matInv->contagens->count() > 0) {
+            array_push($materialinventariado, $matInv);
+          }
+        }
+
+      }
+
+
+
+
+
 
 
       return view('adm-inventarios-analisa')
