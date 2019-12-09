@@ -32,9 +32,6 @@ class Materialinventariado extends Model
                                     ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
                                     ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo');
 
-        if ($cod_inventario) {
-            $stmt->where('cod_inventario', '=', $cod_inventario);
-        }
 
         if ($nome_material) {
             $stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
@@ -59,6 +56,11 @@ class Materialinventariado extends Model
             if( !in_array("Avaliados", $situacao ) && in_array("Não Avaliados", $situacao )) {
                 $stmt->where('qtde_estoque_real', '=', null);
             }
+        }
+
+
+        if ($cod_inventario) {
+            $stmt->where('cod_inventario', '=', $cod_inventario);
         }
 
 
