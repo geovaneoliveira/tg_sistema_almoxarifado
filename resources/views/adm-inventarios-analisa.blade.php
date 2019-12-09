@@ -3,7 +3,7 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="" action="/adm-inventarios/analisa/localizar">
+  <form class="" action="/adm-inventarios/analisa/localizar" method="post">
 
     <fieldset class="border shadow-sm p-3">
     <legend>Inconsistências:</legend>
@@ -38,9 +38,9 @@
             <label for="contagem">Contagem</label>
             <div class="input-group">
               <select class="form-control" id="contagem" name="contagem">
+                <option value=""> Todos </option>
                 <option value="notI"> Não inventariados</option>
-                <option value="i"> Inventáriados </option>
-                <option value="all"> Todos </option>
+                <option value="i"> Inventariados </option>
               </select>
             </div>
           </div>
@@ -104,14 +104,17 @@
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->local->nome_local}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->quantidade}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->unidade->descricao_unid_medida}} </td>
+            @if ($i->contagens->count() == 0)
+              <td rowspan="{{$i->contagens->count() + 1}}" colspan="3" class="text-danger"> nenhuma contagem </td>
+            @endif
           </tr>
-             @foreach($i->contagens as $co)
+            @foreach($i->contagens as $co)
               <tr>
                   <td> {{$co->user->name}} </td>
                   <td> {{$co->qtde_contada}} </td>
                   <td> <a id="btn_contagem_{{$co->id}}" onclick="btn_contagem({{$co->id}});"> <span class="far fa-circle text-success">   </span> </a> </td> 
               </tr>
-            @endforeach
+            @endforeach                
           @endforeach
         </table>
       </div><!--fim da listagem de locais-->

@@ -11,7 +11,7 @@ class Contagem extends Model
 	protected $fillable = array('id_matinventariados', 'id_contador', 'qtde_contada');
 	protected $primaryKey = 'id';
 
-    public function materiaisinventariados() {
+    public function materialinventariado() {
 		return $this->belongsTo('App\Materialinventariado', 'id_matinventariados');
     }
 

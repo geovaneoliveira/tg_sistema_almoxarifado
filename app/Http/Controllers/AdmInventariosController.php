@@ -140,41 +140,66 @@ class AdmInventariosController extends Controller
 
 
     public function exibeDetalhes() {
+
         $cod_inventario = Request::route('id');
-
         $inventario = Inventario::find($cod_inventario);
-        $nome_material = Request::input('nome_material');
-        $cod_tipo = Request::input('cod_tipo');
-        $lote = Request::input('lote');
-        $cod_local = Request::input('cod_local');
+        $materiaisinventariados = Materialinventariado::where('cod_inventario', '=', $inventario->cod_inventario)
+                                                                                    ->orderBy('id_estoque', 'desc')
+                                                                                    ->get();
 
-// ARRUMAR A PESQUISA AQUI
-        $materiaisinventariados = MaterialInventariado::where('cod_inventario', '=', $inventario->cod_inventario)->get();
-
-            if($inventario->data_inicio){
-             $dt = Carbon::create($inventario->data_inicio);
-             $inventario->data_inicio = $dt;
-             $inventario->data_inicio = date_format($inventario->data_inicio,"d/m/Y");
+        if($inventario->data_inicio){
+          $dt = Carbon::create($inventario->data_inicio);
+          $inventario->data_inicio = $dt;
+          $inventario->data_inicio = date_format($inventario->data_inicio,"d/m/Y");
         }
 
-           if($inventario->data_fim){
-            $dt1 = Carbon::create($inventario->data_fim);
-        $inventario->data_fim = $dt1;
-        $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
-            }
+        if($inventario->data_fim){
+          $dt1 = Carbon::create($inventario->data_fim);
+          $inventario->data_fim = $dt1;
+          $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
+        }
 
         return view('adm-inventarios-detalhes')
-        ->with('view', $this->view)
-        ->with('tipos', Tipo::all())
-        ->with('locais', Local::all())
-        ->with('inventario', $inventario)
-        ->with('materiaisinventariados', $materiaisinventariados);
+                                          ->with('view', $this->view)
+                                          ->with('tipos', Tipo::all())
+                                          ->with('locais', Local::all())
+                                          ->with('inventario', $inventario)
+                                          ->with('materiaisinventariados', $materiaisinventariados);
     }
 
-public function exibeDetalhesLocalizar(){
+    public function exibeDetalhesLocalizar() {
+      $cod_inventario = Request::route('id');
+      $nome_material = Request::input('nome_material');
+      $cod_tipo = Request::input('cod_tipo');
+      $lote = Request::input('lote');
+      $cod_local = Request::input('cod_local');
 
-return 3;
-}
+      $inventario = Inventario::find($cod_inventario);
+        
+      if($inventario->data_inicio){
+        $dt = Carbon::create($inventario->data_inicio);
+        $inventario->data_inicio = $dt;
+        $inventario->data_inicio = date_format($inventario->data_inicio,"d/m/Y");
+      }
+
+      if($inventario->data_fim){
+        $dt1 = Carbon::create($inventario->data_fim);
+        $inventario->data_fim = $dt1;
+        $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
+      }
+      
+      $lista = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local);
+
+      $materiaisinventariados = Materialinventariado::whereIn('id', $lista)->orderBy('id_estoque', 'desc')->get();
+
+      return view('adm-inventarios-detalhes')
+                                          ->with('view', $this->view)
+                                          ->with('tipos', Tipo::all())
+                                          ->with('locais', Local::all())
+                                          ->with('inventario', $inventario)
+                                          ->with('materiaisinventariados', $materiaisinventariados);
+
+    }
 
 
 
@@ -249,25 +274,55 @@ return 3;
 
     public function analisarlocalizar(){
 
-        $nome_material = Request::input('nome_material');
-        $cod_tipo = Request::input('cod_tipo');
-        $lote = Request::input('lote');
-        $cod_local = Request::input('cod_local');
-        $contagem = Request::input('contagem');
-        $situacao = Request::input('situacao');
+      $cod_inventario = Request::route('id');
+      $nome_material = Request::input('nome_material');
+      $cod_tipo = Request::input('cod_tipo');
+      $lote = Request::input('lote');
+      $cod_local = Request::input('cod_local');
+      $contagem = Request::input('contagem');
+      $situacao = Request::input('situacao');
 
-        $inventario = Inventario::where('data_fim', '=', null)
-         ->first();
+      $inventario = Inventario::where('data_fim', '=', null)->first();
+        
+      if($inventario->data_inicio){
+        $dt = Carbon::create($inventario->data_inicio);
+        $inventario->data_inicio = $dt;
+        $inventario->data_inicio = date_format($inventario->data_inicio,"d/m/Y");
+      }
 
-        $cod_inventario = $inventario->cod_inventario;
+      if($inventario->data_fim){
+        $dt1 = Carbon::create($inventario->data_fim);
+        $inventario->data_fim = $dt1;
+        $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
+      }
+      
+      $lista = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
-        $materialinventariado = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $contagem, $situacao);
+      $materialinventariado = Materialinventariado::whereIn('id', $lista)->orderBy('id_estoque', 'desc')->get();
 
-           return view('adm-inventarios-analisa')
-              ->with('view', $this->view)
-               ->with('tipos', Tipo::all())
-                ->with('locais', Local::all())
-                 ->with('materialinventariado', $materialinventariado);
+      if ($contagem) {
+
+        if($contagem == 'i'){
+
+          $materialinventariado = $materialinventariado->reject(function ($materialinventariado) {
+              return $materialinventariado->contagens->count() == 0;
+          });
+
+        } elseif ($contagem == 'notI') {
+
+          $materialinventariado = $materialinventariado->reject(function ($materialinventariado) {
+              return $materialinventariado->contagens->count() > 0;
+          });
+
+        }
+        
+      }
+
+      return view('adm-inventarios-analisa')
+                                          ->with('view', $this->view)
+                                          ->with('tipos', Tipo::all())
+                                          ->with('locais', Local::all())
+                                          ->with('materialinventariado', $materialinventariado);
 
     }
 

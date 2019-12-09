@@ -25,40 +25,57 @@ class Materialinventariado extends Model
     }
 
 
-    public static function listarMateriais($cod_inventario='', $nome_material='', $lote='', $cod_tipo='', $cod_local='', $contagem='', $situacao='') {
+    public static function listarMateriais($cod_inventario='', $nome_material='', $lote='', $cod_tipo='', $cod_local='', $situacao='') {
         $stmt = DB::table('Materiais_inventariados')
-            ->join('Estoque', 'Materiais_inventariados.id_estoque', '=', 'Estoque.id')
-            ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
-            ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
-            ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo');
+                                    ->join('Estoque', 'Materiais_inventariados.id_estoque', '=', 'Estoque.id')
+                                    ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
+                                    ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
+                                    ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo');
 
-            if ($cod_inventario) {
-                $stmt->where('cod_inventario', '=', $cod_inventario);
-            }
+        if ($cod_inventario) {
+            $stmt->where('cod_inventario', '=', $cod_inventario);
+        }
+
         if ($nome_material) {
             $stmt->where(\DB::Raw('UPPER(Material.nome_material)'), 'like', '%' . strtoupper($nome_material) . '%');
         }
+
         if ($lote) {
             $stmt->where(\DB::Raw('UPPER(Estoque.lote)'), 'like', '%' . strtoupper($lote) . '%');
         }
+
         if ($cod_tipo) {
             $stmt->where('Tipo_material.cod_tipo', '=', $cod_tipo);
         }
+
         if ($cod_local) {
             $stmt->where('Estoque.cod_local', '=', $cod_local);
         }
 
-        if($contagem) {
+        if ($situacao) {
+
+            if( in_array("Avaliados", $situacao ) ){
+
+                $stmt->where('materiais_inventariados.qtde_estoque_real', '!=', null);
+
+                if (in_array("Não Avaliados", $situacao ) ) {
+                    $stmt->orWhere('materiais_inventariados.qtde_estoque_real', '=', null);
+                }
+
+            } elseif (in_array("Não Avaliados", $situacao ) ) {
+
+                $stmt->where('materiais_inventariados.qtde_estoque_real', '=', null);
+            }
 
         }
 
-        if($situacao) {
+        $lm = $stmt->select('Materiais_inventariados.id')->get();
 
+        $listaMateriais = array();
+
+        foreach ($lm as $m) {
+            array_push($listaMateriais, $m->id);
         }
-
-        $listaMateriais = $stmt->select('Materiais_inventariados.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Tipo_material.nome_tipo', 'Users.name')->get();
-
-        $listaMateriais = $stmt->get();
 
         return $listaMateriais;
 

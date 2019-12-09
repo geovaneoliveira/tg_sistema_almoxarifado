@@ -3,7 +3,7 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form class="" action="/adm-inventarios/exibeDetalhes/localizar">
+  <form class="" action="/adm-inventarios/exibeDetalhes/{{$inventario->cod_inventario}}/localizar" method="post">
 
     <div class="form-row d-flex align-items-end">
 
@@ -51,7 +51,7 @@
 
           <div class="col-sm-6 col-md-3 form-group">
             <label for="cod_material">Material</label>
-            <input type="text" class="form-control" id="cod_material" name="cod_material" placeholder="parte do nome do material">
+            <input type="text" class="form-control" id="cod_material" name="nome_material" placeholder="parte do nome do material">
           </div>
 
           <div class="col-sm-6 col-md-3 form-group">
@@ -87,6 +87,9 @@
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->local->nome_local}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->quantidade}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->unidade->descricao_unid_medida}} </td>
+            @if ($i->contagens->count() == 0)
+              <td rowspan="{{$i->contagens->count() + 1}}" colspan="3" class="text-danger"> nenhuma contagem </td>
+            @endif
           </tr>
             @foreach($i->contagens as $co)
               <tr>
