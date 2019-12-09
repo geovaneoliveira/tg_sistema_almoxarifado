@@ -10,7 +10,7 @@
 
     <div class="form-row d-flex align-items-end">
 
-          <div class="form-group col col-md-6">
+          <div class="col-sm-6 col-md-4  form-group">
             <label for="cod_local">Local:</label>
             <div class="input-group" >
               <select class="form-control" id="cod_local" name="cod_local">
@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div class="form-group col col-md-6">
+          <div class="col-sm-6 col-md-4 form-group">
             <label for="cod_tipo">Tipo de Material:</label>
             <div class="input-group" >
               <select class="form-control" id="cod_tipo" name="cod_tipo">
@@ -38,9 +38,9 @@
             <label for="contagem">Contagem</label>
             <div class="input-group">
               <select class="form-control" id="contagem" name="contagem">
-                <option value=""> Não inventariados</option>
-                <option value=""> Inventáriados </option>
-                <option value=""> Todos </option>
+                <option value="notI"> Não inventariados</option>
+                <option value="i"> Inventáriados </option>
+                <option value="all"> Todos </option>
               </select>
             </div>
           </div>
@@ -86,6 +86,7 @@
       <div class="col-md-12" style="max-height:400px; overflow-y: auto;" ><!--inicio da listagem de materiais-->
         <table class="table table-sm table-bordered table-hover " style="text-align: center;">
           <tr>
+            <th>Est.</th>
             <th>Material </th>
             <th>Lote </th>
             <th>Local</th>
@@ -97,20 +98,20 @@
           </tr>
           @foreach($materialinventariado as $i)
           <tr>
-          <td >{{$i->estoque->material->nome_material}} </td>
-          <td >{{$i->estoque->lote}} </td>
-          <td >{{$i->estoque->local->nome_local}} </td>
-          <td >{{$i->estoque->quantidade}} </td>
-          <td >{{$i->estoque->material->unidade->descricao_unid_medida}} </td>
-
-
-
-          <td  > @foreach($i->contagens as $co) {{$co->user->name}}   <br> @endforeach <br> </td>
-          <td  > @foreach($i->contagens as $co) {{$co->qtde_contada}} <br> @endforeach <br> </td>
-          <td  > @foreach($i->contagens as $co) <a id="btn_contagem_{{$co->id}}" onclick="btn_contagem({{$co->id}});"> <span class="far fa-circle text-success">   </span> </a> <br> @endforeach <br> </td>
-
-        </tr>
-
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->id}}  </td>
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->nome_material}} </td>
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->lote}} </td>
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->local->nome_local}} </td>
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->quantidade}} </td>
+            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->unidade->descricao_unid_medida}} </td>
+          </tr>
+             @foreach($i->contagens as $co)
+              <tr>
+                  <td> {{$co->user->name}} </td>
+                  <td> {{$co->qtde_contada}} </td>
+                  <td> <a id="btn_contagem_{{$co->id}}" onclick="btn_contagem({{$co->id}});"> <span class="far fa-circle text-success">   </span> </a> </td> 
+              </tr>
+            @endforeach
           @endforeach
         </table>
       </div><!--fim da listagem de locais-->
