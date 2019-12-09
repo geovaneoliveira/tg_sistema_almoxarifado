@@ -79,9 +79,7 @@ class AdmInventariosController extends Controller
      $inventario = Inventario::where('data_fim', '=', null)
      ->first();
 
-     $materialinventariado = Materialinventariado::where('cod_inventario', '=', $inventario->cod_inventario)
-     ->orderBy('id_estoque', 'desc')
-     ->get();
+     $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario);
 
 
         return view('adm-inventarios-analisa')
@@ -188,9 +186,7 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
       
-      $lista = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local);
-
-      $materiaisinventariados = Materialinventariado::whereIn('id', $lista)->orderBy('id_estoque', 'desc')->get();
+      $materiaisinventariados = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local);
 
       return view('adm-inventarios-detalhes')
                                           ->with('view', $this->view)
@@ -246,24 +242,14 @@ class AdmInventariosController extends Controller
         ->with('inventario', $inventario);
     }
 
-    public function finalizar(){
-
-// ARRUMAR ESSA PARTE PRA TRAZER O ESTOQUE CERTO, PARECE Q TA TRAZENDO TODOS E ATUALIZANDO A DATA DE TODOS, CONFIRMAR ISSO
-        $inventario = Inventario::whereDate('data_fim', '=', null)
-        ->orderBy('cod_inventario', 'asc')
-        ->get();
+    public function finalizar() {
+        $inventario = Inventario::where('data_fim', '=', null)
+                                                    ->orderBy('cod_inventario', 'asc')
+                                                    ->get();
         foreach($inventario as $i){
-        $i->data_fim = Carbon::now()->toDateString();
-        $i->save();
-
+          $i->data_fim = Carbon::now()->toDateString();
+          $i->save();
         }
-
-
-  //      $estocados = Estoque::all();
-  //      foreach($estocados as $e){
-    //        $e->quantidade = $e->quantidade - 5;
-    //        $e->save();
-    //    }
 
         return redirect()
         ->action('AdmInventariosController@abreForm')
@@ -274,7 +260,6 @@ class AdmInventariosController extends Controller
 
     public function analisarlocalizar(){
 
-      $cod_inventario = Request::route('id');
       $nome_material = Request::input('nome_material');
       $cod_tipo = Request::input('cod_tipo');
       $lote = Request::input('lote');
@@ -295,28 +280,13 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = $dt1;
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
+
+      $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
       
-      $lista = Materialinventariado::listarMateriais($cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
-      $materialinventariado = Materialinventariado::whereIn('id', $lista)->orderBy('id_estoque', 'desc')->get();
 
-      if ($contagem) {
-
-        if($contagem == 'i'){
-
-          $materialinventariado = $materialinventariado->reject(function ($materialinventariado) {
-              return $materialinventariado->contagens->count() == 0;
-          });
-
-        } elseif ($contagem == 'notI') {
-
-          $materialinventariado = $materialinventariado->reject(function ($materialinventariado) {
-              return $materialinventariado->contagens->count() > 0;
-          });
-
-        }
-        
-      }
+     
+       
 
       return view('adm-inventarios-analisa')
                                           ->with('view', $this->view)
@@ -325,5 +295,20 @@ class AdmInventariosController extends Controller
                                           ->with('materialinventariado', $materialinventariado);
 
     }
+
+
+
+
+
+    public function selecionaContagem() {
+      $id = Request::route('id');
+      $contagem = Contagem::find($id);
+      $contagem->materialinventariado->qtde_estoque_real = $contagem->qtde_contada;
+      $contagem->materialinventariado->qtde_estoque_sistema = $contagem->materialinventariado->estoque->quantidade;
+      $contagem->materialinventariado->save();
+      return $id;
+    }
+
+
 
 }

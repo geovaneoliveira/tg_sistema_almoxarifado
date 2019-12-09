@@ -102,7 +102,7 @@
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->nome_material}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->lote}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->local->nome_local}} </td>
-            <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->quantidade}} </td>
+            <td rowspan="{{$i->contagens->count() + 1}}" > {{$i->estoque->quantidade}} </td>
             <td rowspan="{{$i->contagens->count() + 1}}"> {{$i->estoque->material->unidade->descricao_unid_medida}} </td>
             @if ($i->contagens->count() == 0)
               <td rowspan="{{$i->contagens->count() + 1}}" colspan="3" class="text-danger"> nenhuma contagem </td>
@@ -112,7 +112,19 @@
               <tr>
                   <td> {{$co->user->name}} </td>
                   <td> {{$co->qtde_contada}} </td>
-                  <td> <a id="btn_contagem_{{$co->id}}" onclick="btn_contagem({{$co->id}});"> <span class="far fa-circle text-success">   </span> </a> </td> 
+                  <td> <a id="id_btn_contagem_{{$co->id}}" onclick="btn_contagem('{{$i->id}}', '{{$co->id}}');" href="#" class="classe_btn_contagem_{{$i->id}}">
+                    <span class="
+                      @if($i->qtde_estoque_real)
+                        @if($i->qtde_estoque_real == $co->qtde_contada)
+                          fas fa-check-double text-primary
+                        @else
+                          far fa-circle text-success
+                        @endif
+                      @else
+                          far fa-circle text-success
+                      @endif
+                      
+                    "></span> </a> </td> 
               </tr>
             @endforeach                
           @endforeach
@@ -141,16 +153,27 @@
 @push('scripts')
 
 <script>
-  function btn_contagem(a) {
-    var NAME = document.getElementById('btn_contagem_' + a);
 
 
-    //if(NAME.innerHTML = '<span  class="far fa-check-circle">   </span>'){
-  //      NAME.innerHTML =  '<span  class="far fa-circle text-success">   </span>';
-  //  }
-  //  else{
-        NAME.innerHTML = '<span  class="far fa-check-circle">   </span>';
- //   }
+
+    function btn_contagem(idMaterialInventariado, idContagem) {
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var classe_btn_contagem = document.getElementsByClassName('classe_btn_contagem_' + idMaterialInventariado);
+          var i;
+          for (i = 0; i < classe_btn_contagem.length; i++) {
+            classe_btn_contagem[i].innerHTML = '<span  class="far fa-circle text-success">   </span>';
+          }
+
+          document.getElementById('id_btn_contagem_' + idContagem).innerHTML = '<span  class="fas fa-check-double text-primary">   </span>';
+      }
+    };
+
+    xhttp.open("GET", "/adm-inventarios/selecionaContagem/" + idContagem , true);
+    xhttp.send(); 
+
   }
 
 </script>

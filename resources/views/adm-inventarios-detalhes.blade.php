@@ -95,7 +95,19 @@
               <tr>
                   <td> {{$co->user->name}} </td>
                   <td> {{$co->qtde_contada}} </td>
-                  <td> <a href="#"> <span class="far fa-circle text-success">   </span> </a> </td> 
+                  <td> <a>
+                    <span class="
+                      @if($i->qtde_estoque_real)
+                        @if($i->qtde_estoque_real == $co->qtde_contada)
+                          fas fa-check-double text-primary
+                        @else
+                          far fa-circle text-success
+                        @endif
+                      @else
+                          far fa-circle text-success
+                      @endif
+                      
+                    "></span> </a> </td>  
               </tr>
             @endforeach
           @endforeach
@@ -109,7 +121,7 @@
         <div class="col-12 d-flex justify-content-around" id="">
 
           <button type="submit" class="btn btn-lg col-md-4 btn-success" style="width: 100%;"><i class="fas fa-search mr-2"></i>Localizar</button>
-          <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-ban mr-2"></i>Voltar</button>
+          <button type="button" class="btn btn-lg col-md-4 btn-success" onclick="history.back()" style="width: 100%;"> <i class="fas fa-arrow-left mr-2"></i>Voltar</button>
         </div>
       </div>
 </form> <!-- fim do formulário-->

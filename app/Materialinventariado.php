@@ -27,7 +27,7 @@ class Materialinventariado extends Model
 
     public static function listarMateriais($cod_inventario='', $nome_material='', $lote='', $cod_tipo='', $cod_local='', $situacao='') {
         $stmt = DB::table('Materiais_inventariados')
-                                    ->join('Estoque', 'Materiais_inventariados.id_estoque', '=', 'Estoque.id')
+                                    ->rightJoin('Estoque', 'Materiais_inventariados.id_estoque', '=', 'Estoque.id')
                                     ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
                                     ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
                                     ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo');
@@ -51,33 +51,45 @@ class Materialinventariado extends Model
         if ($cod_local) {
             $stmt->where('Estoque.cod_local', '=', $cod_local);
         }
-
+ 
         if ($situacao) {
-
-            if( in_array("Avaliados", $situacao ) ){
-
-                $stmt->where('materiais_inventariados.qtde_estoque_real', '!=', null);
-
-                if (in_array("Não Avaliados", $situacao ) ) {
-                    $stmt->orWhere('materiais_inventariados.qtde_estoque_real', '=', null);
-                }
-
-            } elseif (in_array("Não Avaliados", $situacao ) ) {
-
-                $stmt->where('materiais_inventariados.qtde_estoque_real', '=', null);
+            if( in_array("Avaliados", $situacao ) && !in_array("Não Avaliados", $situacao )) {
+                $stmt->where('qtde_estoque_real', '!=', null);
             }
-
+            if( !in_array("Avaliados", $situacao ) && in_array("Não Avaliados", $situacao )) {
+                $stmt->where('qtde_estoque_real', '=', null);
+            }
         }
 
-        $lm = $stmt->select('Materiais_inventariados.id')->get();
 
-        $listaMateriais = array();
 
-        foreach ($lm as $m) {
-            array_push($listaMateriais, $m->id);
+        $le = $stmt->select('estoque.id')->orderBy('estoque.id')->get();
+
+        $listaEstocados = array();
+
+        foreach ($le as $e) {
+            array_push($listaEstocados, $e->id);
         }
 
-        return $listaMateriais;
+
+
+        $materialinventariado = array();
+        foreach ($listaEstocados as $l) {
+            $mi = \App\Materialinventariado::where('cod_inventario', $cod_inventario)->where('id_estoque', $l)->first();
+
+            if($mi){
+              array_push($materialinventariado, $mi);
+            } else {
+              $mi = new Materialinventariado();
+              $mi->cod_inventario = $cod_inventario;
+              $mi->id_estoque = $l;
+              $mi->qtde_estoque_sistema = null;
+              $mi->qtde_estoque_real = null;
+              array_push($materialinventariado, $mi);
+            }
+        }
+
+        return $materialinventariado;
 
     }
 
