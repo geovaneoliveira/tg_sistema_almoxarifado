@@ -300,44 +300,34 @@ class AdmInventariosController extends Controller
 
       $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
-      // $materialinventariado = array();
-      // $estocados = \App\Estoque::where('quantidade', '>', 0)->get();
-      // if($contagem == "i") {
-      //       $materialinventariado = $materialinventariadoPreliminar;
-            
-      // } elseif($contagem == "notI") {
-      //   foreach ($estocados as $e) {
-      //     $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
 
-      //     if(!$mi) {
-      //       $mi = new \App\Materialinventariado();
-      //       $mi->cod_inventario = $inventario->cod_inventario;
-      //       $mi->id_estoque = $e->id;
-      //       $mi->qtde_estoque_sistema = null;
-      //       $mi->qtde_estoque_real = null;
-      //       array_push($materialinventariado, $mi);
+      // $materialinventariado = array();
+
+      // if($contagem == "all") {
+
+      //       $materialinventariado = $materialinventariadoPreliminar;  
+
+      // } elseif($contagem == "notI") {
+
+      //   foreach ($materialinventariadoPreliminar as $matInv) {
+      //     if($matInv->contagens->count() == 0) {
+      //       array_push($materialinventariado, $matInv);
       //     }  
       //   }
 
-      // } elseif($contagem == "all") {
+      // } elseif($contagem == "i") {
 
-      //   foreach ($estocados as $e) {
-      //     $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
+      //   foreach ($materialinventariadoPreliminar as $matInv) {
+      //     if($matInv->contagens->count() > 0) {
+      //       array_push($materialinventariado, $matInv);
+      //     }  
+      //   }
 
-      //     if($mi) {
-      //         array_push($materialinventariado, $mi);              
-      //       } else {
-      //         $mi = new \App\Materialinventariado();
-      //         $mi->cod_inventario = $inventario->cod_inventario;
-      //         $mi->id_estoque = $e->id;
-      //         $mi->qtde_estoque_sistema = null;
-      //         $mi->qtde_estoque_real = null;
-      //         array_push($materialinventariado, $mi);
-      //       }
-      //     }
+      // }  
 
-      // }
-                
+
+
+
       return view('adm-inventarios-analisa')
                                           ->with('view', $this->view)
                                           ->with('tipos', Tipo::all())
