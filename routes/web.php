@@ -100,7 +100,7 @@ Route::get('/adm-inventarios/selecionaContagem/{id}', 'AdmInventariosController@
 
 
 Route::get('/inventario', 'InventarioController@abreForm');
-Route::get('/inventario/localiza', 'InventarioController@localizaMateriais');
+Route::match(['get', 'post'],'/inventario/localiza', 'InventarioController@localizaMateriais');
 Route::get('/inventario/contagem/{id}/{qtde_contada}', 'InventarioController@contagem');
 
 

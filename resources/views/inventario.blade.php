@@ -3,7 +3,7 @@
 @section('conteudo')
 
 <div class="col-12">
-  <form action="/inventario/localiza" class="" method="get">
+  <form action="/inventario/localiza" class="" method="post">
 
     <div class="form-row d-flex align-items-end">
 

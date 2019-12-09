@@ -295,13 +295,46 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
 
-      $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
+      $materialinventariadoPreliminar = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
+      $materialinventariado = array();
+      $estocados = \App\Estoque::where('quantidade', '>', 0)->get();
+      if($contagem == "i") {
+            $materialinventariado = $materialinventariadoPreliminar;
+            
+      } elseif($contagem == "notI") {
+        foreach ($estocados as $e) {
+          $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
 
+          if(!$mi) {
+            $mi = new \App\Materialinventariado();
+            $mi->cod_inventario = $inventario->cod_inventario;
+            $mi->id_estoque = $e->id;
+            $mi->qtde_estoque_sistema = null;
+            $mi->qtde_estoque_real = null;
+            array_push($materialinventariado, $mi);
+          }  
+        }
 
+      } elseif($contagem == "all") {
 
+        foreach ($estocados as $e) {
+            $mi = \App\Materialinventariado::where('cod_inventario', $inventario->cod_inventario)->where('id_estoque', $e->id)->first();
 
+            if($mi) {
+              array_push($materialinventariado, $mi);              
+            } else {
+              $mi = new \App\Materialinventariado();
+              $mi->cod_inventario = $inventario->cod_inventario;
+              $mi->id_estoque = $e->id;
+              $mi->qtde_estoque_sistema = null;
+              $mi->qtde_estoque_real = null;
+              array_push($materialinventariado, $mi);
+            }
+          }
 
+        }
+                
       return view('adm-inventarios-analisa')
                                           ->with('view', $this->view)
                                           ->with('tipos', Tipo::all())

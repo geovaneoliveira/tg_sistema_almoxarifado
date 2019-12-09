@@ -38,9 +38,9 @@
             <label for="contagem">Contagem</label>
             <div class="input-group">
               <select class="form-control" id="contagem" name="contagem">
-                <option value=""> Todos </option>
-                <option value="notI"> Não inventariados</option>
                 <option value="i"> Inventariados </option>
+                <option value="notI"> Não inventariados</option>
+                <option value="all"> Todos </option>
               </select>
             </div>
           </div>
