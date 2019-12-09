@@ -250,13 +250,17 @@ class AdmInventariosController extends Controller
                                                     ->get();
 
         foreach($inv->materiaisinventariados as $m){
+
+          $qtde_movimentada = $m->qtde_estoque_real - $m->qtde_estoque_sistema;
+
+          if($qtde_movimentada != 0){
           $movimentacao = new Movimentacao();
           $movimentacao->estoque_id = $m->estoque->id;
           $movimentacao->cod_usuario = \Auth::user()->id;
-          $qtde_movimentada = $m->qtde_estoque_real - $m->qtde_estoque_sistema;
           $movimentacao->qtde_movimentada = $qtde_movimentada;
           $movimentacao->tipo_movimentacao = 'Inventário';
           $movimentacao->save();
+          }
 
           $estoque = Estoque::find($m->id_estoque);
           $estoque->quantidade = $m->qtde_estoque_real;
@@ -314,7 +318,7 @@ class AdmInventariosController extends Controller
         foreach ($materialinventariadoPreliminar as $matInv) {
           if($matInv->contagens->count() == 0) {
             array_push($materialinventariado, $matInv);
-          }  
+          }
         }
 
       } elseif($contagem == "i") {
