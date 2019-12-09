@@ -66,7 +66,16 @@ class InventarioController extends Controller
         $lote = Request::input('lote');
         $cod_local = Request::input('cod_local');
 
-        $estocados = Estoque::listarEstocadosOnde($nome_material, $cod_tipo, $lote, $cod_local);
+        $estocados1 = Estoque::listarEstocadosOnde($nome_material, $cod_tipo, $lote, $cod_local);
+
+        $estocados = array();
+        foreach ($estocados1 as $e1) {
+            if($e1->quantidade > 0){
+                array_push($estocados, $e1);
+            }            
+        }
+
+
 
         $inventario = Inventario::where('data_fim', '=', null)
                                         ->first();
