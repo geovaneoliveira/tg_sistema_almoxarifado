@@ -126,7 +126,7 @@
 
       <div class="col-12 d-flex justify-content-around mt-5" id="" action="/adm-inventarios/iniciar">
         <button type="submit" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/iniciar';"><i class="fas fa-plus mr-2"  ></i>Iniciar</button>
-        <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/localiza';"><i class="fas fa-search mr-2"></i>Localizar</button>
+        <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/abreFormLocaliza';"><i class="fas fa-search mr-2"></i>Localizar</button>
       </div>
 
     </div>
