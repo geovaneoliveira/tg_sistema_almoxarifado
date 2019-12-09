@@ -135,8 +135,33 @@
 </fieldset>
 <div class="row mt-4">
         <div class="col-12 d-flex justify-content-around" id="">
-          <button type="button" class="btn btn-lg btn-warning col col-md-6" onclick="window.location.href='/adm-inventarios/finalizar';"><i class="fas fa-check-double  mr-2" > </i>Finalizar Inventário</button>
+          <button type="button" class="btn btn-lg btn-warning col col-md-6" data-toggle="modal" data-target="#exampleModalCenter"><i class="fas fa-check-double  mr-2" > </i>Finalizar Inventário</button>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Suspender Inventário Ativo!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Você tem certeza que deseja finalizar o inventário? Esta opção não pode ser desfeita!
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" data-dismiss="modal"><i class="fas fa-arrow-left mr-2"></i>Voltar</button>
+                <button type="button" class="btn btn-lg btn-warning col-sm-5 col-md-4" data-dismiss="modal" onclick="window.location.href='/adm-inventarios/finalizar';"><i class="fas fa-check-double  mr-2"></i>Finalizar</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       </div>
 </form> <!-- fim do formulário-->
 

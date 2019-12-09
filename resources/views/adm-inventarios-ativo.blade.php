@@ -39,7 +39,31 @@
             <div class="form-row ">
               <div class="col-12 d-flex justify-content-around mt-4" id="">
                 <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/analisa';"><i class="fas fa-check  mr-2"></i>Analisar</button>
-                <button type="button" class="btn btn-lg btn-danger col-sm-5 col-md-4" onclick="window.location.href='/adm-inventarios/suspender/{{$i->cod_inventario}}';"> <i class="fas fa-trash mr-2"></i>Suspender</button>
+                <button type="button" class="btn btn-lg btn-danger col-sm-5 col-md-4"  data-toggle="modal" data-target="#exampleModalCenter"> <i class="fas fa-trash mr-2"></i>Suspender</button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Suspender Inventário Ativo!</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Você tem certeza que deseja encerrar o inventário ativo? Todos os itens analisados e bem como qualquer contagem realizadas serão permanentemente excluídos do sistema.
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-lg btn-success col-sm-5 col-md-4" data-dismiss="modal"><i class="fas fa-arrow-left mr-2"></i>Voltar</button>
+                        <button type="button" class="btn btn-lg btn-danger col-sm-5 col-md-4" data-dismiss="modal" onclick="window.location.href='/adm-inventarios/suspender/{{$i->cod_inventario}}';"><i class="fas fa-trash mr-2"></i>Suspender</button>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
 
               </div>
             </div>
@@ -106,6 +130,14 @@
       </div>
 
     </div>
+
+
+
+
+
+
+
+
 
 @endif
 
