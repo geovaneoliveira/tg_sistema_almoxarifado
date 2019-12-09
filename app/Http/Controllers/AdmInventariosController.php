@@ -253,7 +253,7 @@ class AdmInventariosController extends Controller
           $movimentacao = new Movimentacao();
           $movimentacao->estoque_id = $m->estoque->id;
           $movimentacao->cod_usuario = \Auth::user()->id;
-          $qtde_movimentada = $m->qtde_estoque_sistema - $m->qtde_estoque_real;
+          $qtde_movimentada = $m->qtde_estoque_real - $m->qtde_estoque_sistema;
           $movimentacao->qtde_movimentada = $qtde_movimentada;
           $movimentacao->tipo_movimentacao = 'Inventário';
           $movimentacao->save();
@@ -298,34 +298,7 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
 
-      $materialinventariadoPreliminar = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
-
-
-      $materialinventariado = array();
-
-      if($contagem == "all") {
-
-            $materialinventariado = $materialinventariadoPreliminar;  
-
-      } elseif($contagem == "notI") {
-
-        foreach ($materialinventariadoPreliminar as $matInv) {
-          if($matInv->contagens->count() == 0) {
-            array_push($materialinventariado, $matInv);
-          }  
-        }
-
-      } elseif($contagem == "i") {
-
-        foreach ($materialinventariadoPreliminar as $matInv) {
-          if($matInv->contagens->count() > 0) {
-            array_push($materialinventariado, $matInv);
-          }  
-        }
-
-      }  
-
-
+      $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
 
 
       return view('adm-inventarios-analisa')
