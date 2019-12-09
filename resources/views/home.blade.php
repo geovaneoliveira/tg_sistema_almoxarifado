@@ -4,7 +4,23 @@
 
 <div class="container">
   <div class="row d-flex wrap">
+    @if ($view['inventario']==true)
+        <div class="col-md-6 ">
+          <div class="accordion" id="accordionExample1">
+            <div class="card bg-light mb-3 shadow" style="max-width: 100%;">
+              <div class="card-header pt-4">
+                <h5 class="card-title text-success"> <i class="fas fa-check-square fa-lg menu-icone"></i> Inventário em Andamento </h5>
+              </div>
+              <div class="card-body ">
+                <p class="card-text">Há um inventário em andamento e por isso o funcionamento do sistema está limitado. Movimentações de entrada e saída só serão permitidas após a finalização do inventário em andamento.</p>
+              </div>
+            </div>
+          </div>
+          </div>
+      @endif
     <div class="col-md-6 ">
+
+
 
       @if ($view['inventario']==false)
 
@@ -213,7 +229,16 @@
 
       @endif
 
+
+
+
+
+
+
+
+
     </div>
+
 
   </div>
 </div>
