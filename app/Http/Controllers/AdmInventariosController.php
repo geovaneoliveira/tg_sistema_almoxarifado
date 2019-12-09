@@ -173,7 +173,7 @@ class AdmInventariosController extends Controller
       $cod_local = Request::input('cod_local');
 
       $inventario = Inventario::find($cod_inventario);
-        
+
       if($inventario->data_inicio){
         $dt = Carbon::create($inventario->data_inicio);
         $inventario->data_inicio = $dt;
@@ -185,7 +185,7 @@ class AdmInventariosController extends Controller
         $inventario->data_fim = $dt1;
         $inventario->data_fim = date_format($inventario->data_fim,"d/m/Y");
       }
-      
+
       $materiaisinventariados = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local);
 
       return view('adm-inventarios-detalhes')
@@ -247,8 +247,22 @@ class AdmInventariosController extends Controller
                                                     ->orderBy('cod_inventario', 'asc')
                                                     ->get();
         foreach($inventario as $i){
-          $i->data_fim = Carbon::now()->toDateString();
-          $i->save();
+        $i->data_fim = Carbon::now()->toDateString();
+        $i->save();
+        }
+
+        foreach($inventario->materiaisinventariados as $m){
+        $movimentacao = new Movimentacao();
+        $movimentacao->estoque_id = $m->estoque->id;
+        $movimentacao->cod_usuario = \Auth::user()->id;
+        $qtde_movimentada = $m->qtde_estoque_sistema - $m->qtde_estoque_real;
+        $movimentacao->qtde_movimentada = $qtde_movimentada;
+        $movimentacao->tipo_movimentacao = 'Inventário';
+        $movimentacao->save();
+
+        $estoque = Estoque::find($m->id_estoque);
+        $estoque->quantidade = $m->qtde_estoque_real;
+        $estoque->save();
         }
 
         return redirect()
@@ -268,7 +282,7 @@ class AdmInventariosController extends Controller
       $situacao = Request::input('situacao');
 
       $inventario = Inventario::where('data_fim', '=', null)->first();
-        
+
       if($inventario->data_inicio){
         $dt = Carbon::create($inventario->data_inicio);
         $inventario->data_inicio = $dt;
@@ -282,11 +296,11 @@ class AdmInventariosController extends Controller
       }
 
       $materialinventariado = Materialinventariado::listarMateriais($inventario->cod_inventario, $nome_material, $lote, $cod_tipo, $cod_local, $situacao);
-      
 
 
-     
-       
+
+
+
 
       return view('adm-inventarios-analisa')
                                           ->with('view', $this->view)

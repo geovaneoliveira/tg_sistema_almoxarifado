@@ -34,10 +34,11 @@ class Movimentacao extends Model
     }
 
 
-    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov_ini='', $data_mov_fim='', $qtde_movimentada='', $nome_usuario='') {
+    public static function listarMovimentacao($nome_material='', $lote='', $tipo_movimentacao='', $cod_local='', $data_mov_ini='', $data_mov_fim='', $qtde_movimentada='', $nome_usuario='', $cod_tipo='') {
         $stmt = DB::table('Movimentacao')
             ->join('Estoque', 'Movimentacao.estoque_id', '=', 'Estoque.id')
             ->join('Material', 'Estoque.cod_material', '=', 'Material.cod_material')
+            ->join('tipo_material', 'Material.cod_tipo', '=', 'Tipo_material.cod_tipo')
             ->join('Locais', 'Estoque.cod_local', '=', 'Locais.cod_local')
             ->join('Users', 'Movimentacao.cod_usuario', '=', 'Users.id')
             ->leftJoin('Requisicao', 'Movimentacao.cod_requisicao', '=', 'Requisicao.cod_requisicao');
@@ -75,8 +76,12 @@ class Movimentacao extends Model
             $stmt->where(\DB::Raw('UPPER(Users.name)'), 'like', '%' . strtoupper($nome_usuario) . '%');
         }
 
+        if ($cod_tipo) {
+            $stmt->where('Tipo_material.cod_tipo', $cod_tipo);
+        }
 
-        $listaEstocados = $stmt->select('Movimentacao.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Users.name')->get();
+
+        $listaEstocados = $stmt->select('Movimentacao.*', 'Material.nome_material', 'Locais.nome_local', 'Estoque.lote', 'Users.name', 'Tipo_material.nome_tipo')->get();
 
         $listaEstocados = $stmt->get();
 

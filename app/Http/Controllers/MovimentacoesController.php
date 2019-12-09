@@ -23,7 +23,7 @@ class MovimentacoesController extends Controller
         } else {
             $this->view['inventario'] = false;
         }
-        
+
     }
 
 
@@ -51,8 +51,9 @@ class MovimentacoesController extends Controller
         $data_mov_fim = Request::input('data_mov_fim');
         $qtde_movimentada = Request::input('qtde_movimentada');
         $nome_usuario  = Request::input('name');
+        $cod_tipo = Request::input('cod_tipo');
 
-        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov_ini, $data_mov_fim, $qtde_movimentada, $nome_usuario);
+        $movimentados = Movimentacao::listarMovimentacao($nome_material, $lote, $tipo_movimentacao, $cod_local, $data_mov_ini, $data_mov_fim, $qtde_movimentada, $nome_usuario, $cod_tipo);
 
         return view('movimentacoes')
                 ->with('view', $this->view)

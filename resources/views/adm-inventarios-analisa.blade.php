@@ -112,7 +112,7 @@
               <tr>
                   <td> {{$co->user->name}} </td>
                   <td> {{$co->qtde_contada}} </td>
-                  <td> <a id="id_btn_contagem_{{$co->id}}" onclick="btn_contagem('{{$i->id}}', '{{$co->id}}');" href="#" class="classe_btn_contagem_{{$i->id}}">
+                  <td> <a id="id_btn_contagem_{{$co->id}}" onclick="btn_contagem('{{$i->id}}', '{{$co->id}}');"  class="classe_btn_contagem_{{$i->id}}">
                     <span class="
                       @if($i->qtde_estoque_real)
                         @if($i->qtde_estoque_real == $co->qtde_contada)
@@ -123,10 +123,10 @@
                       @else
                           far fa-circle text-success
                       @endif
-                      
-                    "></span> </a> </td> 
+
+                    "></span> </a> </td>
               </tr>
-            @endforeach                
+            @endforeach
           @endforeach
         </table>
       </div><!--fim da listagem de locais-->
@@ -197,7 +197,7 @@
     };
 
     xhttp.open("GET", "/adm-inventarios/selecionaContagem/" + idContagem , true);
-    xhttp.send(); 
+    xhttp.send();
 
   }
 
